@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ddhuan.ifscience.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.ifscience.refmap.json",
+  "mixins": [
+    "AbstractFurnaceTileEntityMixin",
+    "EntityMixin"
+  ],
+  "client": [
+    "OverlayRendererMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

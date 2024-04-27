@@ -1,7 +1,7 @@
 {
   "language.region": "China",
   "language.name": "Simplified Chinese",
-  "language.code": "zh_cn"
+  "language.code": "zh_cn",
 
-
+  "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！"
 }

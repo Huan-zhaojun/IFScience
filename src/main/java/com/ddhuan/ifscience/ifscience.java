@@ -1,6 +1,7 @@
 package com.ddhuan.ifscience;
 
 import com.ddhuan.ifscience.common.Item.itemRegistry;
+import com.ddhuan.ifscience.network.Network;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +26,7 @@ public class ifscience {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("test!!!");
+        //注册网络包
+        Network.registerMessage();
     }
 }
