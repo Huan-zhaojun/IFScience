@@ -1,8 +1,13 @@
 package com.ddhuan.ifscience.mixin;
 
+import com.ddhuan.ifscience.common.Entity.furnaceTNTEntity;
 import com.ddhuan.ifscience.common.customDamage;
+import com.ddhuan.ifscience.network.Client.cloudParticlePack;
 import com.ddhuan.ifscience.network.Client.fireRenderPack;
+import com.ddhuan.ifscience.network.Client.furnaceTNTRenderPack;
 import com.ddhuan.ifscience.network.Network;
+import com.google.common.collect.ArrayListMultimap;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +42,25 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
     public void tick(CallbackInfo ci) {
         if (this.world != null && !this.world.isRemote) {
             if (this.isBurning()) {
+                //熔炉燃烧时遇到水和尿液会爆炸
+                BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(0.5)).forEach(blockPos -> {
+                    if (world != null && Blocks.WATER.equals(world.getBlockState(blockPos).getBlock())) {
+                        //清除附近液体
+                        BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(5)).forEach(blockPos2 -> {
+                            if (Blocks.WATER.equals(world.getBlockState(blockPos2).getBlock()))
+                                world.setBlockState(blockPos2, Blocks.AIR.getDefaultState());
+                        });
+
+                        furnaceTNTEntity furnace = new furnaceTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, world.getBlockState(pos));
+                        furnace.setFuse(30);
+                        world.addEntity(furnace);
+                        Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new furnaceTNTRenderPack(pos));
+                        world.playSound(null, furnace.getPosX(), furnace.getPosY(), furnace.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        world.setBlockState(this.pos, Blocks.AIR.getDefaultState(), 11);//清除熔炉方块
+                    }
+                });
+
+                //烧伤生物
                 List<Entity> entityList = this.world.getEntitiesInAABBexcluding(null, new AxisAlignedBB(this.pos).grow(0.25), null);
                 for (Entity entity : entityList) {
                     if (entity instanceof LivingEntity) {//是活动的生物
@@ -50,6 +77,23 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                 }
             }
         }
+    }
+
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/AbstractFurnaceTileEntity;getBurnTime(Lnet/minecraft/item/ItemStack;)I"))
+    public void tick2(CallbackInfo ci) {
+        //当熔炉点燃时蒸发附近的水
+        BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(2)).forEach(blockPos -> {
+            if (world != null && Blocks.WATER.equals(world.getBlockState(blockPos).getBlock())) {
+                world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+
+                //粒子渲染
+                ArrayListMultimap<BlockPos, Double[]> cloudParticles = ArrayListMultimap.create();
+                for (int i = 0; i < 5; i++) {
+                    cloudParticles.put(blockPos.add(0.5 + 0.25 * Math.random(), 0.5 + 0.15 * Math.random(), 0.5 + 0.25 * Math.random()), new Double[]{0.0, 0.1, 0.0});
+                }
+                Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new cloudParticlePack(cloudParticles));
+            }
+        });
     }
 
     @Unique

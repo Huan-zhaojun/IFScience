@@ -1,7 +1,9 @@
 package com.ddhuan.ifscience.network;
 
 import com.ddhuan.ifscience.ifscience;
+import com.ddhuan.ifscience.network.Client.cloudParticlePack;
 import com.ddhuan.ifscience.network.Client.fireRenderPack;
+import com.ddhuan.ifscience.network.Client.furnaceTNTRenderPack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -20,5 +22,7 @@ public class Network {
 
     public static void registerMessage() {
         INSTANCE.registerMessage(nextID(), fireRenderPack.class, fireRenderPack::toBytes, fireRenderPack::new, fireRenderPack::handler);
+        INSTANCE.registerMessage(nextID(), cloudParticlePack.class, cloudParticlePack::toBytes, cloudParticlePack::new, cloudParticlePack::handler);
+        INSTANCE.registerMessage(nextID(), furnaceTNTRenderPack.class, furnaceTNTRenderPack::toBytes, furnaceTNTRenderPack::new, furnaceTNTRenderPack::handler);
     }
 }
