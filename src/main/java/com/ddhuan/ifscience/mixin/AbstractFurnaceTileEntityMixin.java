@@ -22,6 +22,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,6 +33,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+
+import static com.ddhuan.ifscience.otherMod.urineFluid;
 
 @Mixin(AbstractFurnaceTileEntity.class)
 public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity {
@@ -44,10 +47,12 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
             if (this.isBurning()) {
                 //熔炉燃烧时遇到水和尿液会爆炸
                 BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(0.5)).forEach(blockPos -> {
-                    if (world != null && Blocks.WATER.equals(world.getBlockState(blockPos).getBlock())) {
+                    if (world != null && (Blocks.WATER.equals(world.getBlockState(blockPos).getBlock()) ||
+                            (urineFluid != null && urineFluid.equals(world.getBlockState(blockPos).getBlock())))) {
                         //清除附近液体
                         BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(5)).forEach(blockPos2 -> {
-                            if (Blocks.WATER.equals(world.getBlockState(blockPos2).getBlock()))
+                            if (Blocks.WATER.equals(world.getBlockState(blockPos2).getBlock()) ||
+                                    (urineFluid != null && urineFluid.equals(world.getBlockState(blockPos2).getBlock())))
                                 world.setBlockState(blockPos2, Blocks.AIR.getDefaultState());
                         });
 
@@ -87,9 +92,11 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                 world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 
                 //粒子渲染
-                ArrayListMultimap<BlockPos, Double[]> cloudParticles = ArrayListMultimap.create();
+                ArrayListMultimap<Vector3d, Double[]> cloudParticles = ArrayListMultimap.create();
                 for (int i = 0; i < 5; i++) {
-                    cloudParticles.put(blockPos.add(0.5 + 0.25 * Math.random(), 0.5 + 0.15 * Math.random(), 0.5 + 0.25 * Math.random()), new Double[]{0.0, 0.1, 0.0});
+                    cloudParticles.put(new Vector3d(pos.getX() + 0.5 + 0.25 * Math.random(),
+                            pos.getY() + 0.5 + 0.15 * Math.random(),
+                            pos.getZ() + 0.5 + 0.25 * Math.random()), new Double[]{0.0, 0.1, 0.0});
                 }
                 Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new cloudParticlePack(cloudParticles));
             }
