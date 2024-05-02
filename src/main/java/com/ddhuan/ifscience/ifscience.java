@@ -4,6 +4,7 @@ import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.furnaceTNTRender;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.network.Network;
+import net.minecraft.client.renderer.entity.TNTRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -42,5 +43,6 @@ public class ifscience {
     private void onClientSetUp(FMLClientSetupEvent event) {
         //注册实体渲染器
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.furnaceTNT.get(), furnaceTNTRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.touchdownTNT.get(), TNTRenderer::new);
     }
 }

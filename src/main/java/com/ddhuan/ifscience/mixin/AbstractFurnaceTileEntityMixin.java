@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -24,6 +25,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,6 +47,15 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
     public void tick(CallbackInfo ci) {
         if (this.world != null && !this.world.isRemote) {
             if (this.isBurning()) {
+                //当熔炉燃烧时放入TNT
+                if (Items.TNT.equals(getStackInSlot(0).getItem()) && !new ItemStack(Items.TNT, 64).equals(getStackInSlot(0), true)) {
+                    setInventorySlotContents(0, ItemStack.EMPTY);
+                    furnaceExplode(world, pos, 10);
+                } else if (new ItemStack(Items.TNT, 64).equals(getStackInSlot(0), true)) {
+                    setInventorySlotContents(0, ItemStack.EMPTY);
+                    furnaceExplode(world, pos, 40, true);
+                }
+
                 //熔炉燃烧时遇到水和尿液会爆炸
                 BlockPos.getAllInBox(new AxisAlignedBB(this.pos).grow(0.5)).forEach(blockPos -> {
                     if (world != null && (Blocks.WATER.equals(world.getBlockState(blockPos).getBlock()) ||
@@ -56,12 +67,7 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                                 world.setBlockState(blockPos2, Blocks.AIR.getDefaultState());
                         });
 
-                        furnaceTNTEntity furnace = new furnaceTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, world.getBlockState(pos));
-                        furnace.setFuse(30);
-                        world.addEntity(furnace);
-                        Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new furnaceTNTRenderPack(pos));
-                        world.playSound(null, furnace.getPosX(), furnace.getPosY(), furnace.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        world.setBlockState(this.pos, Blocks.AIR.getDefaultState(), 11);//清除熔炉方块
+                        furnaceExplode(world, pos, 30);
                     }
                 });
 
@@ -82,6 +88,26 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                 }
             }
         }
+    }
+
+    @Unique
+    private static void furnaceExplode(World world, BlockPos pos, int fuseIn) {
+        furnaceTNTEntity furnace = new furnaceTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, world.getBlockState(pos));
+        furnace.setFuse(fuseIn);
+        world.addEntity(furnace);
+        Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new furnaceTNTRenderPack(pos));
+        world.playSound(null, furnace.getPosX(), furnace.getPosY(), furnace.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);//清除熔炉方块
+    }
+
+    @Unique
+    private static void furnaceExplode(World world, BlockPos pos, int fuseIn, boolean flag) {
+        furnaceTNTEntity furnace = new furnaceTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, world.getBlockState(pos), flag);
+        furnace.setFuse(fuseIn);
+        world.addEntity(furnace);
+        Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new furnaceTNTRenderPack(pos));
+        world.playSound(null, furnace.getPosX(), furnace.getPosY(), furnace.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);//清除熔炉方块
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/AbstractFurnaceTileEntity;getBurnTime(Lnet/minecraft/item/ItemStack;)I"))

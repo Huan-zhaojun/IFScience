@@ -11,4 +11,6 @@ public class entityTypeRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ifscience.MOD_ID);
     public static final RegistryObject<EntityType<furnaceTNTEntity>> furnaceTNT = ENTITIES.register("furnace_tnt",
             () -> EntityType.Builder.<furnaceTNTEntity>create(furnaceTNTEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("furnace_tnt"));
+    public static final RegistryObject<EntityType<touchdownTNTEntity>> touchdownTNT = ENTITIES.register("touchdown_tnt",
+            () -> EntityType.Builder.<touchdownTNTEntity>create(touchdownTNTEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("touchdown_tnt"));
 }

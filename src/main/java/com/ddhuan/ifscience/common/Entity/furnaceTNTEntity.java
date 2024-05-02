@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -21,6 +22,7 @@ import javax.annotation.Nullable;
 
 public class furnaceTNTEntity extends TNTEntity {
     public BlockState furnace = Blocks.FURNACE.getDefaultState();
+    public boolean flag = false;
 
     public furnaceTNTEntity(EntityType<? extends TNTEntity> type, World worldIn) {
         super(type, worldIn);
@@ -41,6 +43,11 @@ public class furnaceTNTEntity extends TNTEntity {
         this.furnace = furnace;
     }
 
+    public furnaceTNTEntity(World worldIn, double x, double y, double z, BlockState furnace, boolean flag) {
+        this(worldIn, x, y, z, furnace);
+        this.flag = flag;
+    }
+
     @Override
     public void explode() {
         float f = 5.0F;
@@ -48,7 +55,23 @@ public class furnaceTNTEntity extends TNTEntity {
         if (furnace.getBlock().equals(Blocks.FURNACE)) damageSource = customDamage.FurnaceExplosion;
         else if (furnace.getBlock().equals(Blocks.BLAST_FURNACE)) damageSource = customDamage.BlastFurnaceExplosion;
         else if (furnace.getBlock().equals(Blocks.SMOKER)) damageSource = customDamage.SmokerExplosion;
-        this.world.createExplosion(this, damageSource, null, this.getPosX(), this.getPosYHeight(0.0625D), this.getPosZ(), f, true, Explosion.Mode.BREAK);
+        this.world.createExplosion(this, damageSource, null, this.getPosX(), this.getPosYHeight(0.0625D), this.getPosZ(), f, !flag, Explosion.Mode.BREAK);
+        if (flag) {
+            BlockPos pos = this.getPosition();
+            int angles = 16;
+            for (int i = 0; i < angles; i++) {
+                for (int j = 0; j < 24; j++) {
+                    touchdownTNTEntity tnt = new touchdownTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY() + 1, (double) pos.getZ() + 0.5, null);
+                    double angle = (((double) i / (double) angles) * Math.PI * 2.0) + (Math.random() - 0.5) * 0.6;
+                    double levelSpeed = 0.1 + (double) j * 0.1;
+                    double levelX = Math.cos(angle) * levelSpeed;
+                    double levelZ = Math.sin(angle) * levelSpeed;
+                    tnt.setFuse(9999);
+                    tnt.setMotion(levelX, 2.5, levelZ);
+                    world.addEntity(tnt);
+                }
+            }
+        }
     }
 
     @Override

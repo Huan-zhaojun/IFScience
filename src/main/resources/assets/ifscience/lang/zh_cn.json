@@ -3,6 +3,8 @@
   "language.name": "Simplified Chinese",
   "language.code": "zh_cn",
 
+  "entity.ifscience.furnace_tnt": "爆炸的熔炉",
+
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",
   "death.attack.blast_furnace_explosion": "%1$s 被高炉炸死了！",
