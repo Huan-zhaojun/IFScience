@@ -6,7 +6,8 @@
   "refmap": "mixins.ifscience.refmap.json",
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
-    "EntityMixin"
+    "EntityMixin",
+    "LivingEntityMixin"
   ],
   "client": [
     "OverlayRendererMixin"
