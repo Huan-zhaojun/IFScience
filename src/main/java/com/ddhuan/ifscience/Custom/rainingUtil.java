@@ -8,6 +8,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -29,7 +32,7 @@ public class rainingUtil {
 
     //下雨产生积水
     public static void placePuddle(World world, Biome biome, BlockPos posPlayer, ServerWorld world1) {
-        if (world.isRaining() && placePuddleTick >= 30 && biome.getPrecipitation() == Biome.RainType.RAIN && biome.getTemperature(blockpos$mutable) >= 0.15F) {
+        if (world.isRaining() && placePuddleTick >= 30 && (biome.getPrecipitation() == Biome.RainType.RAIN || biome.getPrecipitation() == Biome.RainType.SNOW)) {
             int playX = posPlayer.getX(), playZ = posPlayer.getZ();
             for (int i = -5; i <= 5; i++) {
                 for (int j = -5; j <= 5; j++) {
@@ -66,5 +69,15 @@ public class rainingUtil {
             tumblePlayers.remove(player1);
         }
         if (tumblePlayers.get(player1) != null) tumblePlayers.put(player1, tumblePlayers.get(player1) - 1);
+    }
+
+    public static void extinguishLava(World world, BlockPos pos, Biome.RainType rainType) {
+        if (world.isRaining() && (rainType == Biome.RainType.RAIN || rainType == Biome.RainType.SNOW)) {
+            if (world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).add(0,-1,0).equals(pos)) {
+                world.addParticle(ParticleTypes.POOF, pos.getX()+0.5, pos.getY()+1.2, pos.getZ()+0.5, 0, 0, 0);
+                world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f, true);
+                world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
+            }
+        }
     }
 }

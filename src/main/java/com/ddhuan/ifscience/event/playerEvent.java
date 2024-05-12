@@ -46,7 +46,7 @@ public class playerEvent {
             BlockPos posPlayer = player1.getPosition();
             Biome biome = world.getBiome(posPlayer);
             rainingUtil.placePuddle(world, biome, posPlayer, world1);//下雨产生积水
-            rainingUtil.tumble(player1, world1, posPlayer);
+            rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
         }
     }
 

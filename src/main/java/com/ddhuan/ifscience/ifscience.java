@@ -38,6 +38,7 @@ public class ifscience {
         itemRegistry.ITEMS.register(modEventBus);
         entityTypeRegistry.ENTITIES.register(modEventBus);
         blockRegistry.BLOCKS.register(modEventBus);
+        blockRegistry.BLOCKS_vanilla.register(modEventBus);
         FluidRegistry.FLUIDS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
     }

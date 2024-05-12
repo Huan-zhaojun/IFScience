@@ -74,7 +74,7 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                 });
 
                 //淋到雨水会爆炸
-                if (world != null && world.getBiome(pos).getPrecipitation() == Biome.RainType.RAIN && world.getBiome(pos).getTemperature(pos) >= 0.15F
+                if (world != null && (world.getBiome(pos).getPrecipitation() == Biome.RainType.RAIN || world.getBiome(pos).getPrecipitation() == Biome.RainType.SNOW)
                         && world.isRaining() && pos.getY() == world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos).getY() - 1/*高度图判定顶部有无方块*/) {
                     furnaceExplode(world, pos, 80);
                 }
