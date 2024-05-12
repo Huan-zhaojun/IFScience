@@ -7,11 +7,13 @@ import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -20,6 +22,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 public class rainingUtil {
@@ -28,26 +31,33 @@ public class rainingUtil {
 
     private final static Random random = new Random();
     private final static BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-    private static int placePuddleTick = 0;
+    private final static HashSet<ChunkPos> chunkPosSet = new HashSet<>();
 
-    //下雨产生积水
-    public static void placePuddle(World world, Biome biome, BlockPos posPlayer, ServerWorld world1) {
-        if (world.isRaining() && placePuddleTick >= 30 && (biome.getPrecipitation() == Biome.RainType.RAIN || biome.getPrecipitation() == Biome.RainType.SNOW)) {
-            int playX = posPlayer.getX(), playZ = posPlayer.getZ();
-            for (int i = -5; i <= 5; i++) {
-                for (int j = -5; j <= 5; j++) {
-                    int x = random.nextInt(16) + playX + i * 16, z = random.nextInt(16) + playZ + j * 16;
-                    int y = world1.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
-                    Block block = world.getBlockState(blockpos$mutable.setPos(x, y - 1, z)).getBlock();
-                    if (block != blockRegistry.puddleFluid.get() && block != Blocks.WATER && block != Blocks.LAVA) {
-                        blockpos$mutable.setY(y);
-                        world.setBlockState(blockpos$mutable, blockRegistry.puddleFluid.get().getStateContainer().getValidStates().get(7));
+    //下雨产生地面积水
+    public static void placePuddle(World world) {
+        if (world.isRaining() && world.getGameTime() % 40 == 0) {
+            for (PlayerEntity player : world.getPlayers()) {
+                Biome biome = world.getBiome(player.getPosition());
+                if (biome.getPrecipitation() == Biome.RainType.RAIN || biome.getPrecipitation() == Biome.RainType.SNOW) {
+                    int playerChunkCoordX = player.chunkCoordX, playerChunkCoordZ = player.chunkCoordZ;
+                    for (int i = -5; i <= 5; i++) {
+                        for (int j = -5; j <= 5; j++) {
+                            chunkPosSet.add(new ChunkPos(playerChunkCoordX + i, playerChunkCoordZ + j));
+                        }
                     }
                 }
             }
-            placePuddleTick = 0;
+            for (ChunkPos chunkPos : chunkPosSet) {
+                int x = (chunkPos.x << 4) + random.nextInt(16), z = (chunkPos.z << 4) + random.nextInt(16);
+                int y = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
+                Block block = world.getBlockState(blockpos$mutable.setPos(x, y - 1, z)).getBlock();
+                if (block != blockRegistry.puddleFluid.get() && block != Blocks.WATER && block != Blocks.LAVA) {
+                    blockpos$mutable.setY(y);
+                    world.setBlockState(blockpos$mutable, blockRegistry.puddleFluid.get().getStateContainer().getValidStates().get(7));
+                }
+            }
+            chunkPosSet.clear();
         }
-        placePuddleTick++;
     }
 
     private final static HashMap<ServerPlayerEntity, Integer> tumblePlayers = new HashMap<>();
@@ -73,8 +83,8 @@ public class rainingUtil {
 
     public static void extinguishLava(World world, BlockPos pos, Biome.RainType rainType) {
         if (world.isRaining() && (rainType == Biome.RainType.RAIN || rainType == Biome.RainType.SNOW)) {
-            if (world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).add(0,-1,0).equals(pos)) {
-                world.addParticle(ParticleTypes.POOF, pos.getX()+0.5, pos.getY()+1.2, pos.getZ()+0.5, 0, 0, 0);
+            if (world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).add(0, -1, 0).equals(pos)) {
+                world.addParticle(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 0, 0, 0);
                 world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f, true);
                 world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
             }

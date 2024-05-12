@@ -10,7 +10,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -44,8 +43,6 @@ public class playerEvent {
             ServerPlayerEntity player1 = (ServerPlayerEntity) player;
             ServerWorld world1 = (ServerWorld) world;
             BlockPos posPlayer = player1.getPosition();
-            Biome biome = world.getBiome(posPlayer);
-            rainingUtil.placePuddle(world, biome, posPlayer, world1);//下雨产生积水
             rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
         }
     }
