@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 public class furnaceTNTEntity extends TNTEntity {
     public BlockState furnace = Blocks.FURNACE.getDefaultState();
-    public boolean flag = false;
+    public boolean flag = false;/*天女散花TNT*/
 
     public furnaceTNTEntity(EntityType<? extends TNTEntity> type, World worldIn) {
         super(type, worldIn);
@@ -56,7 +56,7 @@ public class furnaceTNTEntity extends TNTEntity {
         else if (furnace.getBlock().equals(Blocks.BLAST_FURNACE)) damageSource = customDamage.BlastFurnaceExplosion;
         else if (furnace.getBlock().equals(Blocks.SMOKER)) damageSource = customDamage.SmokerExplosion;
         this.world.createExplosion(this, damageSource, null, this.getPosX(), this.getPosYHeight(0.0625D), this.getPosZ(), f, !flag, Explosion.Mode.BREAK);
-        if (flag) {
+        if (flag) {/*天女散花TNT*/
             BlockPos pos = this.getPosition();
             int angles = 16;
             for (int i = 0; i < angles; i++) {

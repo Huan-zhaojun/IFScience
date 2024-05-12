@@ -3,6 +3,17 @@
   "language.name": "Simplified Chinese",
   "language.code": "zh_cn",
 
+  "itemGroup.ifscience": "假如科学",
+
+  "item.ifscience.puddle_fluid_bucket": "积水桶",
+
+  "block.ifscience.puddle_fluid": "积水方块",
+
+  "fluid.ifscience.puddle_fluid": "积水静态流体",
+  "fluid.ifscience.puddle_fluid_flowing": "积水流动流体",
+
+  "block_entity_type.ifscience.puddle_fluid_tileentity": "积水方块实体",
+
   "entity.ifscience.furnace_tnt": "爆炸的熔炉",
 
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",

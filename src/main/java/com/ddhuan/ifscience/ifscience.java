@@ -1,9 +1,14 @@
 package com.ddhuan.ifscience;
 
+import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.furnaceTNTRender;
+import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
+import com.ddhuan.ifscience.common.TileEntity.TileEntityTypeRegistry;
 import com.ddhuan.ifscience.network.Network;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.TNTRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,6 +37,9 @@ public class ifscience {
         modEventBus.addListener(this::onClientSetUp);
         itemRegistry.ITEMS.register(modEventBus);
         entityTypeRegistry.ENTITIES.register(modEventBus);
+        blockRegistry.BLOCKS.register(modEventBus);
+        FluidRegistry.FLUIDS.register(modEventBus);
+        TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
     }
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {
@@ -44,5 +52,9 @@ public class ifscience {
         //注册实体渲染器
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.furnaceTNT.get(), furnaceTNTRender::new);
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.touchdownTNT.get(), TNTRenderer::new);
+
+        //注册流体渲染器
+        RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluid.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluidFlowing.get(), RenderType.getTranslucent());
     }
 }

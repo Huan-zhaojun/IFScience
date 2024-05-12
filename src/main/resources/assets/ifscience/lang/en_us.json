@@ -3,6 +3,17 @@
   "language.region": "United States",
   "language.code": "en_us",
 
+  "itemGroup.ifscience": "ifScience",
+
+  "item.ifscience.puddle_fluid_bucket": "puddle bucket",
+
+  "block.ifscience.puddle_fluid": "puddle block",
+
+  "fluid.ifscience.puddle_fluid": "puddle still fluid",
+  "fluid.ifscience.puddle_fluid_flowing": "puddle flowing fluid",
+
+  "block_entity_type.ifscience.puddle_fluid_tileentity": "puddle tileEntity",
+
   "entity.ifscience.furnace_tnt": "Explosive Furnace",
 
   "death.attack.furnace_burn": "%1$s burned to death touch the furnace!",

@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.event;
 
+import com.ddhuan.ifscience.Custom.rainingUtil;
 import com.ddhuan.ifscience.common.customDamage;
 import com.ddhuan.ifscience.network.Client.fireRenderPack;
 import com.ddhuan.ifscience.network.Network;
@@ -7,7 +8,11 @@ import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,6 +32,21 @@ public class playerEvent {
             if (event.isWasDeath()) {//当玩家死亡
 
             }
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        PlayerEntity player = event.player;
+        World world = player.world;
+        if (!world.isRemote) {
+            ServerPlayerEntity player1 = (ServerPlayerEntity) player;
+            ServerWorld world1 = (ServerWorld) world;
+            BlockPos posPlayer = player1.getPosition();
+            Biome biome = world.getBiome(posPlayer);
+            rainingUtil.placePuddle(world, biome, posPlayer, world1);//下雨产生积水
+            rainingUtil.tumble(player1, world1, posPlayer);
         }
     }
 

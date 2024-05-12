@@ -7,7 +7,8 @@
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
     "EntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ServerChunkProviderMixin"
   ],
   "client": [
     "OverlayRendererMixin"

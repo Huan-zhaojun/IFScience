@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ifscience:item/puddle_fluid_bucket"
+  }
+}

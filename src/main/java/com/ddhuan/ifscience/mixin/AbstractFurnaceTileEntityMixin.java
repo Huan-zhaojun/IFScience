@@ -26,6 +26,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -71,6 +73,12 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
                     }
                 });
 
+                //淋到雨水会爆炸
+                if (world != null && world.getBiome(pos).getPrecipitation() == Biome.RainType.RAIN && world.getBiome(pos).getTemperature(pos) >= 0.15F
+                        && world.isRaining() && pos.getY() == world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos).getY() - 1/*高度图判定顶部有无方块*/) {
+                    furnaceExplode(world, pos, 80);
+                }
+
                 //烧伤生物
                 List<Entity> entityList = this.world.getEntitiesInAABBexcluding(null, new AxisAlignedBB(this.pos).grow(0.25), null);
                 for (Entity entity : entityList) {
@@ -101,7 +109,7 @@ public abstract class AbstractFurnaceTileEntityMixin extends LockableTileEntity 
     }
 
     @Unique
-    private static void furnaceExplode(World world, BlockPos pos, int fuseIn, boolean flag) {
+    private static void furnaceExplode(World world, BlockPos pos, int fuseIn, boolean flag/*天女散花TNT*/) {
         furnaceTNTEntity furnace = new furnaceTNTEntity(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, world.getBlockState(pos), flag);
         furnace.setFuse(fuseIn);
         world.addEntity(furnace);
