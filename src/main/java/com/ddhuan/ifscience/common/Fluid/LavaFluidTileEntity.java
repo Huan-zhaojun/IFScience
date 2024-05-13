@@ -15,7 +15,7 @@ public class LavaFluidTileEntity extends TileEntity implements ITickableTileEnti
     public void tick() {
         if (world != null) {
             Biome.RainType rainType = world.getBiome(pos).getPrecipitation();
-            rainingUtil.extinguishLava(world, pos, rainType);
+            rainingUtil.extinguishLava(world, pos, rainType);//岩浆受到雨水被凝固
         }
     }
 }

@@ -6,24 +6,29 @@ import com.ddhuan.ifscience.network.Client.playerPosePack;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.BitArray;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class rainingUtil {
     private rainingUtil() {
@@ -81,12 +86,84 @@ public class rainingUtil {
         if (tumblePlayers.get(player1) != null) tumblePlayers.put(player1, tumblePlayers.get(player1) - 1);
     }
 
+    //岩浆受到雨水被凝固
     public static void extinguishLava(World world, BlockPos pos, Biome.RainType rainType) {
         if (world.isRaining() && (rainType == Biome.RainType.RAIN || rainType == Biome.RainType.SNOW)) {
             if (world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).add(0, -1, 0).equals(pos)) {
                 world.addParticle(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 0, 0, 0);
                 world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f, true);
                 world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
+            }
+        }
+    }
+
+    public static final long thunderTime = 200;
+    public static final int thunderPlayerWeight = 50;
+
+
+    //打雷：越平坦的地方玩家越容易被劈，越高的地方越容易被劈
+    public static void thunder(ServerWorld world1) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        LinkedHashMap<ChunkPos, Double> chunkPosMap = new LinkedHashMap<>();
+        if ((world1.isThundering() || world1.isRaining()) && world1.getGameTime() % thunderTime == 0) {
+            int avgSum = 0, avgMin = 255;
+            for (ServerPlayerEntity world1Player : world1.getPlayers()) {
+                int playerChunkCoordX = world1Player.chunkCoordX, playerChunkCoordZ = world1Player.chunkCoordZ;
+                Chunk chunk;
+                Heightmap heightmap;
+                BitArray data;
+                for (int i = -4; i <= 4; i++) {
+                    for (int j = -4; j <= 4; j++) {
+                        final int[] sum = {0};
+                        chunk = world1.getChunk(playerChunkCoordX + i, playerChunkCoordZ + j);
+                        if (chunkPosMap.get(chunk.getPos()) != null) break;
+                        heightmap = chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING);
+                        data = (BitArray) heightmap.getClass().getDeclaredMethod("getBitArray").invoke(heightmap);
+                        data.getAll(value -> sum[0] += value);
+                        int avg = (i == 0 && j == 0 ? (sum[0] / 256) + thunderPlayerWeight : sum[0] / 256);
+                        avgSum += avg;
+                        avgMin = Math.min(avg, avgMin);
+                        chunkPosMap.put(chunk.getPos(), (double) avg);
+                    }
+                }
+            }
+            int finalAvgMin = avgMin;
+            for (Map.Entry<ChunkPos, Double> entry : chunkPosMap.entrySet()) {
+                entry.setValue(entry.getValue() - avgMin);
+            }
+            avgSum -= avgMin * chunkPosMap.size();
+            double v = random.nextDouble() * avgSum;
+            double avgSum1 = 0;
+            ChunkPos chunkPos = null;
+            for (Map.Entry<ChunkPos, Double> entry : chunkPosMap.entrySet()) {
+                Double value = entry.getValue();
+                if (value == 0) continue;
+                avgSum1 += value;
+                if (v <= avgSum1) {
+                    chunkPos = entry.getKey();
+                    break;
+                }
+            }
+            if (chunkPos != null) {
+                List<LivingEntity> entityList = world1.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(new BlockPos((chunkPos.x << 4), 0, (chunkPos.z << 4)), new BlockPos((chunkPos.x << 4) + 15, 255, (chunkPos.z << 4) + 15)));
+                for (LivingEntity livingEntity : entityList) {
+                    BlockPos pos = livingEntity.getPosition();
+                    int x1 = pos.getX(), y1 = pos.getY(), z1 = pos.getZ();
+                    int height1 = world1.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x1, z1);
+                    int height2 = world1.getHeight(Heightmap.Type.MOTION_BLOCKING, x1, z1);
+                    if (y1 == height1 || y1 + 1 == height1 || y1 == height2 || y1 - 1 == height2) {
+                        LightningBoltEntity lightningBolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, world1);
+                        lightningBolt.setPosition(x1, y1, z1);
+                        world1.addEntity(lightningBolt);
+                        break;
+                    }
+                }
+                if (entityList.isEmpty()) {
+                    LightningBoltEntity lightningBolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, world1);
+                    int x1 = (chunkPos.x << 4) + random.nextInt(15), z1 = (chunkPos.z << 4) + random.nextInt(15);
+                    int y1 = world1.getHeight(Heightmap.Type.MOTION_BLOCKING, x1, z1);
+                    lightningBolt.setPosition(x1, y1, z1);
+                    world1.addEntity(lightningBolt);
+                }
             }
         }
     }
