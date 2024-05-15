@@ -12,7 +12,8 @@
     "ServerChunkProviderMixin"
   ],
   "client": [
-    "OverlayRendererMixin"
+    "client.renderer.OverlayRendererMixin",
+    "client.renderer.WorldRendererMixin"
   ],
   "server": [],
   "injectors": {

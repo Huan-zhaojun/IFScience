@@ -1,11 +1,17 @@
 package com.ddhuan.ifscience.Custom;
 
 import com.ddhuan.ifscience.common.Block.blockRegistry;
+import com.ddhuan.ifscience.ifscience;
 import com.ddhuan.ifscience.network.Client.entityMotionPack;
 import com.ddhuan.ifscience.network.Client.playerPosePack;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
@@ -14,11 +20,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.BitArray;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -166,5 +174,34 @@ public class rainingUtil {
                 }
             }
         }
+    }
+
+    private static final ResourceLocation FIRE_RAIN_TEXTURES = new ResourceLocation(ifscience.MOD_ID, "textures/environment/fire_rain.png");
+
+    //下火雨
+    public static int renderFireRain(float partialTicks, double xIn, double yIn, double zIn, float f, World world, Tessellator tessellator, BufferBuilder bufferbuilder, float l, int i1, int k1, int j1, Random random, BlockPos.Mutable blockpos$mutable, int l2, double d0, int k2, double d1, int j2, Minecraft mc, int ticks) {
+        if (i1 != 3) {
+            if (i1 >= 0) {
+                tessellator.draw();
+            }
+
+            i1 = 3;
+            mc.getTextureManager().bindTexture(FIRE_RAIN_TEXTURES);
+            bufferbuilder.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+        }
+
+        int i3 = ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
+        float f3 = -((float) i3 + partialTicks) / 32.0F * (3.0F + random.nextFloat());
+        double d2 = (double) ((float) k1 + 0.5F) - xIn;
+        double d4 = (double) ((float) j1 + 0.5F) - zIn;
+        float f4 = MathHelper.sqrt(d2 * d2 + d4 * d4) / l;
+        float f5 = ((1.0F - f4 * f4) * 0.5F + 0.5F) * f;
+        blockpos$mutable.setPos(k1, l2, j1);
+        int j3 = WorldRenderer.getCombinedLight(world, blockpos$mutable);
+        bufferbuilder.pos((double) k1 - xIn - d0 + 0.5D, (double) k2 - yIn, (double) j1 - zIn - d1 + 0.5D).tex(0.0F, (float) j2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
+        bufferbuilder.pos((double) k1 - xIn + d0 + 0.5D, (double) k2 - yIn, (double) j1 - zIn + d1 + 0.5D).tex(1.0F, (float) j2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
+        bufferbuilder.pos((double) k1 - xIn + d0 + 0.5D, (double) j2 - yIn, (double) j1 - zIn + d1 + 0.5D).tex(1.0F, (float) k2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
+        bufferbuilder.pos((double) k1 - xIn - d0 + 0.5D, (double) j2 - yIn, (double) j1 - zIn - d1 + 0.5D).tex(0.0F, (float) k2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
+        return i1;
     }
 }
