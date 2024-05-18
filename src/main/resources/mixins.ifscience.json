@@ -9,6 +9,7 @@
     "EntityMixin",
     "HeightmapMixin",
     "LivingEntityMixin",
+    "RiptideEnchantmentMixin",
     "ServerChunkProviderMixin"
   ],
   "client": [
