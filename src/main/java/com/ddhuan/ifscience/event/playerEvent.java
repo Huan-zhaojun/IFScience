@@ -44,7 +44,7 @@ public class playerEvent {
             ServerWorld world1 = (ServerWorld) world;
             BlockPos posPlayer = player1.getPosition();
             rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
-            rainingUtil.TridentRiptide(player1, world1, posPlayer);//TridentRiptide
+            rainingUtil.TridentRiptide(player1, world1, posPlayer);//三叉戟激流坠地效果
         }
     }
 

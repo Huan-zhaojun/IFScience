@@ -25,12 +25,12 @@ public abstract class ServerChunkProviderMixin extends AbstractChunkProvider {
     @Final
     public ServerWorld world;
 
-    @SuppressWarnings({"target", "unresolvable-target", })
+    /*@SuppressWarnings({"target", "unresolvable-target", })
     @Inject(method = "lambda$tickChunks$5", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/IProfiler;endSection()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void tickChunks$lambda(long j, boolean flag1, WorldEntitySpawner.EntityDensityManager worldentityspawner$entitydensitymanager, boolean flag2, int k, ChunkHolder p_241099_7_, CallbackInfo ci, Optional<Chunk> optional) {
         if (optional.isPresent()) {
             Chunk chunk$Mixin = optional.get();
             //rainingUtil.placePuddle(world, chunk$Mixin, chunk$Mixin.getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES), chunk$Mixin.getPos());
         }
-    }
+    }*/
 }

@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Surrogate;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -53,10 +54,14 @@ public abstract class WorldRendererMixin implements IResourceManagerReloadListen
     private float[] rainSizeX;
     @Shadow
     @Final
-    private float[] rainSizeZ = new float[1024];
+    private final float[] rainSizeZ = new float[1024];
 
     @Inject(method = "renderRainSnow", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;depthMask(Z)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     private void renderRainSnow(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, IWeatherRenderHandler renderHandler, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l) {
+        renderRainSnow1(lightmapIn, partialTicks, xIn, yIn, zIn, ci, f, world, i, j, k, tessellator, bufferbuilder, l);
+    }
+
+    private void renderRainSnow1(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l) {
         int i1 = -1;
         float f1 = (float) this.ticks + partialTicks;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -159,5 +164,10 @@ public abstract class WorldRendererMixin implements IResourceManagerReloadListen
         RenderSystem.disableAlphaTest();
         lightmapIn.disableLightmap();
         ci.cancel();
+    }
+
+    @Surrogate
+    private void renderRainSnow(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l){
+        renderRainSnow1(lightmapIn, partialTicks, xIn, yIn, zIn, ci, f, world, i, j, k, tessellator, bufferbuilder, l);
     }
 }

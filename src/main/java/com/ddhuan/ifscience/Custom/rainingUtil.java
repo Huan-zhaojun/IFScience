@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
@@ -22,10 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.BitArray;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -206,6 +204,22 @@ public class rainingUtil {
         bufferbuilder.pos((double) k1 - xIn + d0 + 0.5D, (double) j2 - yIn, (double) j1 - zIn + d1 + 0.5D).tex(1.0F, (float) k2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
         bufferbuilder.pos((double) k1 - xIn - d0 + 0.5D, (double) j2 - yIn, (double) j1 - zIn - d1 + 0.5D).tex(0.0F, (float) k2 * 0.25F + f3).color(1.0F, 1.0F, 1.0F, f5).lightmap(j3).endVertex();
         return i1;
+    }
+
+    //火雨伤害
+    public static void fireRainHurt(ServerWorld world1) {
+        if (world1.isRaining()) {
+            for (Entity entity : world1.getEntitiesIteratable()) {
+                if (entity instanceof LivingEntity) {
+                    BlockPos pos = entity.getPosition();
+                    Biome biome = world1.getBiome(pos);
+                    if (biome.getPrecipitation() == Biome.RainType.NONE && world1.getGameTime() % 30 == 0) {
+                        entity.attackEntityFrom(DamageSource.ON_FIRE, 4);
+                        entity.setFire(2);
+                    }
+                }
+            }
+        }
     }
 
     //三叉戟激流坠地效果

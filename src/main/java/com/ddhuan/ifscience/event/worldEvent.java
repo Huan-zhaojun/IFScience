@@ -1,7 +1,12 @@
 package com.ddhuan.ifscience.event;
 
 import com.ddhuan.ifscience.Custom.rainingUtil;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +24,7 @@ public class worldEvent {
             ServerWorld world1 = (ServerWorld) world;
             rainingUtil.placePuddle(world);//下雨产生地面积水
             rainingUtil.thunder(world1);//打雷
+            rainingUtil.fireRainHurt(world1);//火雨伤害
         }
     }
 }
