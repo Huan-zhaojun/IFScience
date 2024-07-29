@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience.mixin;
+package com.ddhuan.ifscience.mixin.entity;
 
 import com.ddhuan.ifscience.common.customDamage;
 import net.minecraft.entity.Entity;

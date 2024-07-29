@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience.mixin;
+package com.ddhuan.ifscience.mixin.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

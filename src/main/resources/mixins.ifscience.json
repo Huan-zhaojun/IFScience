@@ -6,9 +6,10 @@
   "refmap": "mixins.ifscience.refmap.json",
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
-    "EntityMixin",
+    "entity.EntityMixin",
+    "entity.FallingBlockEntityMixin",
     "HeightmapMixin",
-    "LivingEntityMixin",
+    "entity.LivingEntityMixin",
     "RiptideEnchantmentMixin",
     "ServerChunkProviderMixin"
   ],
