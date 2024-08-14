@@ -1,10 +1,12 @@
 package com.ddhuan.ifscience.event;
 
+import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.Custom.rainingUtil;
 import com.ddhuan.ifscience.common.customDamage;
 import com.ddhuan.ifscience.network.Client.fireRenderPack;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.AbstractFurnaceBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
@@ -44,7 +46,6 @@ public class playerEvent {
             ServerWorld world1 = (ServerWorld) world;
             BlockPos posPlayer = player1.getPosition();
             rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
-            rainingUtil.TridentRiptide(player1, world1, posPlayer);//三叉戟激流坠地效果
         }
     }
 
@@ -61,6 +62,18 @@ public class playerEvent {
     @SubscribeEvent
     public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         burnHand1(event);//右键键点方块烫手
+    }
+
+    @SubscribeEvent//与实体交互事件
+    public static void onPlayerInteractEntity(PlayerInteractEvent.EntityInteract event) throws NoSuchFieldException, IllegalAccessException {
+        World world = event.getWorld();
+        Entity entity = event.getTarget();
+        PlayerEntity player = event.getPlayer();
+
+        if (!world.isRemote) {
+            magnetUtil.LivingEntity_setMagnetAttract(event,world,entity,player);//给生物喂铁锭上磁性
+
+        }
     }
 
 

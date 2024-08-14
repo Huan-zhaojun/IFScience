@@ -14,6 +14,10 @@ public class entityTypeRegistry {
     public static final RegistryObject<EntityType<touchdownTNTEntity>> touchdownTNT = ENTITIES.register("touchdown_tnt",
             () -> EntityType.Builder.<touchdownTNTEntity>create(touchdownTNTEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("touchdown_tnt"));
 
-    public static final RegistryObject<EntityType<blockEntity>> blockEntity = ENTITIES.register("block_entity",
-            () -> EntityType.Builder.<blockEntity>create(blockEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("block_entity"));
+    public static final RegistryObject<EntityType<BlockEntity>> blockEntity = ENTITIES.register("block_entity",
+            () -> EntityType.Builder.<BlockEntity>create(BlockEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("block_entity"));
+
+    //被磁铁吸住的方块
+    public static final RegistryObject<EntityType<MagnetAttractedBlockEntity>> MagnetAttractedBlockEntity = entityTypeRegistry.ENTITIES.register("magnet_attracted_block_entity",
+            () -> EntityType.Builder.<MagnetAttractedBlockEntity>create(MagnetAttractedBlockEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("magnet_attracted_block_entity"));
 }

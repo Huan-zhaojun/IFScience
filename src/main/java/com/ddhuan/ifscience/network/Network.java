@@ -25,5 +25,6 @@ public class Network {
         INSTANCE.registerMessage(nextID(), playerPosePack.class, playerPosePack::toBytes, playerPosePack::new, playerPosePack::handler);
         INSTANCE.registerMessage(nextID(), entityMotionPack.class, entityMotionPack::toBytes, entityMotionPack::new, entityMotionPack::handler);
         INSTANCE.registerMessage(nextID(), blockEntityRenderPack.class, blockEntityRenderPack::toBytes, blockEntityRenderPack::new, blockEntityRenderPack::handler);
+        INSTANCE.registerMessage(nextID(), playSoundPack.class, playSoundPack::toBytes, playSoundPack::new, playSoundPack::handler);
     }
 }

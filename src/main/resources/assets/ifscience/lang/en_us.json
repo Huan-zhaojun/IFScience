@@ -6,6 +6,7 @@
   "itemGroup.ifscience": "ifScience",
 
   "item.ifscience.puddle_fluid_bucket": "puddle bucket",
+  "item.ifscience.horseshoe_magnet": "horseshoe magnet",
 
   "block.ifscience.puddle_fluid": "puddle block",
 
@@ -15,9 +16,13 @@
   "block_entity_type.ifscience.puddle_fluid_tileentity": "puddle tileEntity",
 
   "entity.ifscience.furnace_tnt": "Explosive Furnace",
+  "entity.ifscience.touchdown_tnt": "Touchdown TNT",
+  "entity.ifscience.block_entity": "Block Entity",
+  "entity.ifscience.magnet_attracted_block_entity": "Magnet-Attracted Block",
 
   "death.attack.furnace_burn": "%1$s burned to death touch the furnace!",
   "death.attack.furnace_explosion": "%1$s Exploded by the furnace!",
   "death.attack.blast_furnace_explosion": "%1$s Exploded by the blastFurnace!",
-  "death.attack.smoker_explosion": "%1$s Exploded by the smoker!"
+  "death.attack.smoker_explosion": "%1$s Exploded by the smoker!",
+  "death.attack.stone_by_attractMagnet": "%1$s was stoned to die by an object attracted by a magnet！"
 }

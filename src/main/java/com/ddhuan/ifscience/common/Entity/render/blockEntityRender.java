@@ -1,6 +1,6 @@
 package com.ddhuan.ifscience.common.Entity.render;
 
-import com.ddhuan.ifscience.common.Entity.blockEntity;
+import com.ddhuan.ifscience.common.Entity.BlockEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -14,12 +14,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class blockEntityRender extends EntityRenderer<blockEntity> {
+public class blockEntityRender<T extends BlockEntity> extends EntityRenderer<T> {
     protected blockEntityRender(EntityRendererManager renderManager) {
         super(renderManager);
     }
 
-    public void render(blockEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         matrixStackIn.push();
         matrixStackIn.translate(0.0D, 0.5D, 0.0D);
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
@@ -31,7 +31,7 @@ public class blockEntityRender extends EntityRenderer<blockEntity> {
     }
 
     @Override
-    public ResourceLocation getEntityTexture(blockEntity entity) {
+    public ResourceLocation getEntityTexture(T entity) {
         return AtlasTexture.LOCATION_BLOCKS_TEXTURE;
     }
 }

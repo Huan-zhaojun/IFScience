@@ -6,6 +6,7 @@
   "itemGroup.ifscience": "假如科学",
 
   "item.ifscience.puddle_fluid_bucket": "积水桶",
+  "item.ifscience.horseshoe_magnet": "蹄形磁铁",
 
   "block.ifscience.puddle_fluid": "积水方块",
 
@@ -15,9 +16,13 @@
   "block_entity_type.ifscience.puddle_fluid_tileentity": "积水方块实体",
 
   "entity.ifscience.furnace_tnt": "爆炸的熔炉",
+  "entity.ifscience.touchdown_tnt": "触地爆炸TNT",
+  "entity.ifscience.block_entity": "实体的方块",
+  "entity.ifscience.magnet_attracted_block_entity": "被磁吸的方块",
 
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",
   "death.attack.blast_furnace_explosion": "%1$s 被高炉炸死了！",
-  "death.attack.smoker_explosion": "%1$s 被烟熏炉炸死了！"
+  "death.attack.smoker_explosion": "%1$s 被烟熏炉炸死了！",
+  "death.attack.stone_by_attractMagnet": "%1$s 被磁铁吸引的物体砸死了！"
 }

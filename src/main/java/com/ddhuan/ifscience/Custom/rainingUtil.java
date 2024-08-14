@@ -1,9 +1,9 @@
 package com.ddhuan.ifscience.Custom;
 
 import com.ddhuan.ifscience.common.Block.blockRegistry;
-import com.ddhuan.ifscience.common.Entity.blockEntity;
+import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
+import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.ifscience;
-import com.ddhuan.ifscience.network.Client.blockEntityRenderPack;
 import com.ddhuan.ifscience.network.Client.entityMotionPack;
 import com.ddhuan.ifscience.network.Client.playerPosePack;
 import com.ddhuan.ifscience.network.Network;
@@ -21,7 +21,8 @@ import net.minecraft.entity.Pose;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Items;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -34,10 +35,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+
+import static net.minecraft.item.Items.BUCKET;
 
 public class rainingUtil {
     private rainingUtil() {
@@ -46,6 +50,10 @@ public class rainingUtil {
     private final static Random random = new Random();
     private final static BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
     private final static HashSet<ChunkPos> chunkPosSet = new HashSet<>();
+
+    public static RegistryObject<Item> puddleFluidBucket = itemRegistry.ITEMS.register("puddle_fluid_bucket",
+            () -> new BucketItem(FluidRegistry.puddleFluid, new Item.Properties()
+                    .group(itemRegistry.ifScience).containerItem(BUCKET).maxStackSize(1)));
 
     //下雨产生地面积水
     public static void placePuddle(World world) {
@@ -222,37 +230,4 @@ public class rainingUtil {
         }
     }
 
-    //三叉戟激流坠地效果
-    public static void TridentRiptide(ServerPlayerEntity player1, ServerWorld world1, BlockPos posPlayer) {
-        if (player1.getMotion().y <= -2.25 && world1.getBlockState(posPlayer.down()).getBlock().equals(Blocks.AIR)
-                && Items.TRIDENT.equals(player1.getHeldItemMainhand().getItem())) {
-            BlockPos centerPos = posPlayer.down();
-            BlockPos.Mutable blockPos$Mutable = new BlockPos.Mutable();
-            int radius = 7;
-            Vector3d vector3d = new Vector3d(0, 10, 0);
-            for (int y = 2; y >= -5 && radius > 0; y--) {
-                for (int x = -radius; x <= radius; x++) {
-                    for (int z = -radius; z <= radius; z++) {
-                        if (x * x + z * z <= radius * radius) {
-                            blockPos$Mutable.setPos(centerPos.add(x, y, z));
-                            if (!world1.getBlockState(blockPos$Mutable).getBlock().equals(Blocks.AIR)) {
-                                if (y >= 0) {
-                                    Vector3d direction = new Vector3d(blockPos$Mutable.getX() - centerPos.getX(), 0, blockPos$Mutable.getZ() - centerPos.getZ());
-                                    direction = direction.normalize();
-                                    blockEntity blockEntity = new blockEntity(world1, blockPos$Mutable.getX() + 0.5, blockPos$Mutable.getY(), blockPos$Mutable.getZ() + 0.5, world1.getBlockState(blockPos$Mutable));
-                                    world1.setBlockState(blockPos$Mutable, Blocks.AIR.getDefaultState());
-                                    blockEntity.setMotion(direction.x * 0.15, 0.65, direction.z * 0.15);
-                                    world1.addEntity(blockEntity);
-                                    Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> blockEntity), new blockEntityRenderPack(blockEntity.getUniqueID(), blockEntity.blockState));
-                                } else {
-                                    world1.setBlockState(blockPos$Mutable, Blocks.AIR.getDefaultState());
-                                }
-                            }
-                        }
-                    }
-                }
-                if (y < 0) --radius;
-            }
-        }
-    }
 }

@@ -1,6 +1,6 @@
 package com.ddhuan.ifscience.network.Client;
 
-import com.ddhuan.ifscience.common.Entity.blockEntity;
+import com.ddhuan.ifscience.common.Entity.BlockEntity;
 import com.ddhuan.ifscience.network.IModPack;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -42,8 +42,8 @@ public class blockEntityRenderPack implements IModPack {
             ClientWorld world = Minecraft.getInstance().world;
             if (world != null && world.isRemote) {
                 for (Entity entity : world.getAllEntities()) {
-                    if (entity instanceof blockEntity) {
-                        blockEntity blockEntity = (blockEntity) entity;
+                    if (entity instanceof BlockEntity) {
+                        BlockEntity blockEntity = (BlockEntity) entity;
                         if (blockEntity.getUniqueID().equals(uuid)) blockEntity.blockState = blockState;
                     }
                 }

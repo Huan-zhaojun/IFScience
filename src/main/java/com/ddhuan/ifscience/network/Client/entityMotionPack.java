@@ -2,7 +2,7 @@ package com.ddhuan.ifscience.network.Client;
 
 import com.ddhuan.ifscience.network.IModPack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -42,9 +42,10 @@ public class entityMotionPack implements IModPack {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             if (Minecraft.getInstance().world != null && Minecraft.getInstance().world.isRemote) {
-                ClientPlayerEntity player = (ClientPlayerEntity) Minecraft.getInstance().world.getPlayerByUuid(uuid);
-                if (player != null) {
-                    player.setMotion(vector3d);
+                for (Entity entity : Minecraft.getInstance().world.getAllEntities()) {
+                    if (entity.getUniqueID().equals(uuid)) {
+                        entity.setMotion(vector3d);
+                    }
                 }
             }
         });

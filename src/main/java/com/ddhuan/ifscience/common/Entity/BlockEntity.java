@@ -11,15 +11,15 @@ import net.minecraft.network.IPacket;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class blockEntity extends Entity {
+public class BlockEntity extends Entity {
     public BlockState blockState = Blocks.AIR.getDefaultState();
     public int count = 40;
 
-    public blockEntity(EntityType<?> entityTypeIn, World worldIn) {
+    public BlockEntity(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
     }
 
-    public blockEntity(World worldIn, double x, double y, double z, BlockState blockState) {
+    public BlockEntity(World worldIn, double x, double y, double z, BlockState blockState) {
         this(entityTypeRegistry.blockEntity.get(), worldIn);
         this.setPosition(x, y, z);
         this.prevPosX = x;
