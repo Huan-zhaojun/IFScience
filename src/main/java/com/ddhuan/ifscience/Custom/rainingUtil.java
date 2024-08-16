@@ -1,7 +1,6 @@
 package com.ddhuan.ifscience.Custom;
 
 import com.ddhuan.ifscience.common.Block.blockRegistry;
-import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.ifscience;
 import com.ddhuan.ifscience.network.Client.entityMotionPack;
@@ -21,7 +20,6 @@ import net.minecraft.entity.Pose;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
@@ -41,8 +39,6 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static net.minecraft.item.Items.BUCKET;
-
 public class rainingUtil {
     private rainingUtil() {
     }
@@ -51,9 +47,7 @@ public class rainingUtil {
     private final static BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
     private final static HashSet<ChunkPos> chunkPosSet = new HashSet<>();
 
-    public static RegistryObject<Item> puddleFluidBucket = itemRegistry.ITEMS.register("puddle_fluid_bucket",
-            () -> new BucketItem(FluidRegistry.puddleFluid, new Item.Properties()
-                    .group(itemRegistry.ifScience).containerItem(BUCKET).maxStackSize(1)));
+    public static RegistryObject<Item> puddleFluidBucket = itemRegistry.puddleFluidBucket;
 
     //下雨产生地面积水
     public static void placePuddle(World world) {

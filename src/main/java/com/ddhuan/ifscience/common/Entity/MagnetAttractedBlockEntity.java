@@ -25,7 +25,7 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
     private Vector3d magnetAttractor_lastPos;//磁吸者上一个位置
     public double G = 0.04D;//重力加速度
     public int noAttractedTick = 0;//不被磁吸的时刻
-    public byte collisionFlag = magnetUtil.collisionFlag;
+    public int collisionFlag = magnetUtil.collisionFlag;
 
     public MagnetAttractedBlockEntity(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);

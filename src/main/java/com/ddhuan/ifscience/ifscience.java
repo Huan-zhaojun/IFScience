@@ -13,7 +13,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -39,6 +41,9 @@ public class ifscience {
         blockRegistry.BLOCKS_vanilla.register(modEventBus);
         FluidRegistry.FLUIDS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
+        //配置文件设置
+        Config.init();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
     }
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {
