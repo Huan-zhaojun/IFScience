@@ -24,5 +24,11 @@
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",
   "death.attack.blast_furnace_explosion": "%1$s 被高炉炸死了！",
   "death.attack.smoker_explosion": "%1$s 被烟熏炉炸死了！",
-  "death.attack.stone_by_attractMagnet": "%1$s 被磁铁吸引的物体砸死了！"
+  "death.attack.stone_by_attractMagnet": "%1$s 被磁铁吸引的物体砸死了！",
+
+  "config.ifscience.magnet_attracted.speed": "速度",
+  "config.ifscience.magnet_attracted.radius": "半径",
+  "config.ifscience.magnet_attracted.collisionFlag": "碰撞设置",
+  "config.ifscience.magnet_attracted.canFeedIron": "喂食铁锭",
+  "config.ifscience.magnet_attracted.checkIronEquipment": "携带铁质物品"
 }

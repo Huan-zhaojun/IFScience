@@ -32,8 +32,6 @@ public abstract class LivingEntityMixin extends Entity {
     public boolean isAttracted = false;//是否正在被磁吸
     @Unique
     public PlayerEntity magnetAttractor = null;//磁吸者
-    @Unique
-    private Vector3d magnetAttractor_lastPos = null;//磁吸者上一个位置
 
     public LivingEntityMixin(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
@@ -68,9 +66,9 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "travel", at = @At(value = "HEAD"), cancellable = true)
-    public void travel(Vector3d travelVector, CallbackInfo ci) {
+    public void travel(Vector3d travelVector, CallbackInfo ci) throws NoSuchFieldException, IllegalAccessException {
         //生物被磁吸时候移动
-        magnetUtil.LivingEntity_MagnetAttractMove((LivingEntity) (Entity) this, isAttracted, magnetAttractor, magnetAttractor_lastPos, ci);
+        magnetUtil.LivingEntity_MagnetAttractMove((LivingEntity) (Entity) this, ci);
     }
 
     @Unique//设置被磁吸

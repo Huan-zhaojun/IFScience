@@ -22,6 +22,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -30,6 +31,7 @@ public class magnetUtil {
     private magnetUtil() {
     }
 
+    public static boolean canFeedIron_LivingEntity = Config.CAN_FEED_IRON.get()/*是否能给生物喂食铁锭*/, checkIronEquipment = Config.CHECK_IRON_EQUIPMENT.get()/*是否检查生物携带铁制物品*/;
     public static double speed = Config.SPEED_DEFAULT.get();//速度量
     public static int radius = Config.RADIUS_DEFAULT.get();//作用半径
     public static int collisionFlag = Config.COLLISION_FLAG_DEFAULT.get();//被磁吸方块碰撞设置，默认设置为0，一律反弹为1，一律成掉落物为2
@@ -43,8 +45,17 @@ public class magnetUtil {
 
     public static final RegistryObject<EntityType<MagnetAttractedBlockEntity>> MagnetAttractedBlockEntity = entityTypeRegistry.MagnetAttractedBlockEntity;
 
+    public static void updateConfig_StaticValue() {
+        magnetUtil.canFeedIron_LivingEntity = Config.CAN_FEED_IRON.get();
+        magnetUtil.checkIronEquipment = Config.CHECK_IRON_EQUIPMENT.get();
+        magnetUtil.speed = Config.SPEED_DEFAULT.get();
+        magnetUtil.radius = Config.RADIUS_DEFAULT.get();
+        magnetUtil.collisionFlag = Config.COLLISION_FLAG_DEFAULT.get();
+    }
+
     //生物是否穿戴铁质装备和拿着铁质工具
     public static boolean isIronEquipment(LivingEntity entity) {
+        if (!checkIronEquipment) return false;
         for (ItemStack itemStack : entity.getEquipmentAndArmor()) {
             Item item = itemStack.getItem();
             if (item instanceof ArmorItem) {
@@ -87,19 +98,34 @@ public class magnetUtil {
     }
 
     //生物被磁吸时候移动
-    public static void LivingEntity_MagnetAttractMove(LivingEntity entity, boolean isAttracted, PlayerEntity magnetAttractor, Vector3d magnetAttractor_lastPos, CallbackInfo ci) {
+    public static void LivingEntity_MagnetAttractMove(LivingEntity entity, CallbackInfo ci) throws NoSuchFieldException, IllegalAccessException {
+        Field isAttracted_Field = entity.getClass().getField("isAttracted");
+        boolean isAttracted = (boolean) isAttracted_Field.get(entity);
+        if (!(entity instanceof PlayerEntity)) {
+            System.out.println(isAttracted);
+        }
         if (isAttracted) {//处在被磁吸者磁吸时
+            PlayerEntity magnetAttractor = (PlayerEntity) entity.getClass().getField("magnetAttractor").get(entity);
+            Field magnetAttractorLastPos_Field = entity.getClass().getField("magnetAttractor_lastPos");
+            Vector3d magnetAttractor_lastPos = (Vector3d) magnetAttractorLastPos_Field.get(entity);
+
             if (magnetAttractor != null && Math.pow(magnetAttractor.getPosX() - entity.getPosX(), 2) + Math.pow(magnetAttractor.getPosY() - entity.getPosY(), 2) + Math.pow(magnetAttractor.getPosZ() - entity.getPosZ(), 2) > Math.pow(magnetUtil.radius, 2)) {
-                isAttracted = false;//超出磁铁作用半径
-            } else if (magnetAttractor != null && (magnetAttractor_lastPos == null || magnetAttractor_lastPos.subtract(magnetAttractor.getPositionVec()).length() >= 0.1)) {
-                magnetAttractor_lastPos = magnetAttractor.getPositionVec();
+                isAttracted_Field.set(entity, false);//超出磁铁作用半径
+                return;
+            } else if (magnetAttractor != null && !horseshoeMagnet.get().equals(magnetAttractor.getHeldItemMainhand().getItem()) &&
+                    !horseshoeMagnet.get().equals(magnetAttractor.getHeldItemOffhand().getItem())) {
+                isAttracted_Field.set(entity, false);//磁铁没有拿在主手了
+                return;
+            }
+            if (magnetAttractor != null && !entity.world.isRemote) {
                 Vector3d positionVec = magnetAttractor.getPositionVec().add(0, 0.5, 0).subtract(entity.getPosX(), entity.getPosY(), entity.getPosZ());
                 Vector3d speedVec = positionVec.normalize().scale(magnetUtil.speed);
-                double speedY = 0.5 * 0.05D * Math.sqrt((Math.pow(positionVec.x, 2) + Math.pow(positionVec.z, 2)) / ((Math.pow(speedVec.x, 2) + Math.pow(speedVec.z, 2))));
+                double speedY = 0.5 * 0.03D * Math.sqrt((Math.pow(positionVec.x, 2) + Math.pow(positionVec.z, 2)) / ((Math.pow(speedVec.x, 2) + Math.pow(speedVec.z, 2))));
                 entity.setMotion(speedVec.add(0, speedY, 0));
                 entity.move(MoverType.SELF, entity.getMotion());
-                ci.cancel();
             }
+
+            ci.cancel();
         }
     }
 }

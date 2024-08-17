@@ -28,6 +28,15 @@ public class BlockEntity extends Entity {
         this.blockState = blockState;
     }
 
+    public BlockEntity(EntityType<? extends BlockEntity> entityTypeIn, World worldIn, double x, double y, double z, BlockState blockState) {
+        this(entityTypeIn, worldIn);
+        this.setPosition(x, y, z);
+        this.prevPosX = x;
+        this.prevPosY = y;
+        this.prevPosZ = z;
+        this.blockState = blockState;
+    }
+
     @Override
     protected void registerData() {
 

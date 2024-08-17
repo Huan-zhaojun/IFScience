@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience;
 
+import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.EntityRenderRegistryManager;
@@ -44,6 +45,7 @@ public class ifscience {
         //配置文件设置
         Config.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
+        modEventBus.addListener(this::onConfig);
     }
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {
@@ -59,5 +61,13 @@ public class ifscience {
         //注册流体渲染器
         RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluid.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluidFlowing.get(), RenderType.getTranslucent());
+    }
+
+    private void onConfig(ModConfig.ModConfigEvent event) {
+        //检查是否是需要监听的配置文件
+        if (event.getConfig().getSpec() == Config.COMMON_CONFIG) {
+            //更新静态变量
+            magnetUtil.updateConfig_StaticValue();
+        }
     }
 }

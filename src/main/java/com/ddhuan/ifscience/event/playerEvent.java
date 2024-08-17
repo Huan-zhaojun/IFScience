@@ -71,8 +71,8 @@ public class playerEvent {
         PlayerEntity player = event.getPlayer();
 
         if (!world.isRemote) {
-            magnetUtil.LivingEntity_setMagnetAttract(event,world,entity,player);//给生物喂铁锭上磁性
-
+            if (magnetUtil.canFeedIron_LivingEntity) //给生物喂铁锭上磁性
+                magnetUtil.LivingEntity_setMagnetAttract(event, world, entity, player);
         }
     }
 

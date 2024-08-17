@@ -15,6 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
     }
 
     public MagnetAttractedBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, UUID magnetAttractor_uuid) {
-        super(worldIn, x, y, z, blockState);
+        super(entityTypeRegistry.MagnetAttractedBlockEntity.get(),worldIn, x, y, z, blockState);
         isAttracted = true;
         this.magnetAttractor = worldIn.getPlayerByUuid(magnetAttractor_uuid);
         if (magnetAttractor != null) {
@@ -100,8 +101,8 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
                 if (collisionFlag != 2 && (collisionFlag == 1 || size.width * size.width * size.height < 1.0)) {
                     noAttractedTick = 20;
                     isAttracted = false;
-                    livingEntity.setMotion(livingEntity.getMotion().add(getMotion().x * 2, Math.max(-getMotion().y, 0.5), getMotion().z * 2));
-                    setMotion(getMotion().x * -0.5, Math.max(-getMotion().y, 0.5), getMotion().z * -0.5);
+                    livingEntity.setMotion(livingEntity.getMotion().add(getMotion().x * 2, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * 2));
+                    setMotion(getMotion().x * -0.5, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * -0.5);
                     Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> livingEntity), new entityMotionPack(livingEntity.getUniqueID(), livingEntity.getMotion()));
                 }
                 livingEntity.attackEntityFrom(customDamage.StoneAttractMagnet, 8);
@@ -154,12 +155,15 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        return super.createSpawnPacket();
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public void setMagnetAttractor(UUID uuid) {
         magnetAttractor = world.getPlayerByUuid(uuid);
         isAttracted = true;
+        if (magnetAttractor_lastPos == null && magnetAttractor != null) {
+            magnetAttractor_lastPos = magnetAttractor.getPositionVec();
+        }
     }
 
     public UUID getMagnetAttractor() {

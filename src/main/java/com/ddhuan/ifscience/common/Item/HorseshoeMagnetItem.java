@@ -3,6 +3,7 @@ package com.ddhuan.ifscience.common.Item;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Entity.MagnetAttractedBlockEntity;
 import com.ddhuan.ifscience.network.Client.blockEntityRenderPack;
+import com.ddhuan.ifscience.network.Client.magnetAttractPack;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -54,7 +55,9 @@ public class HorseshoeMagnetItem extends Item {
                         double speedY = 0.5 * blockEntity.G * Math.sqrt((Math.pow(positionVec.x, 2) + Math.pow(positionVec.z, 2)) / ((Math.pow(speedVec.x, 2) + Math.pow(speedVec.z, 2))));
                         blockEntity.setMotion(speedVec.add(0, speedY, 0));
                         worldIn.addEntity(blockEntity);
+                        //发包同步数据
                         Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> blockEntity), new blockEntityRenderPack(blockEntity.getUniqueID(), blockEntity.blockState));
+                        Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> blockEntity),new magnetAttractPack(blockEntity.getClass(),blockEntity.getUniqueID(),playerIn.getUniqueID()));
                     }
                 }
             }
@@ -65,6 +68,7 @@ public class HorseshoeMagnetItem extends Item {
                     MagnetAttractedBlockEntity entity1 = (MagnetAttractedBlockEntity) entity;
                     if (!entity1.isAttracted && entity1.noAttractedTick <= 0) {
                         entity1.setMagnetAttractor(playerIn.getUniqueID());
+                        Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity1),new magnetAttractPack(entity1.getClass(),entity1.getUniqueID(),playerIn.getUniqueID()));
                     }
                 }
                 try {
@@ -73,6 +77,7 @@ public class HorseshoeMagnetItem extends Item {
                             (boolean) entity.getClass().getField("canAttract").get(entity) || magnetUtil.isIronEquipment((LivingEntity) entity)) &&
                             !(boolean) entity.getClass().getField("isAttracted").get(entity)) {
                         entity.getClass().getMethod("setMagnetAttractor", UUID.class).invoke(entity, playerIn.getUniqueID());
+                        Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(()->entity), new magnetAttractPack(entity.getClass(),entity.getUniqueID(),playerIn.getUniqueID()));
                     }
                 } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException |
                          InvocationTargetException e) {
@@ -94,6 +99,7 @@ public class HorseshoeMagnetItem extends Item {
                     MagnetAttractedBlockEntity entity1 = (MagnetAttractedBlockEntity) entity;
                     if (player.getUniqueID().equals(entity1.getMagnetAttractor())) {
                         entity1.isAttracted = false;//松手取消磁吸物体
+                        Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity1),new magnetAttractPack(entity1.getClass(),entity1.getUniqueID()));
                     }
                 }
                 try {
@@ -104,6 +110,7 @@ public class HorseshoeMagnetItem extends Item {
                         PlayerEntity magnetAttractor = (PlayerEntity) entity.getClass().getField("magnetAttractor").get(entity);
                         if (magnetAttractor != null && player.getUniqueID().equals(magnetAttractor.getUniqueID())) {
                             entity.getClass().getField("isAttracted").set(entity, false);//松手取消磁吸生物
+                            Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity),new magnetAttractPack(entity.getClass(),entity.getUniqueID()));
                         }
                     }
                 } catch (NoSuchFieldException | IllegalAccessException e) {
