@@ -101,20 +101,15 @@ public class magnetUtil {
     public static void LivingEntity_MagnetAttractMove(LivingEntity entity, CallbackInfo ci) throws NoSuchFieldException, IllegalAccessException {
         Field isAttracted_Field = entity.getClass().getField("isAttracted");
         boolean isAttracted = (boolean) isAttracted_Field.get(entity);
-        if (!(entity instanceof PlayerEntity)) {
-            System.out.println(isAttracted);
-        }
         if (isAttracted) {//处在被磁吸者磁吸时
             PlayerEntity magnetAttractor = (PlayerEntity) entity.getClass().getField("magnetAttractor").get(entity);
-            Field magnetAttractorLastPos_Field = entity.getClass().getField("magnetAttractor_lastPos");
-            Vector3d magnetAttractor_lastPos = (Vector3d) magnetAttractorLastPos_Field.get(entity);
 
             if (magnetAttractor != null && Math.pow(magnetAttractor.getPosX() - entity.getPosX(), 2) + Math.pow(magnetAttractor.getPosY() - entity.getPosY(), 2) + Math.pow(magnetAttractor.getPosZ() - entity.getPosZ(), 2) > Math.pow(magnetUtil.radius, 2)) {
                 isAttracted_Field.set(entity, false);//超出磁铁作用半径
                 return;
             } else if (magnetAttractor != null && !horseshoeMagnet.get().equals(magnetAttractor.getHeldItemMainhand().getItem()) &&
                     !horseshoeMagnet.get().equals(magnetAttractor.getHeldItemOffhand().getItem())) {
-                isAttracted_Field.set(entity, false);//磁铁没有拿在主手了
+                isAttracted_Field.set(entity, false);//磁铁没有拿在手上
                 return;
             }
             if (magnetAttractor != null && !entity.world.isRemote) {

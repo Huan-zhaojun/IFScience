@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class HorseshoeMagnetItem extends Item {
-    public static int radius = magnetUtil.radius;
-    public static double speed = magnetUtil.speed;
-    
     public HorseshoeMagnetItem(Properties properties) {
         super(properties);
     }
@@ -38,10 +35,10 @@ public class HorseshoeMagnetItem extends Item {
         playerIn.setActiveHand(handIn);
         if (!worldIn.isRemote) {
             BlockPos playerPos = playerIn.getPosition();
-            Iterable<BlockPos> it = BlockPos.getAllInBoxMutable(playerPos.add(radius, radius, radius), playerPos.add(-radius, -radius, -radius));
+            Iterable<BlockPos> it = BlockPos.getAllInBoxMutable(playerPos.add(magnetUtil.radius, magnetUtil.radius, magnetUtil.radius), playerPos.add(-magnetUtil.radius, -magnetUtil.radius, -magnetUtil.radius));
             for (BlockPos blockPos : it) {
                 double p = Math.pow(blockPos.getX() - playerPos.getX(), 2) + Math.pow(blockPos.getY() - playerPos.getY(), 2) + Math.pow(blockPos.getZ() - playerPos.getZ(), 2);
-                if (p <= Math.pow(radius, 2)) {
+                if (p <= Math.pow(magnetUtil.radius, 2)) {
                     //检测能被磁铁吸引的方块
                     BlockState blockState = worldIn.getBlockState(blockPos);
                     Material material = blockState.getMaterial();
@@ -51,7 +48,7 @@ public class HorseshoeMagnetItem extends Item {
 
                         blockEntity.G = 0.05D;//重力加速度
                         Vector3d positionVec = playerIn.getPositionVec().add(0, 0.5, 0).subtract(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
-                        Vector3d speedVec = positionVec.normalize().scale(speed);
+                        Vector3d speedVec = positionVec.normalize().scale(magnetUtil.speed);
                         double speedY = 0.5 * blockEntity.G * Math.sqrt((Math.pow(positionVec.x, 2) + Math.pow(positionVec.z, 2)) / ((Math.pow(speedVec.x, 2) + Math.pow(speedVec.z, 2))));
                         blockEntity.setMotion(speedVec.add(0, speedY, 0));
                         worldIn.addEntity(blockEntity);
@@ -61,7 +58,7 @@ public class HorseshoeMagnetItem extends Item {
                     }
                 }
             }
-            List<Entity> entityList = worldIn.getEntitiesInAABBexcluding(playerIn, new AxisAlignedBB(playerPos.add(radius, radius, radius), playerPos.add(-radius, -radius, -radius)), null);
+            List<Entity> entityList = worldIn.getEntitiesInAABBexcluding(playerIn, new AxisAlignedBB(playerPos.add(magnetUtil.radius, magnetUtil.radius, magnetUtil.radius), playerPos.add(-magnetUtil.radius, -magnetUtil.radius, -magnetUtil.radius)), null);
             for (Entity entity : entityList) {
                 //检测没有被磁吸而在飞的被磁吸方块实体
                 if (entity instanceof MagnetAttractedBlockEntity) {
@@ -93,7 +90,7 @@ public class HorseshoeMagnetItem extends Item {
         if (!worldIn.isRemote && entityLiving instanceof PlayerEntity) {
             Vector3d positionVec = entityLiving.getPositionVec();
             PlayerEntity player = (PlayerEntity) entityLiving;
-            List<Entity> entityList = worldIn.getEntitiesInAABBexcluding(entityLiving, new AxisAlignedBB(positionVec.add(radius, radius, radius), positionVec.add(-radius, -radius, -radius)), null);
+            List<Entity> entityList = worldIn.getEntitiesInAABBexcluding(entityLiving, new AxisAlignedBB(positionVec.add(magnetUtil.radius, magnetUtil.radius, magnetUtil.radius), positionVec.add(-magnetUtil.radius, -magnetUtil.radius, -magnetUtil.radius)), null);
             for (Entity entity : entityList) {
                 if (entity instanceof MagnetAttractedBlockEntity) {//是被磁吸的方块
                     MagnetAttractedBlockEntity entity1 = (MagnetAttractedBlockEntity) entity;

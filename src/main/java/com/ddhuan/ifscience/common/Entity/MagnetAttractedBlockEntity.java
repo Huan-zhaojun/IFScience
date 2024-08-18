@@ -3,6 +3,7 @@ package com.ddhuan.ifscience.common.Entity;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.customDamage;
 import com.ddhuan.ifscience.network.Client.entityMotionPack;
+import com.ddhuan.ifscience.network.Client.magnetAttractPack;
 import com.ddhuan.ifscience.network.Client.playSoundPack;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraft.block.BlockState;
@@ -15,7 +16,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.UUID;
@@ -27,19 +27,19 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
     public double G = 0.04D;//重力加速度
     public int noAttractedTick = 0;//不被磁吸的时刻
     public int collisionFlag = magnetUtil.collisionFlag;
+    public int count = 99999;
 
     public MagnetAttractedBlockEntity(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
     }
 
     public MagnetAttractedBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, UUID magnetAttractor_uuid) {
-        super(entityTypeRegistry.MagnetAttractedBlockEntity.get(),worldIn, x, y, z, blockState);
+        super(entityTypeRegistry.MagnetAttractedBlockEntity.get(), worldIn, x, y, z, blockState);
         isAttracted = true;
         this.magnetAttractor = worldIn.getPlayerByUuid(magnetAttractor_uuid);
         if (magnetAttractor != null) {
             this.magnetAttractor_lastPos = magnetAttractor.getPositionVec();
         }
-        count = 999999;
     }
 
     @Override
@@ -71,6 +71,9 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
         if (isAttracted) {//处在被磁吸者磁吸时
             if (magnetAttractor != null && Math.pow(magnetAttractor.getPosX() - getPosX(), 2) + Math.pow(magnetAttractor.getPosY() - getPosY(), 2) + Math.pow(magnetAttractor.getPosZ() - getPosZ(), 2) > Math.pow(magnetUtil.radius, 2)) {
                 isAttracted = false;//超出磁铁作用半径
+            } else if (magnetAttractor != null && !magnetUtil.horseshoeMagnet.get().equals(magnetAttractor.getHeldItemMainhand().getItem()) &&
+                    !magnetUtil.horseshoeMagnet.get().equals(magnetAttractor.getHeldItemOffhand().getItem())) {
+                isAttracted = false;//磁铁没有拿在手上
             } else if (noAttractedTick <= 0 && magnetAttractor != null && magnetAttractor_lastPos.subtract(magnetAttractor.getPositionVec()).length() >= 0.1) {
                 magnetAttractor_lastPos = magnetAttractor.getPositionVec();//变更方向
                 Vector3d positionVec = magnetAttractor.getPositionVec().add(0, 0.5, 0).subtract(getPosX(), getPosY(), getPosZ());
@@ -95,16 +98,6 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
                     x, y, z,
                     new AxisAlignedBB(x - 0.5, y - 0.5, z - 0.5, x + 0.5, y + 0.5, z + 0.5));
             if (livingEntity != null) {
-                //物体碰撞反向速度
-                EntitySize size = livingEntity.getType().getSize();
-                //撞小物体互相反弹
-                if (collisionFlag != 2 && (collisionFlag == 1 || size.width * size.width * size.height < 1.0)) {
-                    noAttractedTick = 20;
-                    isAttracted = false;
-                    livingEntity.setMotion(livingEntity.getMotion().add(getMotion().x * 2, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * 2));
-                    setMotion(getMotion().x * -0.5, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * -0.5);
-                    Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> livingEntity), new entityMotionPack(livingEntity.getUniqueID(), livingEntity.getMotion()));
-                }
                 livingEntity.attackEntityFrom(customDamage.StoneAttractMagnet, 8);
                 //声音
                 Network.INSTANCE.send(PacketDistributor.ALL.noArg(),
@@ -112,7 +105,18 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
                                 "block.anvil.land", "BLOCKS",
                                 1F, this.world.rand.nextFloat() * 0.1F + 0.9F,
                                 false));
-                if (collisionFlag != 1 && (collisionFlag == 2 || size.width * size.width * size.height >= 1.0)) {//撞大物体自身变成掉落物
+                //物体碰撞反向速度
+                EntitySize size = livingEntity.getType().getSize();
+                //撞小物体互相反弹
+                if (collisionFlag != 2 && (collisionFlag == 1 || size.width * size.width * size.height < 1.0)) {
+                    noAttractedTick = 20;
+                    isAttracted = false;
+                    Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new magnetAttractPack(this.getClass(), this.getUniqueID()));
+                    livingEntity.setMotion(livingEntity.getMotion().add(getMotion().x * 1.5, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * 1.5));
+                    this.setMotion(getMotion().x * -0.5, Math.max(Math.abs(getMotion().y), 0.5), getMotion().z * -0.5);
+                    Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> livingEntity), new entityMotionPack(livingEntity.getUniqueID(), livingEntity.getMotion()));
+                    Network.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new entityMotionPack(this.getUniqueID(), this.getMotion()));
+                } else if (collisionFlag != 1 && (collisionFlag == 2 || size.width * size.width * size.height >= 1.0)) {//撞大物体自身变成掉落物
                     this.entityDropItem(blockState.getBlock());
                     this.remove();
                 }
@@ -155,7 +159,7 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        return super.createSpawnPacket();
     }
 
     public void setMagnetAttractor(UUID uuid) {
