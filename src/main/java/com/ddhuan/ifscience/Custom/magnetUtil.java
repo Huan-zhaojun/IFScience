@@ -82,18 +82,19 @@ public class magnetUtil {
 
     //给生物喂铁锭上磁性
     public static void LivingEntity_setMagnetAttract(PlayerInteractEvent.EntityInteract event, World world, Entity entity, PlayerEntity player) throws NoSuchFieldException, IllegalAccessException {
-        if (entity instanceof LivingEntity && !(entity instanceof PlayerEntity)
+        ItemStack heldItem = player.getHeldItem(event.getHand());
+        if (Items.IRON_INGOT.equals(heldItem.getItem()) && entity instanceof LivingEntity && !(entity instanceof PlayerEntity)
                 && !magnetAttractedEntities.contains(entity.getType())) {
-            ItemStack heldItem = player.getHeldItem(event.getHand());
-            if (Items.IRON_INGOT.equals(heldItem.getItem())) {
-                entity.getClass().getField("canAttract").set(entity, true);
-                heldItem.shrink(1);
-                Network.INSTANCE.send(PacketDistributor.ALL.noArg(),
-                        new playSoundPack(entity.getPosX(), entity.getPosY(), entity.getPosZ(),
-                                "block.anvil.use", "VOICE",
-                                1F, world.rand.nextFloat() * 0.1F + 0.9F,
-                                false));
-            }
+            LivingEntity livingEntity = (LivingEntity) entity;
+            Field canAttractField = livingEntity.getClass().getField("canAttract");
+            if ((boolean) canAttractField.get(livingEntity)) return;//喂过铁锭的不能再喂了
+            canAttractField.set(entity, true);
+            heldItem.shrink(1);
+            Network.INSTANCE.send(PacketDistributor.ALL.noArg(),
+                    new playSoundPack(livingEntity.getPosX(), livingEntity.getPosY(), livingEntity.getPosZ(),
+                            "block.anvil.use", "VOICE",
+                            1F, world.rand.nextFloat() * 0.1F + 0.9F,
+                            false));
         }
     }
 

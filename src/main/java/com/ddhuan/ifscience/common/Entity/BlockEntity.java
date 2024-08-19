@@ -8,11 +8,18 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import java.util.Optional;
+
 public class BlockEntity extends Entity {
     public BlockState blockState = Blocks.AIR.getDefaultState();
+    public static final DataParameter<Optional<BlockState>> blockStateData = EntityDataManager.createKey(BlockEntity.class, DataSerializers.OPTIONAL_BLOCK_STATE);
+
     public int count = 40;
 
     public BlockEntity(EntityType<?> entityTypeIn, World worldIn) {
@@ -39,22 +46,31 @@ public class BlockEntity extends Entity {
 
     @Override
     protected void registerData() {
-
+        this.dataManager.register(blockStateData, Optional.ofNullable(blockState));
     }
 
     @Override
     protected void readAdditional(CompoundNBT compound) {
         blockState = NBTUtil.readBlockState((CompoundNBT) compound.get("blockState"));
+        this.dataManager.set(blockStateData, Optional.of(blockState));//同步数据到客户端
     }
 
     @Override
     protected void writeAdditional(CompoundNBT compound) {
         compound.put("blockState", NBTUtil.writeBlockState(blockState));
+    }
 
+    public void synchBlockState() {//用于初始化同步数据到客户端
+        if (blockState.equals(Blocks.AIR.getDefaultState()) && world.isRemote) {
+            if (this.dataManager.get(blockStateData).isPresent())
+                blockState = this.dataManager.get(blockStateData).get();
+        }
     }
 
     @Override
     public void tick() {
+        super.tick();
+        this.synchBlockState();//初始化同步数据
         if (!this.hasNoGravity()) {
             this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
         }
@@ -66,7 +82,6 @@ public class BlockEntity extends Entity {
             this.setMotion(0, 0, 0);
             if (count < 0) this.remove();
         }
-        super.tick();
     }
 
     @Override

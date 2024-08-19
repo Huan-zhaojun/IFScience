@@ -28,6 +28,7 @@
 
   "config.ifscience.magnet_attracted.speed": "速度",
   "config.ifscience.magnet_attracted.radius": "半径",
+  "config.ifscience.magnet_attracted.attack_amount": "碰撞伤害",
   "config.ifscience.magnet_attracted.collisionFlag": "碰撞设置",
   "config.ifscience.magnet_attracted.canFeedIron": "喂食铁锭",
   "config.ifscience.magnet_attracted.checkIronEquipment": "携带铁质物品"

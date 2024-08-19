@@ -7,5 +7,5 @@ public class customDamage {
     public final static DamageSource FurnaceExplosion = new DamageSource("furnace_explosion");
     public final static DamageSource BlastFurnaceExplosion = new DamageSource("blast_furnace_explosion");
     public final static DamageSource SmokerExplosion = new DamageSource("smoker_explosion");
-    public final static DamageSource StoneAttractMagnet = new DamageSource("stone_by_attractMagnet");
+    public final static DamageSource StoneAttractMagnet = new DamageSource("stone_by_attractMagnet").setProjectile().setDamageIsAbsolute();
 }

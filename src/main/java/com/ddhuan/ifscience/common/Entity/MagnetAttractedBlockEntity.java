@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.common.Entity;
 
+import com.ddhuan.ifscience.Config;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.customDamage;
 import com.ddhuan.ifscience.network.Client.entityMotionPack;
@@ -56,7 +57,9 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
 
     @Override
     protected void writeAdditional(CompoundNBT compound) {
-        compound.putUniqueId("magnetAttractor", magnetAttractor.getUniqueID());
+        if (magnetAttractor != null) {
+            compound.putUniqueId("magnetAttractor", magnetAttractor.getUniqueID());
+        }
         compound.putDouble("G", G);
         super.writeAdditional(compound);
     }
@@ -64,6 +67,13 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
 
     @Override
     public void tick() {
+        if (!world.isRemote) {
+            this.setFlag(6, this.isGlowing());
+        }
+        this.baseTick();
+
+        this.synchBlockState();//初始化同步数据
+
         if (!this.hasNoGravity()) {
             this.setMotion(this.getMotion().add(0.0D, -G, 0.0D));
         }
@@ -98,7 +108,7 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
                     x, y, z,
                     new AxisAlignedBB(x - 0.5, y - 0.5, z - 0.5, x + 0.5, y + 0.5, z + 0.5));
             if (livingEntity != null) {
-                livingEntity.attackEntityFrom(customDamage.StoneAttractMagnet, 8);
+                livingEntity.attackEntityFrom(customDamage.StoneAttractMagnet, Config.Attack_AMOUNT.get());
                 //声音
                 Network.INSTANCE.send(PacketDistributor.ALL.noArg(),
                         new playSoundPack(getPosX(), getPosY(), getPosZ(),
@@ -149,12 +159,6 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
                 this.remove();
             }
         }
-
-
-        if (!world.isRemote) {
-            this.setFlag(6, this.isGlowing());
-        }
-        this.baseTick();
     }
 
     @Override

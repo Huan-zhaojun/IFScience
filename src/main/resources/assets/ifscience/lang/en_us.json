@@ -28,6 +28,7 @@
 
   "config.ifscience.magnet_attracted.speed": "speed",
   "config.ifscience.magnet_attracted.radius": "radius",
+  "config.ifscience.magnet_attracted.attack_amount": "collision damage",
   "config.ifscience.magnet_attracted.collisionFlag": "collisionFlag",
   "config.ifscience.magnet_attracted.canFeedIron": "canFeedIron",
   "config.ifscience.magnet_attracted.checkIronEquipment": "checkIronEquipment"

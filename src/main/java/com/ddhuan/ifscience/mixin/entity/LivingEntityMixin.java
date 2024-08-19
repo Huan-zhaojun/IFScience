@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootTable;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.Random;
 import java.util.UUID;
 
 @Mixin(LivingEntity.class)
@@ -69,6 +71,24 @@ public abstract class LivingEntityMixin extends Entity {
     public void travel(Vector3d travelVector, CallbackInfo ci) throws NoSuchFieldException, IllegalAccessException {
         //生物被磁吸时候移动
         magnetUtil.LivingEntity_MagnetAttractMove((LivingEntity) (Entity) this, ci);
+    }
+
+
+    @Inject(method = "dropLoot", at = @At(value = "TAIL"))
+    protected void dropLoot(DamageSource damageSourceIn, boolean attackedRecently, CallbackInfo ci){
+        if (canAttract) {//喂食过铁锭的生物随机掉落铁粒
+            this.entityDropItem(new ItemStack(Items.IRON_NUGGET, new Random().nextInt(6)+3));
+        }
+    }
+
+    @Inject(method = "readAdditional", at = @At(value = "TAIL"))
+    public void readAdditional(CompoundNBT compound, CallbackInfo ci) {
+        canAttract = compound.getBoolean("LivingEntityMixin$canAttract");
+    }
+
+    @Inject(method = "writeAdditional", at = @At(value = "TAIL"))
+    public void writeAdditional(CompoundNBT compound, CallbackInfo ci) {
+        compound.putBoolean("LivingEntityMixin$canAttract", canAttract);
     }
 
     @Unique//设置被磁吸
