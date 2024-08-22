@@ -8,6 +8,7 @@
     "AbstractFurnaceTileEntityMixin",
     "HeightmapMixin",
     "RiptideEnchantmentMixin",
+    "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
     "entity.FallingBlockEntityMixin",
     "entity.LivingEntityMixin"
