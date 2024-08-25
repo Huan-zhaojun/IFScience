@@ -8,8 +8,6 @@ import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.common.TileEntity.TileEntityTypeRegistry;
 import com.ddhuan.ifscience.network.Network;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,6 +21,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.ddhuan.ifscience.common.Block.blockRegistry.setBlockRenderType;
+import static com.ddhuan.ifscience.common.Fluid.FluidRegistry.setFluidRenderType;
 import static com.ddhuan.ifscience.ifscience.MOD_ID;
 
 
@@ -39,7 +39,7 @@ public class ifscience {
         itemRegistry.ITEMS.register(modEventBus);
         entityTypeRegistry.ENTITIES.register(modEventBus);
         blockRegistry.BLOCKS.register(modEventBus);
-        blockRegistry.BLOCKS_vanilla.register(modEventBus);
+        blockRegistry.BLOCKS_VANILLA.register(modEventBus);
         FluidRegistry.FLUIDS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
         //配置文件设置
@@ -55,12 +55,16 @@ public class ifscience {
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetUp(FMLClientSetupEvent event) {
-        //注册实体渲染器
-        EntityRenderRegistryManager.register();
+        event.enqueueWork(() -> {
+            //注册实体渲染器
+            EntityRenderRegistryManager.register();
 
-        //注册流体渲染器
-        RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluid.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(FluidRegistry.puddleFluidFlowing.get(), RenderType.getTranslucent());
+            //注册方块渲染器
+            setBlockRenderType();
+
+            //注册流体渲染器
+            setFluidRenderType();
+        });
     }
 
     private void onConfig(ModConfig.ModConfigEvent event) {

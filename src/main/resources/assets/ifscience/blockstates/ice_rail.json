@@ -1,0 +1,46 @@
+{
+  "variants": {
+    "frozen=false,shape=ascending_east": {
+      "model": "ifscience:block/ice_rail_raised_ne",
+      "y": 90
+    },
+    "frozen=false,shape=ascending_north": {
+      "model": "ifscience:block/ice_rail_raised_ne"
+    },
+    "frozen=false,shape=ascending_south": {
+      "model": "ifscience:block/ice_rail_raised_sw"
+    },
+    "frozen=false,shape=ascending_west": {
+      "model": "ifscience:block/ice_rail_raised_sw",
+      "y": 90
+    },
+    "frozen=false,shape=east_west": {
+      "model": "ifscience:block/ice_rail",
+      "y": 90
+    },
+    "frozen=false,shape=north_south": {
+      "model": "ifscience:block/ice_rail"
+    },
+    "frozen=true,shape=ascending_east": {
+      "model": "ifscience:block/ice_rail_on_raised_ne",
+      "y": 90
+    },
+    "frozen=true,shape=ascending_north": {
+      "model": "ifscience:block/ice_rail_on_raised_ne"
+    },
+    "frozen=true,shape=ascending_south": {
+      "model": "ifscience:block/ice_rail_on_raised_sw"
+    },
+    "frozen=true,shape=ascending_west": {
+      "model": "ifscience:block/ice_rail_on_raised_sw",
+      "y": 90
+    },
+    "frozen=true,shape=east_west": {
+      "model": "ifscience:block/ice_rail_on",
+      "y": 90
+    },
+    "frozen=true,shape=north_south": {
+      "model": "ifscience:block/ice_rail_on"
+    }
+  }
+}

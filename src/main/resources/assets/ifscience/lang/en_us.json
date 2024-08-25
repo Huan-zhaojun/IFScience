@@ -7,8 +7,10 @@
 
   "item.ifscience.puddle_fluid_bucket": "puddle bucket",
   "item.ifscience.horseshoe_magnet": "horseshoe magnet",
+  "item.ifscience.ice_rail": "frozen rail",
 
   "block.ifscience.puddle_fluid": "puddle block",
+  "block.ifscience.ice_rail": "frozen rail",
 
   "fluid.ifscience.puddle_fluid": "puddle still fluid",
   "fluid.ifscience.puddle_fluid_flowing": "puddle flowing fluid",
@@ -31,5 +33,8 @@
   "config.ifscience.magnet_attracted.attack_amount": "collision damage",
   "config.ifscience.magnet_attracted.collisionFlag": "collisionFlag",
   "config.ifscience.magnet_attracted.canFeedIron": "canFeedIron",
-  "config.ifscience.magnet_attracted.checkIronEquipment": "checkIronEquipment"
+  "config.ifscience.magnet_attracted.checkIronEquipment": "checkIronEquipment",
+
+  "text.ifscience.iceRail1": "Use blue ice to charge",
+  "text.ifscience.iceRail2": "which has the function of freezing and slowing down minecarts"
 }

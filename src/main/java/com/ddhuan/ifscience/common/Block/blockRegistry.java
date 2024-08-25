@@ -5,11 +5,10 @@ import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Fluid.LavaFluidTileEntity;
 import com.ddhuan.ifscience.common.Fluid.puddleFluidTileEntity;
 import com.ddhuan.ifscience.ifscience;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -24,9 +23,9 @@ import javax.annotation.Nullable;
 
 public class blockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ifscience.MOD_ID);
-    public static final DeferredRegister<Block> BLOCKS_vanilla = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
+    public static final DeferredRegister<Block> BLOCKS_VANILLA = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
 
-    public static RegistryObject<FlowingFluidBlock> puddleFluid = BLOCKS.register("puddle_fluid",
+    public static final RegistryObject<FlowingFluidBlock> puddleFluid = BLOCKS.register("puddle_fluid",
             () -> new FlowingFluidBlock(FluidRegistry.puddleFluid, Block.Properties.create(Material.WATER)
                     .doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()) {
                 @Override
@@ -41,7 +40,7 @@ public class blockRegistry {
                 }
             });
 
-    public static final RegistryObject<FlowingFluidBlock> lava = BLOCKS_vanilla.register("lava", () -> new FlowingFluidBlock(Fluids.LAVA, AbstractBlock.Properties.create(Material.LAVA).doesNotBlockMovement().tickRandomly().hardnessAndResistance(100.0F).setLightLevel((state) -> 15).noDrops()) {
+    public static final RegistryObject<FlowingFluidBlock> LAVA = BLOCKS_VANILLA.register("lava", () -> new FlowingFluidBlock(Fluids.LAVA, AbstractBlock.Properties.create(Material.LAVA).doesNotBlockMovement().tickRandomly().hardnessAndResistance(100.0F).setLightLevel((state) -> 15).noDrops()) {
         @Override
         public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
             if (!worldIn.isRemote()) {
@@ -50,6 +49,7 @@ public class blockRegistry {
             }
             super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
         }
+
         @Override
         public boolean hasTileEntity(BlockState state) {
             return true;
@@ -61,4 +61,22 @@ public class blockRegistry {
             return new LavaFluidTileEntity();
         }
     });
+    /*public static final RegistryObject<BreakableBlock> BLUE_ICE = BLOCKS_VANILLA.register("blue_ice",()-> new BreakableBlock(AbstractBlock.Properties.create(Material.PACKED_ICE).hardnessAndResistance(2.8F).slipperiness(0.989F).sound(SoundType.GLASS)){
+        @Override
+        public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+            //worldIn.notifyNeighborsOfStateChange(pos,this);
+        }
+
+        @Override
+        public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            //worldIn.notifyNeighborsOfStateChange(pos,this);
+        }
+    });*/
+
+    public static final RegistryObject<IceRailBlock> iceRail = BLOCKS.register("ice_rail", () -> new IceRailBlock(AbstractBlock.Properties.create(Material.IRON).doesNotBlockMovement().hardnessAndResistance(0.7F).sound(SoundType.METAL)));
+
+    public static void setBlockRenderType() {
+        RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
+    }
 }

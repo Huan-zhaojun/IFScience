@@ -3,6 +3,8 @@ package com.ddhuan.ifscience.common.Fluid;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.ifscience;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidAttributes;
@@ -28,4 +30,9 @@ public class FluidRegistry {
             .bucket(itemRegistry.puddleFluidBucket).block(blockRegistry.puddleFluid)
             .levelDecreasePerBlock(2)
             .explosionResistance(100F);
+
+    public static void setFluidRenderType() {
+        RenderTypeLookup.setRenderLayer(puddleFluid.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(puddleFluidFlowing.get(), RenderType.getTranslucent());
+    }
 }
