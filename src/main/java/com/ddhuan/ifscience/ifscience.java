@@ -55,10 +55,9 @@ public class ifscience {
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetUp(FMLClientSetupEvent event) {
+        //注册实体渲染器
+        EntityRenderRegistryManager.register();
         event.enqueueWork(() -> {
-            //注册实体渲染器
-            EntityRenderRegistryManager.register();
-
             //注册方块渲染器
             setBlockRenderType();
 

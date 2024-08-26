@@ -5,6 +5,7 @@
 
   "itemGroup.ifscience": "假如科学",
 
+  "item.ifscience.furnace_tnt": "熔炉TNT",
   "item.ifscience.puddle_fluid_bucket": "积水桶",
   "item.ifscience.horseshoe_magnet": "蹄形磁铁",
   "item.ifscience.ice_rail": "冰冻铁轨",
@@ -35,6 +36,12 @@
   "config.ifscience.magnet_attracted.canFeedIron": "喂食铁锭",
   "config.ifscience.magnet_attracted.checkIronEquipment": "携带铁质物品",
 
+  "text.ifscience.furnace_tnt1": "非常危险！远离！",
+  "text.ifscience.furnace_tnt2": "这个高温熔炉里塞了TNT",
+  "text.ifscience.puddle_fluid_bucket1": "下雨天的地面积水",
+  "text.ifscience.puddle_fluid_bucket2": "会导致玩家滑倒",
+  "text.ifscience.puddle_fluid_bucket3": "一段时间后自然蒸发",
+  "text.ifscience.horseshoe_magnet": "可磁吸含铁等金属方块或生物",
   "text.ifscience.iceRail1": "使用蓝冰进行充能",
   "text.ifscience.iceRail2": "对矿车具有冰冻减速功能"
 }

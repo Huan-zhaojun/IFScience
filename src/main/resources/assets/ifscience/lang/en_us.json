@@ -5,6 +5,7 @@
 
   "itemGroup.ifscience": "ifScience",
 
+  "item.ifscience.furnace_tnt": "furnace TNT",
   "item.ifscience.puddle_fluid_bucket": "puddle bucket",
   "item.ifscience.horseshoe_magnet": "horseshoe magnet",
   "item.ifscience.ice_rail": "frozen rail",
@@ -35,6 +36,12 @@
   "config.ifscience.magnet_attracted.canFeedIron": "canFeedIron",
   "config.ifscience.magnet_attracted.checkIronEquipment": "checkIronEquipment",
 
+  "text.ifscience.furnace_tnt1": "VERY DANGEROUS!STAY AWAY!",
+  "text.ifscience.furnace_tnt2": "This high temperature furnace is filled with TNT",
+  "text.ifscience.puddle_fluid_bucket1": "puddle fluid on the ground at rainy days",
+  "text.ifscience.puddle_fluid_bucket2": "Will cause players to slip and fall",
+  "text.ifscience.puddle_fluid_bucket3": "Evaporates naturally after a period of time",
+  "text.ifscience.horseshoe_magnet": "Can magnetically attract iron and other metal blocks or entities",
   "text.ifscience.iceRail1": "Use blue ice to charge",
   "text.ifscience.iceRail2": "which has the function of freezing and slowing down minecarts"
 }

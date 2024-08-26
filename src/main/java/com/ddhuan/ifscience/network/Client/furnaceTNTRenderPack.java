@@ -2,6 +2,9 @@ package com.ddhuan.ifscience.network.Client;
 
 import com.ddhuan.ifscience.common.Entity.furnaceTNTEntity;
 import com.ddhuan.ifscience.network.IModPack;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -13,19 +16,26 @@ import java.util.function.Supplier;
 
 //用于同步渲染相应的熔炉方块状态
 public class furnaceTNTRenderPack implements IModPack {
-    private BlockPos pos;
+    private BlockPos pos = new BlockPos(0, 0, 0);
+    private BlockState blockState = Blocks.AIR.getDefaultState();
 
     public furnaceTNTRenderPack(BlockPos pos) {
         this.pos = pos;
     }
 
+    public furnaceTNTRenderPack(BlockState blockState) {
+        this.blockState = blockState;
+    }
+
     public furnaceTNTRenderPack(PacketBuffer buffer) {
         this.pos = buffer.readBlockPos();
+        this.blockState = Block.getStateById(buffer.readInt());
     }
 
     @Override
     public void toBytes(PacketBuffer buf) {
         buf.writeBlockPos(pos);
+        buf.writeInt(Block.getStateId(blockState));
     }
 
     @Override
@@ -37,7 +47,7 @@ public class furnaceTNTRenderPack implements IModPack {
                 for (Entity entity : world.getAllEntities()) {
                     if (entity instanceof furnaceTNTEntity) {
                         furnaceTNTEntity furnaceTNT = (furnaceTNTEntity) entity;
-                        furnaceTNT.furnace = world.getBlockState(pos);
+                        furnaceTNT.furnace = blockState.equals(Blocks.AIR.getDefaultState()) ? world.getBlockState(pos) : blockState;
                     }
                 }
             }

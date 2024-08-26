@@ -39,9 +39,7 @@ public class puddleFluidTileEntity extends TileEntity implements ITickableTileEn
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            if (!world.isRaining()) {
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
-            } else if (tick >= tickRandom) {
+            if ((!world.isRaining() && tick >= tickRandom / 4) || (world.isRaining() && tick >= tickRandom)) {
                 world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 if (Minecraft.getInstance().world != null) {
                     Minecraft.getInstance().world.addParticle(ParticleTypes.CLOUD, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0.05, 0);

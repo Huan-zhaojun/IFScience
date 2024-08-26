@@ -16,13 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractMinecartEntity.class)
 public abstract class AbstractMinecartEntityMixin extends Entity implements IForgeEntityMinecart {
-    @Shadow
+    @Shadow(remap = false)
     public abstract void setMaxSpeedAirVertical(float value);
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract void setMaxSpeedAirLateral(float value);
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract void setDragAir(double value);
 
     public AbstractMinecartEntityMixin(EntityType<?> entityTypeIn, World worldIn) {
