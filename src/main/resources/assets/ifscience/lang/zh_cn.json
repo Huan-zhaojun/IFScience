@@ -28,6 +28,8 @@
   "death.attack.blast_furnace_explosion": "%1$s 被高炉炸死了！",
   "death.attack.smoker_explosion": "%1$s 被烟熏炉炸死了！",
   "death.attack.stone_by_attractMagnet": "%1$s 被磁铁吸引的物体砸死了！",
+  "death.attack.bump_by_minecart1": "%1$s 被矿车撞飞了",
+  "death.attack.bump_by_minecart2": "%1$s 因为飙车太快，出车祸了",
 
   "config.ifscience.magnet_attracted.speed": "速度",
   "config.ifscience.magnet_attracted.radius": "半径",

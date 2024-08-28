@@ -28,6 +28,8 @@
   "death.attack.blast_furnace_explosion": "%1$s Exploded by the blastFurnace!",
   "death.attack.smoker_explosion": "%1$s Exploded by the smoker!",
   "death.attack.stone_by_attractMagnet": "%1$s was stoned to die by an object attracted by a magnet！",
+  "death.attack.bump_by_minecart1": "%1$s was bump by a minecart!",
+  "death.attack.bump_by_minecart2": "%1$s got into cart accident as driving so fast",
 
   "config.ifscience.magnet_attracted.speed": "speed",
   "config.ifscience.magnet_attracted.radius": "radius",
