@@ -20,4 +20,7 @@ public class entityTypeRegistry {
     //被磁铁吸住的方块
     public static final RegistryObject<EntityType<MagnetAttractedBlockEntity>> MagnetAttractedBlockEntity = entityTypeRegistry.ENTITIES.register("magnet_attracted_block_entity",
             () -> EntityType.Builder.<MagnetAttractedBlockEntity>create(MagnetAttractedBlockEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("magnet_attracted_block_entity"));
+
+    public static final RegistryObject<EntityType<CutBlockEntity>> CutBlockEntity = ENTITIES.register("cut_block_entity",
+            () -> EntityType.Builder.<CutBlockEntity>create(CutBlockEntity::new, EntityClassification.MISC).immuneToFire().size(0.98F, 0.98F).trackingRange(10).updateInterval(10).build("cut_block_entity"));
 }

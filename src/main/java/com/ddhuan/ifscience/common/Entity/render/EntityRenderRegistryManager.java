@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.common.Entity.render;
 
+import com.ddhuan.ifscience.common.Entity.CutBlockEntity;
 import com.ddhuan.ifscience.common.Entity.MagnetAttractedBlockEntity;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import net.minecraft.client.renderer.entity.TNTRenderer;
@@ -15,5 +16,6 @@ public class EntityRenderRegistryManager {
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.touchdownTNT.get(), TNTRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.blockEntity.get(), blockEntityRender::new);
         RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.MagnetAttractedBlockEntity.get(), blockEntityRender<MagnetAttractedBlockEntity>::new);
+        RenderingRegistry.registerEntityRenderingHandler(entityTypeRegistry.CutBlockEntity.get(), CutBlockEntityRender<CutBlockEntity>::new);
     }
 }

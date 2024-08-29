@@ -61,6 +61,7 @@ public class BlockEntity extends Entity {
     }
 
     public void synchBlockState() {//用于初始化同步数据到客户端
+        if (!world.isRemote) this.dataManager.set(blockStateData, Optional.of(blockState));//同步数据到客户端
         if (blockState.equals(Blocks.AIR.getDefaultState()) && world.isRemote) {
             if (this.dataManager.get(blockStateData).isPresent())
                 blockState = this.dataManager.get(blockStateData).get();
