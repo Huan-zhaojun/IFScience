@@ -6,6 +6,7 @@
   "refmap": "mixins.ifscience.refmap.json",
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
+    "BucketItemMixin",
     "HeightmapMixin",
     "RiptideEnchantmentMixin",
     "entity.AbstractMinecartEntityMixin",

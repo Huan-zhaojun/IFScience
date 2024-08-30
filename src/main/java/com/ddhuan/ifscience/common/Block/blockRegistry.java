@@ -9,10 +9,12 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.RegistryObject;
@@ -37,6 +39,12 @@ public class blockRegistry {
                 @Override
                 public TileEntity createTileEntity(BlockState state, IBlockReader world) {
                     return new puddleFluidTileEntity();
+                }
+
+                @Override//非水源流体也能被空桶收回
+                public Fluid pickupFluid(IWorld worldIn, BlockPos pos, BlockState state) {
+                    worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
+                    return FluidRegistry.puddleFluidFlowing.get();
                 }
             });
 

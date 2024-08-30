@@ -9,6 +9,7 @@
   "item.ifscience.puddle_fluid_bucket": "积水桶",
   "item.ifscience.horseshoe_magnet": "蹄形磁铁",
   "item.ifscience.ice_rail": "冰冻铁轨",
+  "item.ifscience.iron_angle_grinder": "铁质角磨机",
 
   "block.ifscience.puddle_fluid": "积水方块",
   "block.ifscience.ice_rail": "冰冻铁轨",
@@ -22,6 +23,7 @@
   "entity.ifscience.touchdown_tnt": "触地爆炸TNT",
   "entity.ifscience.block_entity": "实体的方块",
   "entity.ifscience.magnet_attracted_block_entity": "被磁吸的方块",
+  "entity.ifscience.cut_block_entity": "被切开的方块",
 
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",

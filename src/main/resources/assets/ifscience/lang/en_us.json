@@ -9,6 +9,7 @@
   "item.ifscience.puddle_fluid_bucket": "puddle bucket",
   "item.ifscience.horseshoe_magnet": "horseshoe magnet",
   "item.ifscience.ice_rail": "frozen rail",
+  "item.ifscience.iron_angle_grinder": "iron AngleGrinder",
 
   "block.ifscience.puddle_fluid": "puddle block",
   "block.ifscience.ice_rail": "frozen rail",
@@ -22,6 +23,7 @@
   "entity.ifscience.touchdown_tnt": "Touchdown TNT",
   "entity.ifscience.block_entity": "Block Entity",
   "entity.ifscience.magnet_attracted_block_entity": "Magnet-Attracted Block",
+  "entity.ifscience.cut_block_entity": "Split Block",
 
   "death.attack.furnace_burn": "%1$s burned to death touch the furnace!",
   "death.attack.furnace_explosion": "%1$s Exploded by the furnace!",
