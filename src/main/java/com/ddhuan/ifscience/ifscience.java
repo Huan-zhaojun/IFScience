@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience;
 
+import com.ddhuan.ifscience.Custom.MinecartUtil;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
@@ -71,6 +72,7 @@ public class ifscience {
         if (event.getConfig().getSpec() == Config.COMMON_CONFIG) {
             //更新静态变量
             magnetUtil.updateConfig_StaticValue();
+            MinecartUtil.updateConfig_StaticValue();
         }
     }
 }

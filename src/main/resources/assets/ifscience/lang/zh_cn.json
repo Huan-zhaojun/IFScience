@@ -39,6 +39,9 @@
   "config.ifscience.magnet_attracted.collisionFlag": "碰撞设置",
   "config.ifscience.magnet_attracted.canFeedIron": "喂食铁锭",
   "config.ifscience.magnet_attracted.checkIronEquipment": "携带铁质物品",
+  "config.ifscience.minecart.isCollisionFly": "碰撞击飞",
+  "config.ifscience.minecart.maxSpeed": "最大速度",
+  "config.ifscience.minecart.slowRatio": "减速比",
 
   "text.ifscience.furnace_tnt1": "非常危险！远离！",
   "text.ifscience.furnace_tnt2": "这个高温熔炉里塞了TNT",

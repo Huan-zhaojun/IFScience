@@ -39,6 +39,9 @@
   "config.ifscience.magnet_attracted.collisionFlag": "collisionFlag",
   "config.ifscience.magnet_attracted.canFeedIron": "canFeedIron",
   "config.ifscience.magnet_attracted.checkIronEquipment": "checkIronEquipment",
+  "config.ifscience.minecart.isCollisionFly": "isCollisionFly",
+  "config.ifscience.minecart.maxSpeed": "maxSpeed",
+  "config.ifscience.minecart.slowRatio": "slowRatio",
 
   "text.ifscience.furnace_tnt1": "VERY DANGEROUS!STAY AWAY!",
   "text.ifscience.furnace_tnt2": "This high temperature furnace is filled with TNT",
