@@ -2,6 +2,7 @@ package com.ddhuan.ifscience.event;
 
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.Custom.rainingUtil;
+import com.ddhuan.ifscience.common.Item.AngleGrinder;
 import com.ddhuan.ifscience.common.customDamage;
 import com.ddhuan.ifscience.network.Client.fireRenderPack;
 import com.ddhuan.ifscience.network.Network;
@@ -52,6 +53,7 @@ public class playerEvent {
     @SubscribeEvent
     public static void onPlayerBreakSpeed(PlayerEvent.BreakSpeed event) {
         burnHand2(event);//挖方块烫手
+        AngleGrinder.onPlayerBreakBlock(event);//角磨机切割方块
     }
 
     @SubscribeEvent

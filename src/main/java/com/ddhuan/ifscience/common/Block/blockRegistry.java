@@ -69,18 +69,6 @@ public class blockRegistry {
             return new LavaFluidTileEntity();
         }
     });
-    /*public static final RegistryObject<BreakableBlock> BLUE_ICE = BLOCKS_VANILLA.register("blue_ice",()-> new BreakableBlock(AbstractBlock.Properties.create(Material.PACKED_ICE).hardnessAndResistance(2.8F).slipperiness(0.989F).sound(SoundType.GLASS)){
-        @Override
-        public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-            //worldIn.notifyNeighborsOfStateChange(pos,this);
-        }
-
-        @Override
-        public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
-            //worldIn.notifyNeighborsOfStateChange(pos,this);
-        }
-    });*/
 
     public static final RegistryObject<IceRailBlock> iceRail = BLOCKS.register("ice_rail", () -> new IceRailBlock(AbstractBlock.Properties.create(Material.IRON).doesNotBlockMovement().hardnessAndResistance(0.7F).sound(SoundType.METAL)));
 

@@ -128,7 +128,7 @@ public class itemRegistry {
     public static RegistryObject<Item> horseshoeMagnet = ITEMS.register("horseshoe_magnet",
             () -> new HorseshoeMagnetItem(new Item.Properties().group(itemRegistry.ifScience)));//磁铁
 
-    public static RegistryObject<Item> iceRail = ITEMS.register("ice_rail",
+    public static RegistryObject<Item> iceRail = ITEMS.register("ice_rail",/*寒冰铁轨*/
             () -> new BlockItem(blockRegistry.iceRail.get(), new Item.Properties().group(itemRegistry.ifScience)) {
                 @Override
                 public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
@@ -139,5 +139,5 @@ public class itemRegistry {
             });
 
     public static RegistryObject<Item> angleGrinder = ITEMS.register("iron_angle_grinder",
-            () -> new Item(new Item.Properties().group(itemRegistry.ifScience)));
+            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience)));//铁质角磨机
 }

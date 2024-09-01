@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
@@ -20,7 +19,7 @@ public class BlockEntity extends Entity {
     public BlockState blockState = Blocks.AIR.getDefaultState();
     public static final DataParameter<Optional<BlockState>> blockStateData = EntityDataManager.createKey(BlockEntity.class, DataSerializers.OPTIONAL_BLOCK_STATE);
 
-    public int count = 40;
+    //public int count = 40;
 
     public BlockEntity(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
@@ -60,7 +59,7 @@ public class BlockEntity extends Entity {
         compound.put("blockState", NBTUtil.writeBlockState(blockState));
     }
 
-    public void synchBlockState() {//用于初始化同步数据到客户端
+    public void synchBlockState() {//用于初始化和同步数据到客户端
         if (!world.isRemote) this.dataManager.set(blockStateData, Optional.of(blockState));//同步数据到客户端
         if (blockState.equals(Blocks.AIR.getDefaultState()) && world.isRemote) {
             if (this.dataManager.get(blockStateData).isPresent())
@@ -72,17 +71,17 @@ public class BlockEntity extends Entity {
     public void tick() {
         super.tick();
         this.synchBlockState();//初始化同步数据
-        if (!this.hasNoGravity()) {
+        /*if (!this.hasNoGravity()) {
             this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
         }
 
         this.move(MoverType.SELF, this.getMotion());
-        this.setMotion(this.getMotion().scale(0.98D));
-        if (this.onGround) {
+        this.setMotion(this.getMotion().scale(0.98D));*/
+        /*if (this.onGround) {
             count--;
             this.setMotion(0, 0, 0);
             if (count < 0) this.remove();
-        }
+        }*/
     }
 
     @Override

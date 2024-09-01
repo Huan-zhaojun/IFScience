@@ -22,8 +22,6 @@ public class IceRailBlock extends AbstractRailBlock {
         this.setDefaultState(this.stateContainer.getBaseState().with(SHAPE, RailShape.NORTH_SOUTH).with(FROZEN, Boolean.FALSE));
     }
 
-
-
     public boolean findIceRailSignal(World worldIn, BlockPos pos, BlockState state, boolean searchForward, int recursionCount) {
         if (recursionCount >= 8) {
             return false;

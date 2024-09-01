@@ -1,7 +1,6 @@
 package com.ddhuan.ifscience.common.Item;
 
 import com.ddhuan.ifscience.Custom.magnetUtil;
-import com.ddhuan.ifscience.common.Entity.CutBlockEntity;
 import com.ddhuan.ifscience.common.Entity.MagnetAttractedBlockEntity;
 import com.ddhuan.ifscience.network.Client.blockEntityRenderPack;
 import com.ddhuan.ifscience.network.Client.magnetAttractPack;
@@ -15,10 +14,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -37,16 +34,6 @@ import java.util.UUID;
 public class HorseshoeMagnetItem extends Item {
     public HorseshoeMagnetItem(Properties properties) {
         super(properties);
-    }
-
-    @Override//test
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        if (!world.isRemote) {
-            BlockPos pos = context.getPos();
-            world.addEntity(new CutBlockEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, Blocks.IRON_BLOCK.getDefaultState()));
-        }
-        return super.onItemUse(context);
     }
 
     @Override//右键长按

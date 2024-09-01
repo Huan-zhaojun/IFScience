@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience;
 
+import com.ddhuan.ifscience.Custom.DataSerializersRegistry;
 import com.ddhuan.ifscience.Custom.MinecartUtil;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
@@ -43,6 +44,7 @@ public class ifscience {
         blockRegistry.BLOCKS_VANILLA.register(modEventBus);
         FluidRegistry.FLUIDS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
+        DataSerializersRegistry.DATA_SERIALIZERS.register(modEventBus);
         //配置文件设置
         Config.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
