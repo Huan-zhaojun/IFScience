@@ -53,12 +53,12 @@ public class playerEvent {
     @SubscribeEvent
     public static void onPlayerBreakSpeed(PlayerEvent.BreakSpeed event) {
         burnHand2(event);//挖方块烫手
-        AngleGrinder.onPlayerBreakBlock(event);//角磨机切割方块
     }
 
     @SubscribeEvent
     public static void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
         burnHand1(event);//左键点方块烫手
+        AngleGrinder.onPlayerBreakBlock(event);//角磨机切割方块
     }
 
     @SubscribeEvent
