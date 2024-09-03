@@ -10,6 +10,7 @@
   "item.ifscience.horseshoe_magnet": "蹄形磁铁",
   "item.ifscience.ice_rail": "冰冻铁轨",
   "item.ifscience.iron_angle_grinder": "铁质角磨机",
+  "item.ifscience.obsidian_netherite_angle_grinder": "黑曜合金角磨机",
 
   "block.ifscience.puddle_fluid": "积水方块",
   "block.ifscience.ice_rail": "冰冻铁轨",
@@ -32,6 +33,8 @@
   "death.attack.stone_by_attractMagnet": "%1$s 被磁铁吸引的物体砸死了！",
   "death.attack.bump_by_minecart1": "%1$s 被矿车撞飞了",
   "death.attack.bump_by_minecart2": "%1$s 因为飙车太快，出车祸了",
+  "death.attack.angle_grinder1": "%1$s 被反弹的角磨机切死了",
+  "death.attack.angle_grinder2": "%1$s 被 %2$s 用角磨机切死了",
 
   "config.ifscience.magnet_attracted.speed": "速度",
   "config.ifscience.magnet_attracted.radius": "半径",
@@ -50,5 +53,9 @@
   "text.ifscience.puddle_fluid_bucket3": "一段时间后自然蒸发",
   "text.ifscience.horseshoe_magnet": "可磁吸含铁等金属方块或生物",
   "text.ifscience.iceRail1": "使用蓝冰进行充能",
-  "text.ifscience.iceRail2": "对矿车具有冰冻减速功能"
+  "text.ifscience.iceRail2": "对矿车具有冰冻减速功能",
+  "text.ifscience.iron_angle_grinder1": "可以用来切割方块",
+  "text.ifscience.iron_angle_grinder2": "请小心使用！",
+  "text.ifscience.obsidian_netherite_angle_grinder1": "更换了非常坚硬的切割片",
+  "text.ifscience.obsidian_netherite_angle_grinder2": "几乎可以切割所有方块"
 }

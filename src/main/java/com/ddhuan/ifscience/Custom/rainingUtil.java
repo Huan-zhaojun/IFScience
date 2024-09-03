@@ -20,7 +20,7 @@ import net.minecraft.entity.Pose;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.BucketItem;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -47,7 +47,7 @@ public class rainingUtil {
     private final static BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
     private final static HashSet<ChunkPos> chunkPosSet = new HashSet<>();
 
-    public static RegistryObject<Item> puddleFluidBucket = itemRegistry.puddleFluidBucket;
+    public static RegistryObject<BucketItem> puddleFluidBucket = itemRegistry.puddleFluidBucket;
 
     //下雨产生地面积水
     public static void placePuddle(World world) {

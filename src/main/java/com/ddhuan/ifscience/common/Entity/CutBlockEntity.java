@@ -1,20 +1,29 @@
 package com.ddhuan.ifscience.common.Entity;
 
 import com.ddhuan.ifscience.Custom.DataSerializersRegistry;
+import com.ddhuan.ifscience.common.Item.AngleGrinder;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.datasync.IDataSerializer;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CutBlockEntity extends BlockEntity {
@@ -26,27 +35,40 @@ public class CutBlockEntity extends BlockEntity {
     @OnlyIn(Dist.CLIENT)
     public long lastTime = 0;
 
-    public static int maxLifeTick = 80;
+    public static int maxLifeTick = 60;
     public int lifeTick = maxLifeTick;//生命时长
 
     public UUID playerUuid = null;
-    public boolean angleGrinder = true;
+    private byte angleGrinder = 1;//0是false,1是铁质角磨机
+    public static final DataParameter<Byte> angleGrinderData = EntityDataManager.createKey(CutBlockEntity.class, DataSerializers.BYTE);
 
     public CutBlockEntity(EntityType<?> entityTypeIn, World worldIn) {
         super(entityTypeIn, worldIn);
     }
 
-    public CutBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, net.minecraft.util.Direction direction, UUID playerUuid) {
+    public CutBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, net.minecraft.util.Direction direction, UUID playerUuid, byte angleGrinder) {
         super(entityTypeRegistry.CutBlockEntity.get(), worldIn, x, y, z, blockState);
         this.direction = Direction.valueOf(direction.name());
         this.playerUuid = playerUuid;
+        this.angleGrinder = angleGrinder;
     }
 
     @Override
     public void synchBlockState() {
         super.synchBlockState();
-        if (!world.isRemote) this.dataManager.set(directionData, this.direction);
-        if (world.isRemote) this.direction = this.dataManager.get(directionData);
+        if (!world.isRemote) {
+            this.dataManager.set(directionData, this.direction);
+            this.dataManager.set(angleGrinderData, this.angleGrinder);
+        }
+        if (world.isRemote) {
+            this.direction = this.dataManager.get(directionData);
+            this.angleGrinder = this.dataManager.get(angleGrinderData);
+        }
+    }
+
+    public AngleGrinder getAngleGrinder() {
+        return this.angleGrinder <= 1 ? itemRegistry.ironAngleGrinder.get() :
+                (this.angleGrinder == 2 ? itemRegistry.obsidianNetheriteAngleGrinder.get() : itemRegistry.ironAngleGrinder.get());
     }
 
     @Override
@@ -54,22 +76,49 @@ public class CutBlockEntity extends BlockEntity {
         super.tick();
         if (!world.isRemote) {
             if (lifeTick <= 0) {
+                /*for (ItemStack itemStack : getItemStacks(this.blockState.getBlock().asItem()))
+                    this.entityDropItem(itemStack);//获取该方块的合成材料配方的物品*/
                 this.entityDropItem(this.blockState.getBlock());
                 this.remove();
             }
             PlayerEntity player = world.getPlayerByUuid(playerUuid);
-            if (angleGrinder && lifeTick <= maxLifeTick - 40 && player != null) {
-                player.addItemStackToInventory(new ItemStack(itemRegistry.angleGrinder.get()));
-                angleGrinder = false;
+            if (angleGrinder > 0 && lifeTick <= maxLifeTick - 40 && player != null) {
+                player.addItemStackToInventory(new ItemStack(getAngleGrinder()));
+                angleGrinder = 0;
             }
         }
         lifeTick--;
+    }
+
+    public ItemStack[] getItemStacks(Item item) {
+        for (ICraftingRecipe recipe : world.getRecipeManager().getRecipesForType(IRecipeType.CRAFTING)) {
+            ItemStack resultItem = recipe.getRecipeOutput();
+            if (resultItem.getItem().equals(item)) {
+                // 获取配方的所有输入 Ingredient
+                NonNullList<Ingredient> ingredients = recipe.getIngredients();
+                // 创建一个 ItemStack 数组，用来存储配方所需的所有材料
+                List<ItemStack> ingredientStacks = new ArrayList<>();
+                // 遍历每个 Ingredient 并获取对应的匹配 ItemStack
+                for (Ingredient ingredient : ingredients) {
+                    // 获取 Ingredient 中所有可能的 ItemStack
+                    ItemStack[] matchingStacks = ingredient.getMatchingStacks();
+                    // 将每个 Ingredient 的匹配堆栈添加到列表中
+                    if (matchingStacks.length > 0) {
+                        ingredientStacks.add(matchingStacks[0]); // 选择第一个匹配的 ItemStack
+                    }
+                }
+                // 将列表转换为数组并返回
+                return ingredientStacks.toArray(new ItemStack[0]);
+            }
+        }
+        return new ItemStack[]{new ItemStack(item)};
     }
 
     @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(directionData, this.direction);
+        this.dataManager.register(angleGrinderData, this.angleGrinder);
     }
 
     @Override
@@ -77,18 +126,18 @@ public class CutBlockEntity extends BlockEntity {
         super.writeAdditional(compound);
         compound.putByte("CutBlock&direction", direction.index);
         compound.putUniqueId("CutBlock&playerUuid", playerUuid);
-        compound.putBoolean("CutBlock&angleGrinder", angleGrinder);
+        compound.putByte("CutBlock&ironAngleGrinder", angleGrinder);
     }
 
     @Override
     protected void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         direction = Direction.get(compound.getByte("CutBlock&direction"));
-        if (this.direction != null) {
+        if (this.direction != null)
             this.dataManager.set(directionData, this.direction);
-        }
         playerUuid = compound.getUniqueId("CutBlock&playerUuid");
-        angleGrinder = compound.getBoolean("CutBlock&angleGrinder");
+        angleGrinder = compound.getByte("CutBlock&ironAngleGrinder");
+        this.dataManager.set(angleGrinderData, this.angleGrinder);
     }
 
 

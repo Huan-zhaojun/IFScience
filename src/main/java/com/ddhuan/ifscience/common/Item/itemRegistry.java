@@ -71,7 +71,7 @@ public class itemRegistry {
                     tooltip.add(new TranslationTextComponent("text.ifscience.furnace_tnt2").mergeStyle(TextFormatting.DARK_RED));
                 }
             });
-    public static RegistryObject<Item> puddleFluidBucket = ITEMS.register("puddle_fluid_bucket",
+    public static RegistryObject<BucketItem> puddleFluidBucket = ITEMS.register("puddle_fluid_bucket",
             () -> new BucketItem(FluidRegistry.puddleFluidFlowing, new Item.Properties()
                     .group(itemRegistry.ifScience).containerItem(BUCKET).maxStackSize(1)) {
                 @Override
@@ -125,10 +125,10 @@ public class itemRegistry {
                 }
             });
 
-    public static RegistryObject<Item> horseshoeMagnet = ITEMS.register("horseshoe_magnet",
+    public static RegistryObject<HorseshoeMagnetItem> horseshoeMagnet = ITEMS.register("horseshoe_magnet",
             () -> new HorseshoeMagnetItem(new Item.Properties().group(itemRegistry.ifScience)));//磁铁
 
-    public static RegistryObject<Item> iceRail = ITEMS.register("ice_rail",/*寒冰铁轨*/
+    public static RegistryObject<BlockItem> iceRail = ITEMS.register("ice_rail",/*寒冰铁轨*/
             () -> new BlockItem(blockRegistry.iceRail.get(), new Item.Properties().group(itemRegistry.ifScience)) {
                 @Override
                 public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
@@ -138,6 +138,22 @@ public class itemRegistry {
                 }
             });
 
-    public static RegistryObject<Item> angleGrinder = ITEMS.register("iron_angle_grinder",
-            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience)));//铁质角磨机
+    public static RegistryObject<AngleGrinder> ironAngleGrinder = ITEMS.register("iron_angle_grinder",
+            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience).maxDamage(250), 5.0F, 9F) {
+                @Override
+                public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+                    tooltip.add(new TranslationTextComponent("text.ifscience.iron_angle_grinder1").mergeStyle(TextFormatting.YELLOW));
+                    tooltip.add(new TranslationTextComponent("text.ifscience.iron_angle_grinder2").mergeStyle(TextFormatting.DARK_RED));
+                }
+            });//铁质角磨机
+
+    public static RegistryObject<AngleGrinder> obsidianNetheriteAngleGrinder = ITEMS.register("obsidian_netherite_angle_grinder",
+            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience).maxDamage(2500), 100.0F, 19F) {
+                @Override
+                public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+                    tooltip.add(new TranslationTextComponent("text.ifscience.obsidian_netherite_angle_grinder1").mergeStyle(TextFormatting.GOLD));
+                    tooltip.add(new TranslationTextComponent("text.ifscience.obsidian_netherite_angle_grinder2").mergeStyle(TextFormatting.YELLOW));
+                    tooltip.add(new TranslationTextComponent("text.ifscience.iron_angle_grinder2").mergeStyle(TextFormatting.DARK_RED));
+                }
+            });//黑曜合金角磨机
 }

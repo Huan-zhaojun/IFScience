@@ -3,6 +3,7 @@ package com.ddhuan.ifscience.Custom;
 import com.ddhuan.ifscience.Config;
 import com.ddhuan.ifscience.common.Entity.MagnetAttractedBlockEntity;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
+import com.ddhuan.ifscience.common.Item.HorseshoeMagnetItem;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.ddhuan.ifscience.network.Client.playSoundPack;
 import com.ddhuan.ifscience.network.Network;
@@ -41,7 +42,7 @@ public class magnetUtil {
     public static HashSet<Item> magnetAttractedItems = new HashSet<>(Arrays.asList(Items.IRON_INGOT, Items.IRON_NUGGET,
             Items.IRON_HORSE_ARMOR, Items.BUCKET, Items.COMPASS, Items.CROSSBOW, Items.FLINT_AND_STEEL));
 
-    public static RegistryObject<Item> horseshoeMagnet = itemRegistry.horseshoeMagnet;
+    public static RegistryObject<HorseshoeMagnetItem> horseshoeMagnet = itemRegistry.horseshoeMagnet;
 
     public static final RegistryObject<EntityType<MagnetAttractedBlockEntity>> MagnetAttractedBlockEntity = entityTypeRegistry.MagnetAttractedBlockEntity;
 

@@ -1,7 +1,6 @@
 package com.ddhuan.ifscience.common.Entity.render;
 
 import com.ddhuan.ifscience.common.Entity.CutBlockEntity;
-import com.ddhuan.ifscience.common.Item.itemRegistry;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -14,7 +13,7 @@ import net.minecraft.util.math.vector.Vector3f;
 public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityRender<T> {
     public static int levelCutTick = 1000;//横向切割时间
     public static int verticalCutTick = 1000;//竖向切割时间
-    public static int cutBlockTick = 1000;//切完方块的分裂时间
+    public static int cutBlockTick = 500;//切完方块的分裂时间
     public static int maxAnimationTick = levelCutTick + verticalCutTick + cutBlockTick;//最大动画时间
 
     protected CutBlockEntityRender(EntityRendererManager renderManager) {
@@ -31,7 +30,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
             renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, true);
             renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, false);
             if (entityIn.animationTick <= levelCutTick + verticalCutTick)
-                renderAngleGrinder(direction, entityIn.animationTick, matrixStackIn, bufferIn, packedLightIn);//渲染切割的角磨机
+                renderAngleGrinder(direction, entityIn.animationTick, entityIn,matrixStackIn, bufferIn, packedLightIn);//渲染切割的角磨机
         }
         matrixStackIn.pop();
         if (entityIn.animationTick < maxAnimationTick && !Minecraft.getInstance().isGamePaused()) {/*++entityIn.animationTick*/
@@ -82,7 +81,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
     }
 
     //渲染切割的角磨机
-    private static void renderAngleGrinder(CutBlockEntity.Direction direction, int animationTick, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    private void renderAngleGrinder(CutBlockEntity.Direction direction, int animationTick, T entityIn,MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         matrixStackIn.push();
         /*if (Minecraft.getInstance().world != null && Minecraft.getInstance().world.getGameTime() % 10 == 0)
             System.out.println(direction);*/
@@ -92,7 +91,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
                 direction.translateZ + direction.moveZ(animationTick, levelCutTick));
         matrixStackIn.rotate(Vector3f.YN.rotationDegrees(direction.degreesYN));
         matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(90));
-        Minecraft.getInstance().getItemRenderer().renderItem(new ItemStack(itemRegistry.angleGrinder.get(), 1),
+        Minecraft.getInstance().getItemRenderer().renderItem(new ItemStack(entityIn.getAngleGrinder(), 1),
                 ItemCameraTransforms.TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
         matrixStackIn.pop();
     }
@@ -104,7 +103,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
         } else if (animationTick <= levelCutTick) {
             return 0;
         } else if (animationTick > (levelCutTick + verticalCutTick)) {
-            double lastMove = (isHalf ? -1.0 : +1.0) * gap, move = (isHalf ? -1.0 : +1.0) * 0.5;
+            double lastMove = (isHalf ? -1.0 : +1.0) * gap, move = (isHalf ? -1.0 : +1.0) * 0.75;
             if (animationTick <= (levelCutTick + verticalCutTick + cutBlockTick)) {
                 return lastMove + move * ((double) (animationTick - (levelCutTick + verticalCutTick)) / cutBlockTick);
             } else if (animationTick > (levelCutTick + verticalCutTick + cutBlockTick)) {
