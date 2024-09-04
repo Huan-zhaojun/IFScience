@@ -45,27 +45,35 @@ public class AngleGrinder extends Item {
         PlayerEntity player = event.getPlayer();
         World world = player.world;
         if (!world.isRemote && player.getHeldItemMainhand().getItem() instanceof AngleGrinder) {
-            AngleGrinder angleGrinder = (AngleGrinder) player.getHeldItemMainhand().getItem();
+            ItemStack itemStack = player.getHeldItemMainhand();
+            AngleGrinder angleGrinder = (AngleGrinder) itemStack.getItem();
             player.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
             event.setCanceled(true);
             BlockPos pos = event.getPos();
             BlockState blockState = world.getBlockState(pos);
             if (!Blocks.AIR.equals(blockState.getBlock())) {
                 float blockHardness = blockState.getBlockHardness(world, pos);
-                ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(angleGrinder));
-                itementity.setDefaultPickupDelay();
                 if (angleGrinder.hardness == blockHardness) {
                     if (Math.random() < 0.10) {
+                        itemStack.setDamage(itemStack.getDamage() + (itemStack.getMaxDamage() / 3));
+                        ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                        itementity.setDefaultPickupDelay();
                         world.addEntity(itementity);
                         player.attackEntityFrom(customDamage.AngleGrinder1, 8);
                         return;
                     }
                 } else if (angleGrinder.hardness < blockHardness || blockHardness <= 0) {
+                    itemStack.setDamage(itemStack.getMaxDamage());//完全损坏
+                    ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                    itementity.setDefaultPickupDelay();
                     world.addEntity(itementity);
                     player.attackEntityFrom(customDamage.AngleGrinder1, (float) (player.getMaxHealth() * (1 + Math.random())));
                     return;
                 } else if (angleGrinder.hardness > blockHardness) {
                     if (Math.random() < 0.01) {
+                        itemStack.setDamage(itemStack.getDamage() + (itemStack.getMaxDamage() / 5));
+                        ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                        itementity.setDefaultPickupDelay();
                         world.addEntity(itementity);
                         player.attackEntityFrom(customDamage.AngleGrinder1, 8);
                         return;
@@ -73,8 +81,9 @@ public class AngleGrinder extends Item {
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 Direction direction = player.getHorizontalFacing();//获取玩家切割的朝向
+                itemStack.setDamage(itemStack.getDamage() + 10);
                 world.addEntity(new CutBlockEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, blockState, direction,
-                        player.getUniqueID(), (byte) (angleGrinder.equals(itemRegistry.ironAngleGrinder.get()) ? 1 : 2)));
+                        player.getUniqueID(), itemStack));
             }
         }
     }

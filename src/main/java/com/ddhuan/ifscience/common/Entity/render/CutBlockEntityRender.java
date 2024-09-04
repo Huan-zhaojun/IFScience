@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityRender<T> {
@@ -91,7 +90,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
                 direction.translateZ + direction.moveZ(animationTick, levelCutTick));
         matrixStackIn.rotate(Vector3f.YN.rotationDegrees(direction.degreesYN));
         matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(90));
-        Minecraft.getInstance().getItemRenderer().renderItem(new ItemStack(entityIn.getAngleGrinder(), 1),
+        Minecraft.getInstance().getItemRenderer().renderItem(entityIn.angleGrinder,
                 ItemCameraTransforms.TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
         matrixStackIn.pop();
     }
