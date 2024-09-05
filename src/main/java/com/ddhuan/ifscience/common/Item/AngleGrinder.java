@@ -49,6 +49,7 @@ public class AngleGrinder extends Item {
             AngleGrinder angleGrinder = (AngleGrinder) itemStack.getItem();
             player.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
             event.setCanceled(true);
+            if (itemStack.getDamage() >= itemStack.getMaxDamage()) return;
             BlockPos pos = event.getPos();
             BlockState blockState = world.getBlockState(pos);
             if (!Blocks.AIR.equals(blockState.getBlock())) {
@@ -62,7 +63,7 @@ public class AngleGrinder extends Item {
                         player.attackEntityFrom(customDamage.AngleGrinder1, 8);
                         return;
                     }
-                } else if (angleGrinder.hardness < blockHardness || blockHardness <= 0) {
+                } else if (angleGrinder.hardness < blockHardness || blockHardness < 0) {
                     itemStack.setDamage(itemStack.getMaxDamage());//完全损坏
                     ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
                     itementity.setDefaultPickupDelay();

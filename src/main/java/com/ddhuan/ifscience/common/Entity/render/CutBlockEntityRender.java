@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityRender<T> {
@@ -29,7 +31,7 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
             renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, true);
             renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, false);
             if (entityIn.animationTick <= levelCutTick + verticalCutTick)
-                renderAngleGrinder(direction, entityIn.animationTick, entityIn,matrixStackIn, bufferIn, packedLightIn);//渲染切割的角磨机
+                renderAngleGrinder(direction, entityIn.animationTick, entityIn, matrixStackIn, bufferIn, packedLightIn);//渲染切割的角磨机
         }
         matrixStackIn.pop();
         if (entityIn.animationTick < maxAnimationTick && !Minecraft.getInstance().isGamePaused()) {/*++entityIn.animationTick*/
@@ -50,25 +52,25 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
             //南北切，东西分
             if (isHalf) {
                 matrixStackIn.translate(0 + moveBlock(isHalf, gap, animationTick), 0.0D, 0.0D);
-                matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(0 + rotateBlock(direction, animationTick)/*-45*//*-90*/));//方块倾斜
+                matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(rotateBlock(direction, animationTick)/*-45*//*-90*/));//方块倾斜
                 matrixStackIn.scale(0.5F, 1.0F, 1.0F);
             } else {
-                matrixStackIn.translate(0.50D + moveBlock(isHalf, gap, animationTick), 0, 0.0D);
-                matrixStackIn.translate(0.5D, 0.0D, 1.0D);//位置中心点纠正
-                matrixStackIn.rotate(Vector3f.XP.rotationDegrees(180));//角度纠正
-                matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(180 + rotateBlock(direction, animationTick)/*135*//*90*/));//方块倾斜
+                matrixStackIn.translate(0.5 + moveBlock(isHalf, gap, animationTick), 0, 0.0D);
+                matrixStackIn.translate(0.5, 0, 0.0D);//旋转中心点平移到左侧居中位置
+                matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(-rotateBlock(direction, animationTick)));//方块倾斜
+                matrixStackIn.translate(-0.5, 0, 0.0D);//复位回来
                 matrixStackIn.scale(0.5F, 1.0F, 1.0F);
             }
         } else {
             if (isHalf) {
                 matrixStackIn.translate(0.0D, 0.0D, 0 + moveBlock(isHalf, gap, animationTick));
-                matrixStackIn.rotate(Vector3f.XN.rotationDegrees(0 + rotateBlock(direction, animationTick)/*45*//*90*/));//方块倾斜
+                matrixStackIn.rotate(Vector3f.XN.rotationDegrees(rotateBlock(direction, animationTick)/*45*//*90*/));//方块倾斜
                 matrixStackIn.scale(1.0F, 1.0F, 0.5F);
             } else {
                 matrixStackIn.translate(0.0D, 0.0D, 0.50D + moveBlock(isHalf, gap, animationTick));
-                matrixStackIn.translate(1.0D, 0.0D, 0.5D);//位置中心点纠正
-                matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(180));//角度纠正
-                matrixStackIn.rotate(Vector3f.XN.rotationDegrees(-180 + rotateBlock(direction, animationTick)/*-135*//*-90*/));//方块倾斜
+                matrixStackIn.translate(0, 0, 0.5D);
+                matrixStackIn.rotate(Vector3f.XN.rotationDegrees(-rotateBlock(direction, animationTick)/*45*//*90*/));//方块倾斜
+                matrixStackIn.translate(0, 0, -0.5D);
                 matrixStackIn.scale(1.0F, 1.0F, 0.5F);
             }
         }
@@ -80,14 +82,18 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
     }
 
     //渲染切割的角磨机
-    private void renderAngleGrinder(CutBlockEntity.Direction direction, int animationTick, T entityIn,MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    private void renderAngleGrinder(CutBlockEntity.Direction direction, int animationTick, T entityIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         matrixStackIn.push();
         /*if (Minecraft.getInstance().world != null && Minecraft.getInstance().world.getGameTime() % 10 == 0)
             System.out.println(direction);*/
         //对齐初始位置、朝向和高度
-        matrixStackIn.translate(direction.translateX + direction.moveX(animationTick, levelCutTick),
-                1.25D - (animationTick > levelCutTick ? (animationTick <= (levelCutTick + verticalCutTick) ? 0.8D * ((double) (animationTick - levelCutTick) / verticalCutTick) : 0.8D) : 0),
-                direction.translateZ + direction.moveZ(animationTick, levelCutTick));
+        VoxelShape shape = entityIn.blockState.getShape(entityIn.world, entityIn.getPosition());//获取方块真实大小长宽高
+        double height = Math.abs(shape.getStart(Direction.Axis.Y) - shape.getEnd(Direction.Axis.Y)), fall = height - 0.2;//真实高度
+        double shapeX = Math.abs(shape.getStart(Direction.Axis.X) - shape.getEnd(Direction.Axis.X)),
+                shapeZ = Math.abs(shape.getStart(Direction.Axis.Z) - shape.getEnd(Direction.Axis.Z));//真实长宽
+        matrixStackIn.translate(direction.translateX + direction.moveX(animationTick, levelCutTick, shapeX),
+                /*1.25D*/height + 0.25 - (animationTick > levelCutTick ? (animationTick <= (levelCutTick + verticalCutTick) ? fall/*0.8D*/ * ((double) (animationTick - levelCutTick) / verticalCutTick) : fall) : 0),
+                direction.translateZ + direction.moveZ(animationTick, levelCutTick, shapeZ));
         matrixStackIn.rotate(Vector3f.YN.rotationDegrees(direction.degreesYN));
         matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(90));
         Minecraft.getInstance().getItemRenderer().renderItem(entityIn.angleGrinder,

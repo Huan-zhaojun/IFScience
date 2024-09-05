@@ -21,8 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class CutBlockEntity extends BlockEntity {
@@ -70,9 +69,9 @@ public class CutBlockEntity extends BlockEntity {
         super.tick();
         if (!world.isRemote) {
             if (lifeTick <= 0) {
-                /*for (ItemStack itemStack : getItemStacks(this.blockState.getBlock().asItem()))
-                    this.entityDropItem(itemStack);//获取该方块的合成材料配方的物品*/
-                this.entityDropItem(this.blockState.getBlock());
+                for (ItemStack itemStack : getItemStacks(this.blockState.getBlock().asItem()))
+                    this.entityDropItem(itemStack);//切完方块可以获得其合成材料的物品
+                //this.entityDropItem(this.blockState.getBlock());
                 this.remove();
             }
             PlayerEntity player = world.getPlayerByUuid(playerUuid);
@@ -84,28 +83,38 @@ public class CutBlockEntity extends BlockEntity {
         lifeTick--;
     }
 
+    private static HashMap<Item, ItemStack[]> recipeCache = new HashMap<>();
+
     public ItemStack[] getItemStacks(Item item) {
+        if (recipeCache.containsKey(item)) {
+            ItemStack[] materials = recipeCache.get(item), copyMaterials = new ItemStack[materials.length];
+            for (int i = 0; i < copyMaterials.length; i++) {
+                copyMaterials[i] = materials[i].copy();
+            }
+            return copyMaterials;
+        }
+        ItemStack targetItemStack = new ItemStack(item, 1);
         for (ICraftingRecipe recipe : world.getRecipeManager().getRecipesForType(IRecipeType.CRAFTING)) {
-            ItemStack resultItem = recipe.getRecipeOutput();
-            if (resultItem.getItem().equals(item)) {
-                // 获取配方的所有输入 Ingredient
+            if (ItemStack.areItemStacksEqual(recipe.getRecipeOutput(), targetItemStack)) {
+                //获取配方的所有输入材料
                 NonNullList<Ingredient> ingredients = recipe.getIngredients();
-                // 创建一个 ItemStack 数组，用来存储配方所需的所有材料
-                List<ItemStack> ingredientStacks = new ArrayList<>();
-                // 遍历每个 Ingredient 并获取对应的匹配 ItemStack
-                for (Ingredient ingredient : ingredients) {
-                    // 获取 Ingredient 中所有可能的 ItemStack
-                    ItemStack[] matchingStacks = ingredient.getMatchingStacks();
-                    // 将每个 Ingredient 的匹配堆栈添加到列表中
-                    if (matchingStacks.length > 0) {
-                        ingredientStacks.add(matchingStacks[0]); // 选择第一个匹配的 ItemStack
-                    }
+                ItemStack[] materials = new ItemStack[ingredients.size()];
+                for (int i = 0; i < ingredients.size(); i++) {
+                    ItemStack[] matchingStacks = ingredients.get(i).getMatchingStacks();
+                    //将每个 Ingredient 的第一个匹配的物品复制到数组中
+                    materials[i] = matchingStacks.length > 0 ? matchingStacks[0].copy() : ItemStack.EMPTY;
                 }
-                // 将列表转换为数组并返回
-                return ingredientStacks.toArray(new ItemStack[0]);
+                recipeCache.put(item, materials);//缓存
+                ItemStack[] copyMaterials = new ItemStack[materials.length];
+                for (int i = 0; i < copyMaterials.length; i++) {
+                    copyMaterials[i] = materials[i].copy();
+                }
+                return copyMaterials;
             }
         }
-        return new ItemStack[]{new ItemStack(item)};
+        //如果没有找到匹配的配方，返回自己
+        recipeCache.put(item, new ItemStack[]{targetItemStack});
+        return new ItemStack[]{targetItemStack};
     }
 
     @Override
@@ -168,22 +177,22 @@ public class CutBlockEntity extends BlockEntity {
         }
 
         //在x轴方向的移动
-        public double moveX(int tick, int maxTick) {
+        public double moveX(int tick, int maxTick, double maxLength) {
             if (this.equals(Direction.NORTH) || this.equals(Direction.SOUTH)) return 0;
             else if (this.equals(Direction.WEST))
-                return tick > maxTick ? 1 : ((double) tick / maxTick);
+                return tick > maxTick ? maxLength : ((double) tick / maxTick) * maxLength;
             else if (this.equals(Direction.EAST))
-                return tick > maxTick ? -1 : -((double) tick / maxTick);
+                return tick > maxTick ? -maxLength : -((double) tick / maxTick) * maxLength;
             else return 0;
         }
 
         //在z轴方向的移动
-        public double moveZ(int tick, int maxTick) {
+        public double moveZ(int tick, int maxTick, double maxLength) {
             if (this.equals(Direction.WEST) || this.equals(Direction.EAST)) return 0;
             else if (this.equals(Direction.NORTH))
-                return tick > maxTick ? 1 : ((double) tick / maxTick);
+                return tick > maxTick ? maxLength : ((double) tick / maxTick) * maxLength;
             else if (this.equals(Direction.SOUTH))
-                return tick > maxTick ? -1 : -((double) tick / maxTick);
+                return tick > maxTick ? -maxLength : -((double) tick / maxTick) * maxLength;
             else return 0;
         }
     }
