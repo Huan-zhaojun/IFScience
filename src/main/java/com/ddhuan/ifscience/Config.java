@@ -12,6 +12,7 @@ public class Config {
     public static ForgeConfigSpec.BooleanValue IS_COLLISION_FLY;
     public static ForgeConfigSpec.DoubleValue MAX_SPEED;
     public static ForgeConfigSpec.DoubleValue SLOW_RATIO;
+    //切割方块玩法配置
 
     static {
 
@@ -55,6 +56,11 @@ public class Config {
         SLOW_RATIO = COMMON_BUILDER.comment("Ice rail slowdown ratio.The smaller it is, the more obvious", "寒冰铁轨减速比例，越小减速越明显")
                 .translation("config.ifscience.minecart.slowRatio")
                 .defineInRange("slowRatio", 0.15D, 0, 1);
+        COMMON_BUILDER.pop();
+
+        //切割方块玩法配置
+        COMMON_BUILDER.push("CutBlock-切割方块");
+
         COMMON_BUILDER.pop();
         COMMON_CONFIG = COMMON_BUILDER.build();
     }

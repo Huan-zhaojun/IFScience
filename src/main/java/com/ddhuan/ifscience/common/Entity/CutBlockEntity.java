@@ -70,20 +70,23 @@ public class CutBlockEntity extends BlockEntity {
         if (!world.isRemote) {
             if (lifeTick <= 0) {
                 for (ItemStack itemStack : getItemStacks(this.blockState.getBlock().asItem()))
-                    this.entityDropItem(itemStack);//切完方块可以获得其合成材料的物品
-                //this.entityDropItem(this.blockState.getBlock());
+                    this.entityDropItem(itemStack);//切完方块可以获得其合成材料的物品(如果有)
                 this.remove();
             }
             PlayerEntity player = world.getPlayerByUuid(playerUuid);
             if (!angleGrinder.equals(ItemStack.EMPTY) && lifeTick <= maxLifeTick - 40 && player != null) {
-                player.addItemStackToInventory(angleGrinder);
+                if (player.inventory.getFirstEmptyStack() == -1 || !player.addItemStackToInventory(angleGrinder.copy()))
+                    player.dropItem(angleGrinder.copy(), false, true);
+                angleGrinder = ItemStack.EMPTY;
+            } else if (!angleGrinder.equals(ItemStack.EMPTY) && lifeTick <= maxLifeTick - 40) {
+                this.entityDropItem(angleGrinder.copy());
                 angleGrinder = ItemStack.EMPTY;
             }
         }
         lifeTick--;
     }
 
-    private static HashMap<Item, ItemStack[]> recipeCache = new HashMap<>();
+    private final static HashMap<Item, ItemStack[]> recipeCache = new HashMap<>();//Cache
 
     public ItemStack[] getItemStacks(Item item) {
         if (recipeCache.containsKey(item)) {

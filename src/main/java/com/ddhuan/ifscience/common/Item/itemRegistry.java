@@ -148,7 +148,7 @@ public class itemRegistry {
             });//铁质角磨机
 
     public static RegistryObject<AngleGrinder> obsidianNetheriteAngleGrinder = ITEMS.register("obsidian_netherite_angle_grinder",
-            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience).maxDamage(2500), 100.0F, 19F) {
+            () -> new AngleGrinder(new Item.Properties().group(itemRegistry.ifScience).maxDamage(2500).isImmuneToFire(), 100.0F, 19F) {
                 @Override
                 public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
                     tooltip.add(new TranslationTextComponent("text.ifscience.obsidian_netherite_angle_grinder1").mergeStyle(TextFormatting.GOLD));

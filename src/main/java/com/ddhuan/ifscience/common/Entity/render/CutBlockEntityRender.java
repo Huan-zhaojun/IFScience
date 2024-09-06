@@ -2,11 +2,14 @@ package com.ddhuan.ifscience.common.Entity.render;
 
 import com.ddhuan.ifscience.common.Entity.CutBlockEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.block.AbstractSkullBlock;
+import net.minecraft.block.SkullBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.tileentity.SkullTileEntityRenderer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3f;
@@ -28,19 +31,19 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
         CutBlockEntity.Direction direction = entityIn.direction;//获取切割方向
         matrixStackIn.push();
         if (direction != null) {
-            renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, true);
-            renderHalfBlock(direction, entityIn.animationTick, matrixStackIn, bufferIn, entityIn, packedLightIn, false);
+            renderHalfBlock(direction, entityIn.animationTick, partialTicks, matrixStackIn, bufferIn, entityIn, packedLightIn, true);
+            renderHalfBlock(direction, entityIn.animationTick, partialTicks, matrixStackIn, bufferIn, entityIn, packedLightIn, false);
             if (entityIn.animationTick <= levelCutTick + verticalCutTick)
                 renderAngleGrinder(direction, entityIn.animationTick, entityIn, matrixStackIn, bufferIn, packedLightIn);//渲染切割的角磨机
         }
         matrixStackIn.pop();
-        if (entityIn.animationTick < maxAnimationTick && !Minecraft.getInstance().isGamePaused()) {/*++entityIn.animationTick*/
+        if (entityIn.animationTick < maxAnimationTick && !Minecraft.getInstance().isGamePaused()) {
             entityIn.animationTick += (int) (System.currentTimeMillis() - entityIn.lastTime);
             entityIn.lastTime = System.currentTimeMillis();
         }
     }
 
-    private void renderHalfBlock(CutBlockEntity.Direction direction, int animationTick, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, T entityIn, int packedLightIn, boolean isHalf) {
+    private void renderHalfBlock(CutBlockEntity.Direction direction, int animationTick, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, T entityIn, int packedLightIn, boolean isHalf) {
         matrixStackIn.push();
         matrixStackIn.translate(0.0D, 0.5D, 0.0D);
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
@@ -77,6 +80,11 @@ public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityR
 
         //渲染被切割的方块
         Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(entityIn.blockState, matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
+        if (entityIn.blockState.getBlock() instanceof AbstractSkullBlock)//渲染头颅
+            SkullTileEntityRenderer.render(null, entityIn.blockState.get(SkullBlock.ROTATION),
+                    ((AbstractSkullBlock) entityIn.blockState.getBlock()).getSkullType(),
+                    null,0,matrixStackIn, bufferIn, packedLightIn);
+        //TileEntityRendererDispatcher.instance.renderTileEntity(new SkullTileEntity(), partialTicks, matrixStackIn, bufferIn);
 
         matrixStackIn.pop();
     }

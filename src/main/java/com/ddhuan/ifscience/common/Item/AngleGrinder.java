@@ -11,12 +11,15 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -49,11 +52,22 @@ public class AngleGrinder extends Item {
             AngleGrinder angleGrinder = (AngleGrinder) itemStack.getItem();
             player.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
             event.setCanceled(true);
-            if (itemStack.getDamage() >= itemStack.getMaxDamage()) return;
+            if (itemStack.getDamage() >= itemStack.getMaxDamage()) return;//耐久耗尽
             BlockPos pos = event.getPos();
             BlockState blockState = world.getBlockState(pos);
             if (!Blocks.AIR.equals(blockState.getBlock())) {
-                float blockHardness = blockState.getBlockHardness(world, pos);
+                if (blockState.getBlock().equals(Blocks.TNT)) {//切割TNT导致爆炸
+                    ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                    itementity.setDefaultPickupDelay();
+                    world.addEntity(itementity);
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                    TNTEntity tntentity = new TNTEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, null);
+                    tntentity.setFuse(10);
+                    world.addEntity(tntentity);
+                    world.playSound(null, tntentity.getPosX(), tntentity.getPosY(), tntentity.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    return;
+                }
+                float blockHardness = blockState.getBlockHardness(world, pos);//判定角磨机硬度和方块硬度
                 if (angleGrinder.hardness == blockHardness) {
                     if (Math.random() < 0.10) {
                         itemStack.setDamage(itemStack.getDamage() + (itemStack.getMaxDamage() / 3));
