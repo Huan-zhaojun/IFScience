@@ -45,6 +45,11 @@
   "config.ifscience.minecart.isCollisionFly": "isCollisionFly",
   "config.ifscience.minecart.maxSpeed": "maxSpeed",
   "config.ifscience.minecart.slowRatio": "slowRatio",
+  "config.ifscience.cutblock.cut_everything": "cutEverything",
+  "config.ifscience.cutblock.level_cut_tick": "levelCutTick",
+  "config.ifscience.cutblock.vertical_cut_tick": "verticalCutTick",
+  "config.ifscience.cutblock.cut_block_tick": "cutBlockTick",
+  "config.ifscience.cutblock.maxlife_cutblock_tick": "cutBlock maxLifeTick",
 
   "text.ifscience.furnace_tnt1": "VERY DANGEROUS!STAY AWAY!",
   "text.ifscience.furnace_tnt2": "This high temperature furnace is filled with TNT",

@@ -1,9 +1,10 @@
 package com.ddhuan.ifscience;
 
-import com.ddhuan.ifscience.Custom.DataSerializersRegistry;
+import com.ddhuan.ifscience.Custom.CutBlockUtil;
 import com.ddhuan.ifscience.Custom.MinecartUtil;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
+import com.ddhuan.ifscience.common.DataSerializersRegistry;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.EntityRenderRegistryManager;
 import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
@@ -75,6 +76,7 @@ public class ifscience {
             //更新静态变量
             magnetUtil.updateConfig_StaticValue();
             MinecartUtil.updateConfig_StaticValue();
+            CutBlockUtil.updateConfig_StaticValue();
         }
     }
 }

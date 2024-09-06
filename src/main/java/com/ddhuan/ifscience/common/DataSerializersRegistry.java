@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience.Custom;
+package com.ddhuan.ifscience.common;
 
 import com.ddhuan.ifscience.common.Entity.CutBlockEntity;
 import com.ddhuan.ifscience.ifscience;

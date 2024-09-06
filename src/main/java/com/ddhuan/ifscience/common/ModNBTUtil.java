@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience.Custom;
+package com.ddhuan.ifscience.common;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

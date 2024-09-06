@@ -45,6 +45,11 @@
   "config.ifscience.minecart.isCollisionFly": "碰撞击飞",
   "config.ifscience.minecart.maxSpeed": "最大速度",
   "config.ifscience.minecart.slowRatio": "减速比",
+  "config.ifscience.cutblock.cut_everything": "切割所有模式",
+  "config.ifscience.cutblock.level_cut_tick": "水平切割时间",
+  "config.ifscience.cutblock.vertical_cut_tick": "竖直切割时间",
+  "config.ifscience.cutblock.cut_block_tick": "切完分裂时间",
+  "config.ifscience.cutblock.maxlife_cutblock_tick": "最大生命时间",
 
   "text.ifscience.furnace_tnt1": "非常危险！远离！",
   "text.ifscience.furnace_tnt2": "这个高温熔炉里塞了TNT",

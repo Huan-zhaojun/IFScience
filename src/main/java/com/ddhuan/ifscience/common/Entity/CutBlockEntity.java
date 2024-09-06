@@ -1,7 +1,7 @@
 package com.ddhuan.ifscience.common.Entity;
 
-import com.ddhuan.ifscience.Custom.DataSerializersRegistry;
-import com.ddhuan.ifscience.Custom.ModNBTUtil;
+import com.ddhuan.ifscience.common.DataSerializersRegistry;
+import com.ddhuan.ifscience.common.ModNBTUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;

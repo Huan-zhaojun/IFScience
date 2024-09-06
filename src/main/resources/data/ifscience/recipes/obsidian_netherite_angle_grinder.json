@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X#",
+    "XRX",
+    " R "
+  ],
+  "key": {
+    "R": [
+      {
+        "item": "minecraft:acacia_log"
+      },
+      {
+        "item": "minecraft:birch_log"
+      },
+      {
+        "item": "minecraft:dark_oak_log"
+      },
+      {
+        "item": "minecraft:jungle_log"
+      },
+      {
+        "item": "minecraft:oak_log"
+      },
+      {
+        "item": "minecraft:spruce_log"
+      }
+    ],
+    "X": {
+      "item": "minecraft:obsidian"
+    },
+    "#": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "ifscience:obsidian_netherite_angle_grinder",
+    "count": 1
+  }
+}

@@ -13,6 +13,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue MAX_SPEED;
     public static ForgeConfigSpec.DoubleValue SLOW_RATIO;
     //切割方块玩法配置
+    public static ForgeConfigSpec.IntValue LEVEL_CUT_TICK, VERTICAL_CUT_TICK, CUT_BLOCK_TICK, CUTBLOCK_MAX_LIFE_TICK;
+    public static ForgeConfigSpec.BooleanValue CUT_EVERYTHING;
 
     static {
 
@@ -60,7 +62,21 @@ public class Config {
 
         //切割方块玩法配置
         COMMON_BUILDER.push("CutBlock-切割方块");
-
+        CUT_EVERYTHING = COMMON_BUILDER.comment("Is cut-all-blocks mode on?", "是否开启可切割一切方块模式？")
+                .translation("config.ifscience.cutblock.cut_everything")
+                .define("cutEverything", false);
+        LEVEL_CUT_TICK = COMMON_BUILDER.comment("Horizontal cutting time,Unit: tick", "水平切割时间，单位：tick")
+                .translation("config.ifscience.cutblock.level_cut_tick")
+                .defineInRange("levelCutTick", 20, 1, Integer.MAX_VALUE / 50);
+        VERTICAL_CUT_TICK = COMMON_BUILDER.comment("Vertical cutting time,Unit: tick", "竖直切割时间，单位：tick")
+                .translation("config.ifscience.cutblock.vertical_cut_tick")
+                .defineInRange("verticalCutTick", 20, 1, Integer.MAX_VALUE / 50);
+        CUT_BLOCK_TICK = COMMON_BUILDER.comment("Splitting time after cutting the block,Unit: tick", "切完方块的分裂时间，单位：tick")
+                .translation("config.ifscience.cutblock.cut_block_tick")
+                .defineInRange("cutBlockTick", 10, 1, Integer.MAX_VALUE / 50);
+        CUTBLOCK_MAX_LIFE_TICK = COMMON_BUILDER.comment("Maximum lifespan of cut blocks,Unit: tick", "切割方块最大生命时间，单位：tick")
+                .translation("config.ifscience.cutblock.maxlife_cutblock_tick")
+                .defineInRange("cutBlock_maxLifeTick", 60, 1, Integer.MAX_VALUE);
         COMMON_BUILDER.pop();
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
