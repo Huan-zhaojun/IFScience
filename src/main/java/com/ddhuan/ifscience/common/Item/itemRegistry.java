@@ -156,4 +156,8 @@ public class itemRegistry {
                     tooltip.add(new TranslationTextComponent("text.ifscience.iron_angle_grinder2").mergeStyle(TextFormatting.DARK_RED));
                 }
             });//黑曜合金角磨机
+
+    //自定义附魔书
+    public static RegistryObject<ModEnchantedBookItem> modEnchantedBook = ITEMS.register("enchanted_book",
+            () -> new ModEnchantedBookItem(new Item.Properties().group(itemRegistry.ifScience).maxStackSize(1).rarity(Rarity.UNCOMMON)));
 }

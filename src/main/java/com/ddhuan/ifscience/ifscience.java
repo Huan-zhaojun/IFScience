@@ -5,6 +5,7 @@ import com.ddhuan.ifscience.Custom.MinecartUtil;
 import com.ddhuan.ifscience.Custom.magnetUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.DataSerializersRegistry;
+import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;
 import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.EntityRenderRegistryManager;
 import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
@@ -44,6 +45,7 @@ public class ifscience {
         blockRegistry.BLOCKS.register(modEventBus);
         blockRegistry.BLOCKS_VANILLA.register(modEventBus);
         FluidRegistry.FLUIDS.register(modEventBus);
+        EnchantmentRegistry.ENCHANTMENTS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
         DataSerializersRegistry.DATA_SERIALIZERS.register(modEventBus);
         //配置文件设置
