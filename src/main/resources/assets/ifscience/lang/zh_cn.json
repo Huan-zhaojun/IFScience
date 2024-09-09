@@ -28,6 +28,7 @@
   "entity.ifscience.cut_block_entity": "被切开的方块",
 
   "enchantment.ifscience.waterproof": "防水",
+  "enchantment.ifscience.fireproof": "防火",
 
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",

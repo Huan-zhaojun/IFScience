@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.RegistryObject;
@@ -18,7 +19,7 @@ public class ModEnchantedBookItem extends EnchantedBookItem {
     }
 
     public static ItemStack getEnchantedItemStack(EnchantmentData enchantData) {
-        ItemStack itemstack = new ItemStack(itemRegistry.modEnchantedBook.get())
+        ItemStack itemstack = new ItemStack(Items.ENCHANTED_BOOK)
                 .setDisplayName(new StringTextComponent(
                         enchantData.enchantment.getDisplayName(enchantData.enchantmentLevel).getString())
                         .appendSibling(itemRegistry.modEnchantedBook.get().getName()));

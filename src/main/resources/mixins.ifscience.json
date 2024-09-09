@@ -6,8 +6,11 @@
   "refmap": "mixins.ifscience.refmap.json",
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
+    "BlockItemMixin",
     "BucketItemMixin",
     "HeightmapMixin",
+    "PlayerInteractionManagerMixin",
+    "RepairContainerMixin",
     "RiptideEnchantmentMixin",
     "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
@@ -15,6 +18,8 @@
     "entity.LivingEntityMixin"
   ],
   "client": [
+    "client.renderer.ChunkRenderMixin",
+    "client.renderer.ChunkRenderMixin$RebuildTaskMixin",
     "client.renderer.OverlayRendererMixin",
     "client.renderer.WorldRendererMixin"
   ],

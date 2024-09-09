@@ -28,6 +28,7 @@
   "entity.ifscience.cut_block_entity": "Split Block",
 
   "enchantment.ifscience.waterproof": "WaterProof",
+  "enchantment.ifscience.fireproof": "FireProof",
 
   "death.attack.furnace_burn": "%1$s burned to death touch the furnace!",
   "death.attack.furnace_explosion": "%1$s Exploded by the furnace!",
