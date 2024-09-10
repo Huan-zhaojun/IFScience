@@ -11,15 +11,12 @@
     "HeightmapMixin",
     "PlayerInteractionManagerMixin",
     "RepairContainerMixin",
-    "RiptideEnchantmentMixin",
     "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
     "entity.FallingBlockEntityMixin",
     "entity.LivingEntityMixin"
   ],
   "client": [
-    "client.renderer.ChunkRenderMixin",
-    "client.renderer.ChunkRenderMixin$RebuildTaskMixin",
     "client.renderer.OverlayRendererMixin",
     "client.renderer.WorldRendererMixin"
   ],

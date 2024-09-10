@@ -1,6 +1,6 @@
 package com.ddhuan.ifscience.network.Client;
 
-import com.ddhuan.ifscience.EnchantedBlocksData;
+import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import com.ddhuan.ifscience.network.IModPack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;

@@ -1,5 +1,3 @@
-package com.ddhuan.ifscience.mixin;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.RiptideEnchantment;
@@ -14,7 +12,6 @@ public abstract class RiptideEnchantmentMixin extends Enchantment {
     protected RiptideEnchantmentMixin(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots) {
         super(rarityIn, typeIn, slots);
     }
-
     @Inject(method = "getMaxLevel", at = @At("HEAD"), cancellable = true)
     public void getMaxLevel(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue((2 << 7) - 1);

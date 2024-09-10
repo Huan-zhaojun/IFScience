@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -49,7 +50,7 @@ public class HorseshoeMagnetItem extends Item {
                     BlockState blockState = worldIn.getBlockState(blockPos);
                     Material material = blockState.getMaterial();
                     if (Material.IRON.equals(material) || Material.ANVIL.equals(material) || magnetUtil.magnetAttractedBlocks.contains(blockState.getBlock())) {
-                        MagnetAttractedBlockEntity blockEntity = new MagnetAttractedBlockEntity(worldIn, blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, blockState, playerIn.getUniqueID());
+                        MagnetAttractedBlockEntity blockEntity = new MagnetAttractedBlockEntity(worldIn, blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, blockState, worldIn.getTileEntity(blockPos) != null ? worldIn.getTileEntity(blockPos).write(new CompoundNBT()) : new CompoundNBT(), playerIn.getUniqueID());
                         worldIn.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 
                         blockEntity.G = 0.05D;//重力加速度

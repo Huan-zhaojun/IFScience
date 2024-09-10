@@ -16,6 +16,7 @@ public class DataSerializersRegistry {
             () -> new DataSerializerEntry(new IDataSerializer<CutBlockEntity.Direction>() {
                 @Override
                 public void write(PacketBuffer buf, CutBlockEntity.Direction direction) {
+                    if (buf == null || direction == null) return;
                     buf.writeByte(direction.index);
                 }
 

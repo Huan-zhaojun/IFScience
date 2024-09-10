@@ -1,6 +1,6 @@
 package com.ddhuan.ifscience.mixin;
 
-import com.ddhuan.ifscience.EnchantedBlocksData;
+import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;

@@ -1,6 +1,4 @@
-package com.ddhuan.ifscience.mixin.client.renderer;
-
-import com.ddhuan.ifscience.EnchantedBlocksData;
+import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

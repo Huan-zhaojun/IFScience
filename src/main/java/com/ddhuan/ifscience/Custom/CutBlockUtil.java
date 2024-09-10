@@ -11,6 +11,8 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -75,10 +77,13 @@ public final class CutBlockUtil {
                         }
                     }
                 }
+                CompoundNBT tileEntityNbt = new CompoundNBT();
+                TileEntity tileEntity = world.getTileEntity(pos);
+                if (tileEntity != null) tileEntityNbt = tileEntity.write(new CompoundNBT());
                 world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 Direction direction = player.getHorizontalFacing();//获取玩家切割的朝向
                 itemStack.setDamage(itemStack.getDamage() + 10);
-                world.addEntity(new CutBlockEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, blockState, direction,
+                world.addEntity(new CutBlockEntity(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, blockState, tileEntityNbt, direction,
                         player.getUniqueID(), itemStack));
             }
         }

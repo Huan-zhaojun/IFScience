@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience;
+package com.ddhuan.ifscience.common.Enchantment;
 
 import com.ddhuan.ifscience.network.Client.EnchantedBlocksDataPack;
 import com.ddhuan.ifscience.network.Network;

@@ -1,6 +1,6 @@
 package com.ddhuan.ifscience.mixin;
 
-import com.ddhuan.ifscience.EnchantedBlocksData;
+import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerInteractionManager.class)
 public class PlayerInteractionManagerMixin {
-    @Shadow(remap = false)
+    @Shadow
     public ServerWorld world;
 
     //移除方块的时候移除可能存在的附魔数据

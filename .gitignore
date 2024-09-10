@@ -27,5 +27,4 @@ run-data
 forge*changelog.txt
 
 # 项目排除路径
-/src/test/
 /src/generated

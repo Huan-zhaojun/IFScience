@@ -34,8 +34,8 @@ public class MagnetAttractedBlockEntity extends BlockEntity {
         super(entityTypeIn, worldIn);
     }
 
-    public MagnetAttractedBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, UUID magnetAttractor_uuid) {
-        super(entityTypeRegistry.MagnetAttractedBlockEntity.get(), worldIn, x, y, z, blockState);
+    public MagnetAttractedBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, CompoundNBT tileEntityNbt, UUID magnetAttractor_uuid) {
+        super(entityTypeRegistry.MagnetAttractedBlockEntity.get(), worldIn, x, y, z, blockState, tileEntityNbt);
         isAttracted = true;
         this.magnetAttractor = worldIn.getPlayerByUuid(magnetAttractor_uuid);
         if (magnetAttractor != null) {

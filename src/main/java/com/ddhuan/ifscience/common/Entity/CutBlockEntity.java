@@ -44,8 +44,8 @@ public class CutBlockEntity extends BlockEntity {
         super(entityTypeIn, worldIn);
     }
 
-    public CutBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, net.minecraft.util.Direction direction, UUID playerUuid, ItemStack angleGrinder) {
-        super(entityTypeRegistry.CutBlockEntity.get(), worldIn, x, y, z, blockState);
+    public CutBlockEntity(World worldIn, double x, double y, double z, BlockState blockState, CompoundNBT tileEntityNbt, net.minecraft.util.Direction direction, UUID playerUuid, ItemStack angleGrinder) {
+        super(entityTypeRegistry.CutBlockEntity.get(), worldIn, x, y, z, blockState, tileEntityNbt);
         this.direction = Direction.valueOf(direction.name());
         this.playerUuid = playerUuid;
         this.angleGrinder = angleGrinder;
@@ -150,6 +150,10 @@ public class CutBlockEntity extends BlockEntity {
     @Override
     public IPacket<?> createSpawnPacket() {
         return super.createSpawnPacket();
+    }
+
+    @Override
+    public void onKillCommand() {
     }
 
     public enum Direction {
