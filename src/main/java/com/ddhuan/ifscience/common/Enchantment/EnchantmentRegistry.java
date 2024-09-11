@@ -20,12 +20,22 @@ public final class EnchantmentRegistry {
                 public ITextComponent getDisplayName(int level) {
                     return new TranslationTextComponent(this.getName()).mergeStyle(TextFormatting.BLUE);
                 }
+
+                @Override
+                protected boolean canApplyTogether(Enchantment ench) {
+                    return ench != FireProof.get();
+                }
             });
     public static RegistryObject<Enchantment> FireProof = ENCHANTMENTS.register("fireproof",
             () -> new Enchantment(Enchantment.Rarity.UNCOMMON, ModEnchantmentType.BLOCK, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}) {
                 @Override
                 public ITextComponent getDisplayName(int level) {
                     return new TranslationTextComponent(this.getName()).mergeStyle(TextFormatting.RED);
+                }
+
+                @Override
+                protected boolean canApplyTogether(Enchantment ench) {
+                    return ench != WaterProof.get();
                 }
             });
 }
