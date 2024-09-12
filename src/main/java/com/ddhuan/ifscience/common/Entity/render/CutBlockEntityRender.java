@@ -10,7 +10,10 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class CutBlockEntityRender<T extends CutBlockEntity> extends blockEntityRender<T> {
     public static int levelCutTick = 1000;//横向切割时间
     public static int verticalCutTick = 1000;//竖向切割时间

@@ -94,6 +94,7 @@ public final class CutBlockUtil {
         CutBlockEntityRender.verticalCutTick = Config.VERTICAL_CUT_TICK.get() * 50;
         CutBlockEntityRender.cutBlockTick = Config.CUT_BLOCK_TICK.get() * 50;
         CutBlockEntity.maxLifeTick = Config.CUTBLOCK_MAX_LIFE_TICK.get();
+        CutBlockEntityRender.maxAnimationTick = CutBlockEntityRender.levelCutTick + CutBlockEntityRender.verticalCutTick + CutBlockEntityRender.cutBlockTick;
     }
 
     private CutBlockUtil() {
