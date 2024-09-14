@@ -29,6 +29,7 @@
 
   "enchantment.ifscience.waterproof": "WaterProof",
   "enchantment.ifscience.fireproof": "FireProof",
+  "enchantment.ifscience.explosion_proof": "Explosion-Proof",
 
   "death.attack.furnace_burn": "%1$s burned to death touch the furnace!",
   "death.attack.furnace_explosion": "%1$s Exploded by the furnace!",
@@ -40,6 +41,7 @@
   "death.attack.angle_grinder1": "%1$s was killed by the rebounding angle grinder",
   "death.attack.angle_grinder2": "%1$s was cut up by %2$s with an angle grinder.",
 
+  "config.ifscience.enchantment.enchanting_all": "NoLimitEnchant",
   "config.ifscience.magnet_attracted.speed": "speed",
   "config.ifscience.magnet_attracted.radius": "radius",
   "config.ifscience.magnet_attracted.attack_amount": "collision damage",

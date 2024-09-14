@@ -26,8 +26,9 @@ public final class EnchantmentRegistry {
                     return ench != FireProof.get();
                 }
             });
+    //防火附魔
     public static RegistryObject<Enchantment> FireProof = ENCHANTMENTS.register("fireproof",
-            () -> new Enchantment(Enchantment.Rarity.UNCOMMON, ModEnchantmentType.BLOCK, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}) {
+            () -> new Enchantment(Enchantment.Rarity.UNCOMMON, ModEnchantmentType.ALL, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}) {
                 @Override
                 public ITextComponent getDisplayName(int level) {
                     return new TranslationTextComponent(this.getName()).mergeStyle(TextFormatting.RED);
@@ -36,6 +37,14 @@ public final class EnchantmentRegistry {
                 @Override
                 protected boolean canApplyTogether(Enchantment ench) {
                     return ench != WaterProof.get();
+                }
+            });
+    //防爆附魔
+    public static RegistryObject<Enchantment> ExplosionProof = ENCHANTMENTS.register("explosion_proof",
+            () -> new Enchantment(Enchantment.Rarity.UNCOMMON, ModEnchantmentType.ALL, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}) {
+                @Override
+                public ITextComponent getDisplayName(int level) {
+                    return new TranslationTextComponent(this.getName()).mergeStyle(TextFormatting.GOLD);
                 }
             });
 }

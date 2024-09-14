@@ -4,6 +4,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class Config {
     public static ForgeConfigSpec COMMON_CONFIG;
+    //附魔
+    public static ForgeConfigSpec.BooleanValue ENCHANTING_ALL;//附魔不受物品类型和魔咒冲突的限制
     //磁吸玩法配置设置
     public static ForgeConfigSpec.BooleanValue CAN_FEED_IRON, CHECK_IRON_EQUIPMENT;
     public static ForgeConfigSpec.DoubleValue SPEED_DEFAULT;
@@ -23,6 +25,10 @@ public class Config {
     public static void init() {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         COMMON_BUILDER.comment("General settings");
+        //附魔
+        ENCHANTING_ALL = COMMON_BUILDER.comment("Enchanting is not limited by Type of item or Enchantment conflicts","附魔不受物品类型和魔咒冲突的限制")
+                .translation("config.ifscience.enchantment.enchanting_all")
+                .define("enchantingAll",false);
 
         //磁吸玩法配置设置
         COMMON_BUILDER.push("Magnet Attracted-磁吸");

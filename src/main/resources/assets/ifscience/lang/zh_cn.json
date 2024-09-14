@@ -29,6 +29,7 @@
 
   "enchantment.ifscience.waterproof": "防水",
   "enchantment.ifscience.fireproof": "防火",
+  "enchantment.ifscience.explosion_proof": "防爆",
 
   "death.attack.furnace_burn": "%1$s 摸熔炉被烫死了！",
   "death.attack.furnace_explosion": "%1$s 被熔炉炸死了！",
@@ -40,6 +41,7 @@
   "death.attack.angle_grinder1": "%1$s 被反弹的角磨机切死了",
   "death.attack.angle_grinder2": "%1$s 被 %2$s 用角磨机切死了",
 
+  "config.ifscience.enchantment.enchanting_all": "附魔不限",
   "config.ifscience.magnet_attracted.speed": "速度",
   "config.ifscience.magnet_attracted.radius": "半径",
   "config.ifscience.magnet_attracted.attack_amount": "碰撞伤害",
