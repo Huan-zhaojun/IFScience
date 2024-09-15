@@ -46,13 +46,13 @@ public class EnchantedBlocksData extends WorldSavedData {
         return listNBT != null ? EnchantmentHelper.deserializeEnchantments(listNBT) : new HashMap<>();
     }
 
-    //获取某个方块的某个附魔数据的数据，不存在就返回null
+    //获取某个方块的某个附魔数据的数据，不存在就返回-1
     public Integer getEnchantedBlock(BlockPos pos, Enchantment enchantment) {
         ListNBT listNBT = enchantedBlocks.get(pos);
         if (listNBT != null) {
             Integer i = EnchantmentHelper.deserializeEnchantments(listNBT).get(enchantment);
-            return i;
-        } else return null;
+            return i != null ? i : -1;
+        } else return -1;
     }
 
     //删除某个方块的附魔数据

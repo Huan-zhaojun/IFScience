@@ -10,13 +10,16 @@
     "BlockMixin",
     "BucketItemMixin",
     "EnchantmentMixin",
+    "FireBlockMixin",
     "FlowingFluidMixin",
     "HeightmapMixin",
     "PlayerInteractionManagerMixin",
     "RepairContainerMixin",
+    "WorldMixin",
     "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
     "entity.FallingBlockEntityMixin",
+    "entity.ItemEntityMixin",
     "entity.LivingEntityMixin"
   ],
   "client": [

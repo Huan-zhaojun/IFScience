@@ -20,7 +20,7 @@ public abstract class FlowingFluidMixin extends Fluid {
     private void isBlocked(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn, CallbackInfoReturnable<Boolean> cir) {
         if (worldIn instanceof World) {
             World world = (World) worldIn;
-            if (!world.isRemote && EnchantedBlocksData.get(world).getEnchantedBlock(pos, EnchantmentRegistry.WaterProof.get()) != null)
+            if (!world.isRemote && EnchantedBlocksData.get(world).getEnchantedBlock(pos, EnchantmentRegistry.WaterProof.get()) > 0)
                 cir.setReturnValue(false);
         }
     }
