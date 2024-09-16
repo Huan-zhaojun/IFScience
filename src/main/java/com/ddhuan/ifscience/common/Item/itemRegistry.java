@@ -157,6 +157,9 @@ public class itemRegistry {
                 }
             });//黑曜合金角磨机
 
+    public static RegistryObject<WallOrFloorItem> extinguishedTorch = ITEMS.register("extinguished_torch",
+            () -> new WallOrFloorItem(blockRegistry.extinguishedTorch.get(), blockRegistry.wallExtinguishedTorch.get(), (new Item.Properties()).group(ifScience)));
+
     //自定义附魔书
     public static RegistryObject<ModEnchantedBookItem> modEnchantedBook = ITEMS.register("enchanted_book",
             () -> new ModEnchantedBookItem(new Item.Properties().group(itemRegistry.ifScience).maxStackSize(1).rarity(Rarity.UNCOMMON)));

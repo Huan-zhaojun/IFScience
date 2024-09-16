@@ -14,4 +14,5 @@ public class TileEntityTypeRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ifscience.MOD_ID);
     public static final RegistryObject<TileEntityType<puddleFluidTileEntity>> puddleFluidTileEntity = TILE_ENTITIES.register("puddle_fluid_tileentity", () -> TileEntityType.Builder.create(puddleFluidTileEntity::new, blockRegistry.puddleFluid.get()).build(null));
     public static final RegistryObject<TileEntityType<LavaFluidTileEntity>> LavaFluidTileEntity = TILE_ENTITIES.register("lava_fluid_tileentity", () -> TileEntityType.Builder.create(LavaFluidTileEntity::new, Blocks.LAVA).build(null));
+    public static final RegistryObject<TileEntityType<TorchTileEntity>> torchTileEntity = TILE_ENTITIES.register("torch_block_tileentity", () -> TileEntityType.Builder.create(TorchTileEntity::new, Blocks.TORCH, Blocks.WALL_TORCH).build(null));
 }

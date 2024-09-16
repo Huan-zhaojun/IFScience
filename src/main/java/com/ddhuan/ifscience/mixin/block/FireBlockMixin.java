@@ -1,4 +1,4 @@
-package com.ddhuan.ifscience.mixin;
+package com.ddhuan.ifscience.mixin.block;
 
 import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;

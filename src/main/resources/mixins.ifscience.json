@@ -6,21 +6,23 @@
   "refmap": "mixins.ifscience.refmap.json",
   "mixins": [
     "AbstractFurnaceTileEntityMixin",
-    "BlockItemMixin",
-    "BlockMixin",
-    "BucketItemMixin",
     "EnchantmentMixin",
-    "FireBlockMixin",
     "FlowingFluidMixin",
     "HeightmapMixin",
     "PlayerInteractionManagerMixin",
     "RepairContainerMixin",
     "WorldMixin",
+    "block.BlockMixin",
+    "block.FireBlockMixin",
+    "block.WallTorchBlockMixin",
     "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
     "entity.FallingBlockEntityMixin",
     "entity.ItemEntityMixin",
-    "entity.LivingEntityMixin"
+    "entity.LivingEntityMixin",
+    "item.BlockItemMixin",
+    "item.BucketItemMixin",
+    "item.FlintAndSteelItemMixin"
   ],
   "client": [
     "client.renderer.OverlayRendererMixin",

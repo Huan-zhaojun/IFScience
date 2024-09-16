@@ -4,6 +4,7 @@ import com.ddhuan.ifscience.Custom.rainingUtil;
 import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Fluid.LavaFluidTileEntity;
 import com.ddhuan.ifscience.common.Fluid.puddleFluidTileEntity;
+import com.ddhuan.ifscience.common.TileEntity.TorchTileEntity;
 import com.ddhuan.ifscience.ifscience;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -69,10 +71,28 @@ public class blockRegistry {
             return new LavaFluidTileEntity();
         }
     });
+    public static final RegistryObject<TorchBlock> TORCH = BLOCKS_VANILLA.register("torch", () -> new TorchBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD), ParticleTypes.FLAME) {
+        @Override
+        public boolean hasTileEntity(BlockState state) {
+            return true;
+        }
+
+        @Nullable
+        @Override
+        public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+            return new TorchTileEntity();
+        }
+    });
 
     public static final RegistryObject<IceRailBlock> iceRail = BLOCKS.register("ice_rail", () -> new IceRailBlock(AbstractBlock.Properties.create(Material.IRON).doesNotBlockMovement().hardnessAndResistance(0.7F).sound(SoundType.METAL)));
 
+    //熄灭的火把
+    public static final RegistryObject<ExtinguishedTorch> extinguishedTorch = BLOCKS.register("extinguished_torch", () -> new ExtinguishedTorch(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.WOOD)));
+    public static final RegistryObject<WallExtinguishedTorch> wallExtinguishedTorch = BLOCKS.register("wall_extinguished_torch", () -> new WallExtinguishedTorch(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD).lootFrom(extinguishedTorch)));
+
     public static void setBlockRenderType() {
         RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(extinguishedTorch.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(wallExtinguishedTorch.get(), RenderType.getCutout());
     }
 }

@@ -11,15 +11,20 @@
   "item.ifscience.ice_rail": "冰冻铁轨",
   "item.ifscience.iron_angle_grinder": "铁质角磨机",
   "item.ifscience.obsidian_netherite_angle_grinder": "黑曜合金角磨机",
+  "item.ifscience.extinguished_torch": "熄灭的火把",
   "item.ifscience.enchanted_book": "附魔书",
 
   "block.ifscience.puddle_fluid": "积水方块",
   "block.ifscience.ice_rail": "冰冻铁轨",
+  "block.ifscience.extinguished_torch": "熄灭的火把",
+  "block.ifscience.wall_extinguished_torch": "墙上熄灭的火把",
 
   "fluid.ifscience.puddle_fluid": "积水静态流体",
   "fluid.ifscience.puddle_fluid_flowing": "积水流动流体",
 
   "block_entity_type.ifscience.puddle_fluid_tileentity": "积水方块实体",
+  "block_entity_type.ifscience.lava_fluid_tileentity": "岩浆流体方块实体",
+  "block_entity_type.ifscience.torch_block_tileentity": "火把方块实体",
 
   "entity.ifscience.furnace_tnt": "爆炸的熔炉",
   "entity.ifscience.touchdown_tnt": "触地爆炸TNT",

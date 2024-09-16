@@ -11,15 +11,20 @@
   "item.ifscience.ice_rail": "frozen rail",
   "item.ifscience.iron_angle_grinder": "iron AngleGrinder",
   "item.ifscience.obsidian_netherite_angle_grinder": "obsidian-netherite AngleGrinder",
+  "item.ifscience.extinguished_torch": "extinguished torch",
   "item.ifscience.enchanted_book": "senchanted book",
 
   "block.ifscience.puddle_fluid": "puddle block",
   "block.ifscience.ice_rail": "frozen rail",
+  "block.ifscience.extinguished_torch": "extinguished torch",
+  "block.ifscience.wall_extinguished_torch": "wall extinguished torch",
 
   "fluid.ifscience.puddle_fluid": "puddle still fluid",
   "fluid.ifscience.puddle_fluid_flowing": "puddle flowing fluid",
 
   "block_entity_type.ifscience.puddle_fluid_tileentity": "puddle tileEntity",
+  "block_entity_type.ifscience.lava_fluid_tileentity": "lava tileentity",
+  "block_entity_type.ifscience.torch_block_tileentity": "torch tileentity",
 
   "entity.ifscience.furnace_tnt": "Explosive Furnace",
   "entity.ifscience.touchdown_tnt": "Touchdown TNT",

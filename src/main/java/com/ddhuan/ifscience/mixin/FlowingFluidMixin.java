@@ -21,7 +21,7 @@ public abstract class FlowingFluidMixin extends Fluid {
         if (worldIn instanceof World) {
             World world = (World) worldIn;
             if (!world.isRemote && EnchantedBlocksData.get(world).getEnchantedBlock(pos, EnchantmentRegistry.WaterProof.get()) > 0)
-                cir.setReturnValue(false);
+                cir.setReturnValue(false);//水流无法破坏有防水附魔的方块
         }
     }
 }
