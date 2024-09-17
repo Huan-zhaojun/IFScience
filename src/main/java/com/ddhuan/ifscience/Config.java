@@ -6,17 +6,6 @@ public class Config {
     public static ForgeConfigSpec COMMON_CONFIG;
     //附魔
     public static ForgeConfigSpec.BooleanValue ENCHANTING_ALL;//附魔不受物品类型和魔咒冲突的限制
-    //磁吸玩法配置设置
-    public static ForgeConfigSpec.BooleanValue CAN_FEED_IRON, CHECK_IRON_EQUIPMENT;
-    public static ForgeConfigSpec.DoubleValue SPEED_DEFAULT;
-    public static ForgeConfigSpec.IntValue RADIUS_DEFAULT, Attack_AMOUNT, COLLISION_FLAG_DEFAULT;
-    //矿车-寒冰铁轨玩法配置
-    public static ForgeConfigSpec.BooleanValue IS_COLLISION_FLY;
-    public static ForgeConfigSpec.DoubleValue MAX_SPEED;
-    public static ForgeConfigSpec.DoubleValue SLOW_RATIO;
-    //切割方块玩法配置
-    public static ForgeConfigSpec.IntValue LEVEL_CUT_TICK, VERTICAL_CUT_TICK, CUT_BLOCK_TICK, CUTBLOCK_MAX_LIFE_TICK;
-    public static ForgeConfigSpec.BooleanValue CUT_EVERYTHING;
 
     static {
 
@@ -26,11 +15,88 @@ public class Config {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         COMMON_BUILDER.comment("General settings");
         //附魔
-        ENCHANTING_ALL = COMMON_BUILDER.comment("Enchanting is not limited by Type of item or Enchantment conflicts","附魔不受物品类型和魔咒冲突的限制")
+        ENCHANTING_ALL = COMMON_BUILDER.comment("Enchanting is not limited by Type of item or Enchantment conflicts", "附魔不受物品类型和魔咒冲突的限制")
                 .translation("config.ifscience.enchantment.enchanting_all")
-                .define("enchantingAll",false);
+                .define("enchantingAll", false);
 
-        //磁吸玩法配置设置
+        MagnetAttracted(COMMON_BUILDER);//磁吸玩法配置设置
+        Minecart(COMMON_BUILDER);//矿车-寒冰铁轨玩法配置
+        CutBlock(COMMON_BUILDER);//切割方块玩法配置
+        Torch(COMMON_BUILDER);//火把玩法配置设置
+
+        COMMON_CONFIG = COMMON_BUILDER.build();
+    }
+
+    //火把玩法配置设置
+    public static ForgeConfigSpec.BooleanValue TORCH, EXTINGUISH, BURN;
+    public static ForgeConfigSpec.IntValue TORCH_FIRE;
+
+    private static void Torch(ForgeConfigSpec.Builder COMMON_BUILDER) {
+        COMMON_BUILDER.push("Torch-火把");
+        TORCH = COMMON_BUILDER.comment("Activate Torch Science gameplay", "开启火把科学玩法")
+                .translation("config.ifscience.torch.gameplay")
+                .define("gameplay", true);
+        EXTINGUISH = COMMON_BUILDER.comment("The torch will extinguish", "火把会熄灭")
+                .translation("config.ifscience.torch.extinguish")
+                .define("extinguish", true);
+        BURN = COMMON_BUILDER.comment("The torch can burn creatures", "火把会烫伤生物")
+                .translation("config.ifscience.torch.burn")
+                .define("burn", true);
+        TORCH_FIRE = COMMON_BUILDER.comment("Probability of a torch causing a fire", "火把导致着火的概率")
+                .translation("config.ifscience.torch.fire")
+                .defineInRange("fire", 100, 0, 1000);
+        COMMON_BUILDER.pop();
+    }
+
+    //切割方块玩法配置
+    public static ForgeConfigSpec.IntValue LEVEL_CUT_TICK, VERTICAL_CUT_TICK, CUT_BLOCK_TICK, CUTBLOCK_MAX_LIFE_TICK;
+    public static ForgeConfigSpec.BooleanValue CUT_EVERYTHING;
+
+    private static void CutBlock(ForgeConfigSpec.Builder COMMON_BUILDER) {
+        COMMON_BUILDER.push("CutBlock-切割方块");
+        CUT_EVERYTHING = COMMON_BUILDER.comment("Is cut-all-blocks mode on?", "是否开启可切割一切方块模式？")
+                .translation("config.ifscience.cutblock.cut_everything")
+                .define("cutEverything", false);
+        LEVEL_CUT_TICK = COMMON_BUILDER.comment("Horizontal cutting time,Unit: tick", "水平切割时间，单位：tick")
+                .translation("config.ifscience.cutblock.level_cut_tick")
+                .defineInRange("levelCutTick", 20, 1, Integer.MAX_VALUE / 50);
+        VERTICAL_CUT_TICK = COMMON_BUILDER.comment("Vertical cutting time,Unit: tick", "竖直切割时间，单位：tick")
+                .translation("config.ifscience.cutblock.vertical_cut_tick")
+                .defineInRange("verticalCutTick", 20, 1, Integer.MAX_VALUE / 50);
+        CUT_BLOCK_TICK = COMMON_BUILDER.comment("Splitting time after cutting the block,Unit: tick", "切完方块的分裂时间，单位：tick")
+                .translation("config.ifscience.cutblock.cut_block_tick")
+                .defineInRange("cutBlockTick", 10, 1, Integer.MAX_VALUE / 50);
+        CUTBLOCK_MAX_LIFE_TICK = COMMON_BUILDER.comment("Maximum lifespan of cut blocks,Unit: tick", "切割方块最大生命时间，单位：tick")
+                .translation("config.ifscience.cutblock.maxlife_cutblock_tick")
+                .defineInRange("cutBlock_maxLifeTick", 60, 1, Integer.MAX_VALUE);
+        COMMON_BUILDER.pop();
+    }
+
+    //矿车-寒冰铁轨玩法配置
+    public static ForgeConfigSpec.BooleanValue IS_COLLISION_FLY;
+    public static ForgeConfigSpec.DoubleValue MAX_SPEED;
+    public static ForgeConfigSpec.DoubleValue SLOW_RATIO;
+
+    private static void Minecart(ForgeConfigSpec.Builder COMMON_BUILDER) {
+        COMMON_BUILDER.push("Minecart-矿车");
+        IS_COLLISION_FLY = COMMON_BUILDER.comment("Minecart accident, collision and flying", "矿车出车祸发生碰撞和击飞")
+                .translation("config.ifscience.minecart.isCollisionFly")
+                .define("isCollisionFly", true);
+        MAX_SPEED = COMMON_BUILDER.comment("Maximum speed of Minecart", "矿车最大速度")
+                .translation("config.ifscience.minecart.maxSpeed")
+                .defineInRange("maxSpeed", 3.0D, 0.1D, Integer.MAX_VALUE);
+        SLOW_RATIO = COMMON_BUILDER.comment("Ice rail slowdown ratio.The smaller it is, the more obvious", "寒冰铁轨减速比例，越小减速越明显")
+                .translation("config.ifscience.minecart.slowRatio")
+                .defineInRange("slowRatio", 0.15D, 0, 1);
+        COMMON_BUILDER.pop();
+    }
+
+    //磁吸玩法配置设置
+    public static ForgeConfigSpec.BooleanValue CAN_FEED_IRON, CHECK_IRON_EQUIPMENT;
+    public static ForgeConfigSpec.DoubleValue SPEED_DEFAULT;
+    public static ForgeConfigSpec.IntValue RADIUS_DEFAULT, Attack_AMOUNT, COLLISION_FLAG_DEFAULT;
+
+    private static void MagnetAttracted(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.push("Magnet Attracted-磁吸");
         COMMON_BUILDER.push("Switch-开关");
         CAN_FEED_IRON = COMMON_BUILDER.comment("Whether to feed iron ingots to LivingEntity", "是否能给生物喂食铁锭")
@@ -53,37 +119,5 @@ public class Config {
                 .translation("config.ifscience.magnet_attracted.radius")
                 .defineInRange("radius", 20, 1, Byte.MAX_VALUE);
         COMMON_BUILDER.pop();
-        //矿车-寒冰铁轨玩法配置
-        COMMON_BUILDER.push("Minecart-矿车");
-        IS_COLLISION_FLY = COMMON_BUILDER.comment("Minecart accident, collision and flying", "矿车出车祸发生碰撞和击飞")
-                .translation("config.ifscience.minecart.isCollisionFly")
-                .define("isCollisionFly", true);
-        MAX_SPEED = COMMON_BUILDER.comment("Maximum speed of Minecart", "矿车最大速度")
-                .translation("config.ifscience.minecart.maxSpeed")
-                .defineInRange("maxSpeed", 3.0D, 0.1D, Integer.MAX_VALUE);
-        SLOW_RATIO = COMMON_BUILDER.comment("Ice rail slowdown ratio.The smaller it is, the more obvious", "寒冰铁轨减速比例，越小减速越明显")
-                .translation("config.ifscience.minecart.slowRatio")
-                .defineInRange("slowRatio", 0.15D, 0, 1);
-        COMMON_BUILDER.pop();
-
-        //切割方块玩法配置
-        COMMON_BUILDER.push("CutBlock-切割方块");
-        CUT_EVERYTHING = COMMON_BUILDER.comment("Is cut-all-blocks mode on?", "是否开启可切割一切方块模式？")
-                .translation("config.ifscience.cutblock.cut_everything")
-                .define("cutEverything", false);
-        LEVEL_CUT_TICK = COMMON_BUILDER.comment("Horizontal cutting time,Unit: tick", "水平切割时间，单位：tick")
-                .translation("config.ifscience.cutblock.level_cut_tick")
-                .defineInRange("levelCutTick", 20, 1, Integer.MAX_VALUE / 50);
-        VERTICAL_CUT_TICK = COMMON_BUILDER.comment("Vertical cutting time,Unit: tick", "竖直切割时间，单位：tick")
-                .translation("config.ifscience.cutblock.vertical_cut_tick")
-                .defineInRange("verticalCutTick", 20, 1, Integer.MAX_VALUE / 50);
-        CUT_BLOCK_TICK = COMMON_BUILDER.comment("Splitting time after cutting the block,Unit: tick", "切完方块的分裂时间，单位：tick")
-                .translation("config.ifscience.cutblock.cut_block_tick")
-                .defineInRange("cutBlockTick", 10, 1, Integer.MAX_VALUE / 50);
-        CUTBLOCK_MAX_LIFE_TICK = COMMON_BUILDER.comment("Maximum lifespan of cut blocks,Unit: tick", "切割方块最大生命时间，单位：tick")
-                .translation("config.ifscience.cutblock.maxlife_cutblock_tick")
-                .defineInRange("cutBlock_maxLifeTick", 60, 1, Integer.MAX_VALUE);
-        COMMON_BUILDER.pop();
-        COMMON_CONFIG = COMMON_BUILDER.build();
     }
 }

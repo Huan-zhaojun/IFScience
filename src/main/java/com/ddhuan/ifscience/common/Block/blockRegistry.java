@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.common.Block;
 
+import com.ddhuan.ifscience.Config;
 import com.ddhuan.ifscience.Custom.rainingUtil;
 import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Fluid.LavaFluidTileEntity;
@@ -74,7 +75,7 @@ public class blockRegistry {
     public static final RegistryObject<TorchBlock> TORCH = BLOCKS_VANILLA.register("torch", () -> new TorchBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD), ParticleTypes.FLAME) {
         @Override
         public boolean hasTileEntity(BlockState state) {
-            return true;
+            return Config.TORCH.get();//开启火把科学玩法
         }
 
         @Nullable

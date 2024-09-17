@@ -61,6 +61,10 @@
   "config.ifscience.cutblock.vertical_cut_tick": "竖直切割时间",
   "config.ifscience.cutblock.cut_block_tick": "切完分裂时间",
   "config.ifscience.cutblock.maxlife_cutblock_tick": "最大生命时间",
+  "config.ifscience.torch.gameplay": "火把科学玩法",
+  "config.ifscience.torch.fire": "着火概率",
+  "config.ifscience.torch.extinguish": "熄灭",
+  "config.ifscience.torch.burn": "烫伤",
 
   "text.ifscience.furnace_tnt1": "非常危险！远离！",
   "text.ifscience.furnace_tnt2": "这个高温熔炉里塞了TNT",

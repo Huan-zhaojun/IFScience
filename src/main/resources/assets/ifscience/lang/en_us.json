@@ -61,6 +61,10 @@
   "config.ifscience.cutblock.vertical_cut_tick": "verticalCutTick",
   "config.ifscience.cutblock.cut_block_tick": "cutBlockTick",
   "config.ifscience.cutblock.maxlife_cutblock_tick": "cutBlock maxLifeTick",
+  "config.ifscience.torch.gameplay": "Torch science gameplay",
+  "config.ifscience.torch.fire": "Fire Probability",
+  "config.ifscience.torch.extinguish": "Extinguish",
+  "config.ifscience.torch.burn": "Burn",
 
   "text.ifscience.furnace_tnt1": "VERY DANGEROUS!STAY AWAY!",
   "text.ifscience.furnace_tnt2": "This high temperature furnace is filled with TNT",

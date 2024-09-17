@@ -40,6 +40,7 @@ public class ifscience {
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(this::onClientSetUp);
+        setConfig(modEventBus);//配置文件设置
         itemRegistry.ITEMS.register(modEventBus);
         entityTypeRegistry.ENTITIES.register(modEventBus);
         blockRegistry.BLOCKS.register(modEventBus);
@@ -48,7 +49,9 @@ public class ifscience {
         EnchantmentRegistry.ENCHANTMENTS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
         DataSerializersRegistry.DATA_SERIALIZERS.register(modEventBus);
-        //配置文件设置
+    }
+
+    private void setConfig(IEventBus modEventBus) {//配置文件设置
         Config.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
         modEventBus.addListener(this::onConfig);
