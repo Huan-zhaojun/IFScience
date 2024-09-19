@@ -19,12 +19,46 @@ public class Config {
                 .translation("config.ifscience.enchantment.enchanting_all")
                 .define("enchantingAll", false);
 
+        Rain(COMMON_BUILDER);////雨天玩法配置
         MagnetAttracted(COMMON_BUILDER);//磁吸玩法配置设置
         Minecart(COMMON_BUILDER);//矿车-寒冰铁轨玩法配置
         CutBlock(COMMON_BUILDER);//切割方块玩法配置
         Torch(COMMON_BUILDER);//火把玩法配置设置
 
         COMMON_CONFIG = COMMON_BUILDER.build();
+    }
+
+    //雨天玩法配置
+    public static ForgeConfigSpec.BooleanValue RAIN, PUDDLE, SOLIDIFY_LAVA, FIRE_RAIN, THUNDER;
+    public static ForgeConfigSpec.IntValue PUDDLE_TIME,THUNDER_TIME, THUNDER_PLAYER_WEIGHT;
+
+    public static void Rain(ForgeConfigSpec.Builder COMMON_BUILDER) {
+        COMMON_BUILDER.push("Rain-下雨");
+        RAIN = COMMON_BUILDER.comment("Activate Rain Science gameplay", "开启下雨科学的玩法")
+                .translation("config.ifscience.rain.gameplay")
+                .define("gameplay", true);
+        PUDDLE = COMMON_BUILDER.comment("Rain cause Puddle on the ground", "下雨会产生地面积水")
+                .translation("config.ifscience.rain.puddle")
+                .define("puddle", true);
+        PUDDLE_TIME = COMMON_BUILDER.comment("The time interval for puddle, unit:tick", "积水产生的时间间隔，单位：刻")
+                .translation("config.ifscience.rain.puddle_time")
+                .defineInRange("puddleTime", 40, 1, Integer.MAX_VALUE);
+        SOLIDIFY_LAVA = COMMON_BUILDER.comment("Rain causes Lava to solidify", "下雨会导致岩浆凝固")
+                .translation("config.ifscience.rain.solidify_lava")
+                .define("solidifyLava", true);
+        FIRE_RAIN = COMMON_BUILDER.comment("drop fire rain", "下火雨")
+                .translation("config.ifscience.rain.fire_rain")
+                .define("fireRain", true);
+        THUNDER = COMMON_BUILDER.comment("More realistic thunder and lightning in rainy weather:The flatter the terrain, the easier it is for players to be struck by lightning and The higher the terrain, the easier it is to be struck by lightning", "更加真实的雨天打雷闪电：越平坦的地方玩家越容易被劈，越高的地方越容易被劈")
+                .translation("config.ifscience.rain.thunder")
+                .define("thunder", true);
+        THUNDER_TIME = COMMON_BUILDER.comment("Time interval of lightning strikes, unit:tick", "雷劈的时间间隔，单位：刻")
+                .translation("config.ifscience.rain.thunder_time")
+                .defineInRange("thunderTime", 200, 1, Integer.MAX_VALUE);
+        THUNDER_PLAYER_WEIGHT = COMMON_BUILDER.comment("The extra Weight of the player being struck by lightning", "玩家被雷劈的额外权重")
+                .translation("config.ifscience.rain.player_weight")
+                .defineInRange("playerWeight", 50, 0, Short.MAX_VALUE);
+        COMMON_BUILDER.pop();
     }
 
     //火把玩法配置设置
@@ -42,7 +76,7 @@ public class Config {
         BURN = COMMON_BUILDER.comment("The torch can burn creatures", "火把会烫伤生物")
                 .translation("config.ifscience.torch.burn")
                 .define("burn", true);
-        TORCH_FIRE = COMMON_BUILDER.comment("Probability of a torch causing a fire", "火把导致着火的概率")
+        TORCH_FIRE = COMMON_BUILDER.comment("Probability of a torch causing a fire per second", "每秒火把导致着火的概率")
                 .translation("config.ifscience.torch.fire")
                 .defineInRange("fire", 100, 0, 1000);
         COMMON_BUILDER.pop();

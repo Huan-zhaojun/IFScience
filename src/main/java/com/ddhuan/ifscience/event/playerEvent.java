@@ -24,6 +24,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static com.ddhuan.ifscience.Config.RAIN;
+
 @Mod.EventBusSubscriber()
 public class playerEvent {
     @SubscribeEvent
@@ -46,7 +48,8 @@ public class playerEvent {
             ServerPlayerEntity player1 = (ServerPlayerEntity) player;
             ServerWorld world1 = (ServerWorld) world;
             BlockPos posPlayer = player1.getPosition();
-            rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
+            if (RAIN.get())
+                rainingUtil.tumble(player1, world1, posPlayer);//玩家踩到下雨的积水被滑倒~
         }
     }
 

@@ -3,6 +3,7 @@ package com.ddhuan.ifscience;
 import com.ddhuan.ifscience.Custom.CutBlockUtil;
 import com.ddhuan.ifscience.Custom.MinecartUtil;
 import com.ddhuan.ifscience.Custom.magnetUtil;
+import com.ddhuan.ifscience.Custom.rainingUtil;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.DataSerializersRegistry;
 import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;
@@ -79,6 +80,7 @@ public class ifscience {
         //检查是否是需要监听的配置文件
         if (event.getConfig().getSpec() == Config.COMMON_CONFIG) {
             //更新静态变量
+            rainingUtil.updateConfig_StaticValue();
             magnetUtil.updateConfig_StaticValue();
             MinecartUtil.updateConfig_StaticValue();
             CutBlockUtil.updateConfig_StaticValue();

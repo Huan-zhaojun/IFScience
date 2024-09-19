@@ -28,6 +28,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Random;
 
+import static com.ddhuan.ifscience.Config.FIRE_RAIN;
+import static com.ddhuan.ifscience.Config.RAIN;
+
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements IResourceManagerReloadListener, AutoCloseable {
     @Shadow
@@ -62,6 +65,7 @@ public abstract class WorldRendererMixin implements IResourceManagerReloadListen
     }
 
     private void renderRainSnow1(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l) {
+        if (!RAIN.get() || !FIRE_RAIN.get()) return;
         int i1 = -1;
         float f1 = (float) this.ticks + partialTicks;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -167,7 +171,7 @@ public abstract class WorldRendererMixin implements IResourceManagerReloadListen
     }
 
     @Surrogate
-    private void renderRainSnow(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l){
+    private void renderRainSnow(LightTexture lightmapIn, float partialTicks, double xIn, double yIn, double zIn, CallbackInfo ci, float f, World world, int i, int j, int k, Tessellator tessellator, BufferBuilder bufferbuilder, int l) {
         renderRainSnow1(lightmapIn, partialTicks, xIn, yIn, zIn, ci, f, world, i, j, k, tessellator, bufferbuilder, l);
     }
 }

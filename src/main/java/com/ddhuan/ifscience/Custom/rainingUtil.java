@@ -39,6 +39,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static com.ddhuan.ifscience.Config.*;
+
 public class rainingUtil {
     private rainingUtil() {
     }
@@ -51,7 +53,7 @@ public class rainingUtil {
 
     //下雨产生地面积水
     public static void placePuddle(World world) {
-        if (world.isRaining() && world.getGameTime() % 40 == 0) {
+        if (world.isRaining() && world.getGameTime() % PUDDLE_TIME.get() == 0) {
             for (PlayerEntity player : world.getPlayers()) {
                 Biome biome = world.getBiome(player.getPosition());
                 if (biome.getPrecipitation() == Biome.RainType.RAIN || biome.getPrecipitation() == Biome.RainType.SNOW) {
@@ -98,7 +100,7 @@ public class rainingUtil {
     }
 
     //岩浆受到雨水被凝固
-    public static void extinguishLava(World world, BlockPos pos, Biome.RainType rainType) {
+    public static void solidifyLava(World world, BlockPos pos, Biome.RainType rainType) {
         if (world.isRaining() && (rainType == Biome.RainType.RAIN || rainType == Biome.RainType.SNOW)) {
             if (world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).add(0, -1, 0).equals(pos)) {
                 world.addParticle(ParticleTypes.POOF, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 0, 0, 0);
@@ -108,8 +110,8 @@ public class rainingUtil {
         }
     }
 
-    public static final long thunderTime = 200;
-    public static final int thunderPlayerWeight = 50;
+    public static long thunderTime = 200;
+    public static int thunderPlayerWeight = 50;
 
 
     //打雷：越平坦的地方玩家越容易被劈，越高的地方越容易被劈
@@ -224,4 +226,8 @@ public class rainingUtil {
         }
     }
 
+    public static void updateConfig_StaticValue() {
+        thunderTime = THUNDER_TIME.get();
+        thunderPlayerWeight = THUNDER_PLAYER_WEIGHT.get();
+    }
 }

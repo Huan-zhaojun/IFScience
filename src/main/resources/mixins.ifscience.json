@@ -14,6 +14,7 @@
     "WorldMixin",
     "block.BlockMixin",
     "block.FireBlockMixin",
+    "block.TorchBlockMixin",
     "block.WallTorchBlockMixin",
     "entity.AbstractMinecartEntityMixin",
     "entity.EntityMixin",
