@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ifscience:block/safety_torch"
+    }
+  }
+}

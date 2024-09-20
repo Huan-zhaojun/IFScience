@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.mixin.block;
 
+import com.ddhuan.ifscience.Config;
 import com.ddhuan.ifscience.common.TileEntity.TorchTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TorchBlock;
@@ -19,7 +20,7 @@ public abstract class WallTorchBlockMixin extends TorchBlock {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return true;
+        return Config.TORCH.get();//开启火把科学玩法
     }
 
     @Nullable

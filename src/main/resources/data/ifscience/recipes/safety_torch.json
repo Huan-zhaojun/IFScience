@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    " R ",
+    " # "
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:acacia_log"
+      },
+      {
+        "item": "minecraft:birch_log"
+      },
+      {
+        "item": "minecraft:dark_oak_log"
+      },
+      {
+        "item": "minecraft:jungle_log"
+      },
+      {
+        "item": "minecraft:oak_log"
+      },
+      {
+        "item": "minecraft:spruce_log"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:coal"
+      },
+      {
+        "item": "minecraft:charcoal"
+      }
+    ],
+    "X": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "ifscience:safety_torch",
+    "count": 8
+  }
+}

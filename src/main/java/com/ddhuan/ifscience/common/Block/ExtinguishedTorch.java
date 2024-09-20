@@ -14,6 +14,14 @@ import net.minecraft.world.IWorldReader;
 public class ExtinguishedTorch extends Block {
     public static final VoxelShape SHAPE = Block.makeCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
 
+    //被水流冲毁的火把会掉落熄灭的火把
+    public static BlockState flowDamage(BlockState blockState) {
+        Block block = blockState.getBlock();
+        if (block.equals(Blocks.TORCH) || block.equals(Blocks.WALL_TORCH))
+            blockState = blockRegistry.extinguishedTorch.get().getDefaultState();//被水流冲毁的火把会掉落熄灭的火把
+        return blockState;
+    }
+    
     public ExtinguishedTorch(Properties properties) {
         super(properties);
     }

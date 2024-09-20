@@ -78,10 +78,15 @@ public class blockRegistry {
     //熄灭的火把
     public static final RegistryObject<ExtinguishedTorch> extinguishedTorch = BLOCKS.register("extinguished_torch", () -> new ExtinguishedTorch(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.WOOD)));
     public static final RegistryObject<WallExtinguishedTorch> wallExtinguishedTorch = BLOCKS.register("wall_extinguished_torch", () -> new WallExtinguishedTorch(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD).lootFrom(extinguishedTorch)));
+    //安全火把
+    public static final RegistryObject<SafetyTorch> safetyTorch = BLOCKS.register("safety_torch", () -> new SafetyTorch(AbstractBlock.Properties.create(Material.ROCK).zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD)));
+    public static final RegistryObject<WallSafetyTorch> wallSafetyTorch = BLOCKS.register("wall_safety_torch", () -> new WallSafetyTorch(AbstractBlock.Properties.create(Material.ROCK).zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD).lootFrom(safetyTorch)));
 
     public static void setBlockRenderType() {
         RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(extinguishedTorch.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(wallExtinguishedTorch.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(safetyTorch.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(wallSafetyTorch.get(), RenderType.getCutout());
     }
 }

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ifscience:block/wall_safety_torch"
+    },
+    "facing=north": {
+      "model": "ifscience:block/wall_safety_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ifscience:block/wall_safety_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ifscience:block/wall_safety_torch",
+      "y": 180
+    }
+  }
+}
