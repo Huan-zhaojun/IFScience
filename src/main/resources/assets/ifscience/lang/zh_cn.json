@@ -68,6 +68,8 @@
   "config.ifscience.minecart.maxSpeed": "最大速度",
   "config.ifscience.minecart.slowRatio": "减速比",
   "config.ifscience.cutblock.cut_everything": "切割所有模式",
+  "config.ifscience.cutblock.rebound1": "反弹1",
+  "config.ifscience.cutblock.rebound2": "反弹2",
   "config.ifscience.cutblock.level_cut_tick": "水平切割时间",
   "config.ifscience.cutblock.vertical_cut_tick": "竖直切割时间",
   "config.ifscience.cutblock.cut_block_tick": "切完分裂时间",

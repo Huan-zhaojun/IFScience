@@ -28,5 +28,6 @@ public class Network {
         INSTANCE.registerMessage(nextID(), playSoundPack.class, playSoundPack::toBytes, playSoundPack::new, playSoundPack::handler);
         INSTANCE.registerMessage(nextID(), magnetAttractPack.class, magnetAttractPack::toBytes, magnetAttractPack::new, magnetAttractPack::handler);
         INSTANCE.registerMessage(nextID(), EnchantedBlocksDataPack.class, EnchantedBlocksDataPack::toBytes, EnchantedBlocksDataPack::new, EnchantedBlocksDataPack::handler);
+        INSTANCE.registerMessage(nextID(), BlockBreakProgressPack.class, BlockBreakProgressPack::toBytes, BlockBreakProgressPack::new, BlockBreakProgressPack::handler);
     }
 }

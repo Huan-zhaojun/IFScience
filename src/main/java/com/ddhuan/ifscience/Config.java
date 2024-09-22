@@ -30,7 +30,7 @@ public class Config {
 
     //雨天玩法配置
     public static ForgeConfigSpec.BooleanValue RAIN, PUDDLE, SOLIDIFY_LAVA, FIRE_RAIN, THUNDER;
-    public static ForgeConfigSpec.IntValue PUDDLE_TIME,THUNDER_TIME, THUNDER_PLAYER_WEIGHT;
+    public static ForgeConfigSpec.IntValue PUDDLE_TIME, THUNDER_TIME, THUNDER_PLAYER_WEIGHT;
 
     public static void Rain(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.push("Rain-下雨");
@@ -83,6 +83,7 @@ public class Config {
     }
 
     //切割方块玩法配置
+    public static ForgeConfigSpec.IntValue REBOUND1, REBOUND2;
     public static ForgeConfigSpec.IntValue LEVEL_CUT_TICK, VERTICAL_CUT_TICK, CUT_BLOCK_TICK, CUTBLOCK_MAX_LIFE_TICK;
     public static ForgeConfigSpec.BooleanValue CUT_EVERYTHING;
 
@@ -91,6 +92,12 @@ public class Config {
         CUT_EVERYTHING = COMMON_BUILDER.comment("Is cut-all-blocks mode on?", "是否开启可切割一切方块模式？")
                 .translation("config.ifscience.cutblock.cut_everything")
                 .define("cutEverything", false);
+        REBOUND1 = COMMON_BUILDER.comment("Probability of rebound caused by cutting blocks with lower hardness", "切割硬度更小的方块导致反弹的概率")
+                .translation("config.ifscience.cutblock.rebound1")
+                .defineInRange("rebound1", 10, 0, 1000);
+        REBOUND2 = COMMON_BUILDER.comment("Probability of rebound caused by cutting blocks with equal hardness", "切割硬度相等的方块导致反弹的概率")
+                .translation("config.ifscience.cutblock.rebound2")
+                .defineInRange("rebound2", 100, 0, 1000);
         LEVEL_CUT_TICK = COMMON_BUILDER.comment("Horizontal cutting time,Unit: tick", "水平切割时间，单位：tick")
                 .translation("config.ifscience.cutblock.level_cut_tick")
                 .defineInRange("levelCutTick", 20, 1, Integer.MAX_VALUE / 50);

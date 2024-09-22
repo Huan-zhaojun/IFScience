@@ -21,6 +21,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+import static com.ddhuan.ifscience.Config.REBOUND1;
+import static com.ddhuan.ifscience.Config.REBOUND2;
+
 
 public final class CutBlockUtil {
     //左键点击切割方块
@@ -50,8 +53,8 @@ public final class CutBlockUtil {
                         return;
                     }
                     float blockHardness = blockState.getBlockHardness(world, pos);//判定角磨机硬度和方块硬度
-                    if (angleGrinder.hardness == blockHardness) {
-                        if (Math.random() < 0.10) {
+                    if (angleGrinder.hardness == blockHardness) {//硬度相等
+                        if (Math.random() < (double) REBOUND2.get() / 1000) {
                             itemStack.setDamage(itemStack.getDamage() + (itemStack.getMaxDamage() / 3));
                             ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
                             itementity.setDefaultPickupDelay();
@@ -67,7 +70,7 @@ public final class CutBlockUtil {
                         player.attackEntityFrom(customDamage.AngleGrinder1, (float) (player.getMaxHealth() * (1 + Math.random())));
                         return;
                     } else if (angleGrinder.hardness > blockHardness) {
-                        if (Math.random() < 0.01) {
+                        if (Math.random() < (double) REBOUND1.get() / 1000) {
                             itemStack.setDamage(itemStack.getDamage() + (itemStack.getMaxDamage() / 5));
                             ItemEntity itementity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
                             itementity.setDefaultPickupDelay();

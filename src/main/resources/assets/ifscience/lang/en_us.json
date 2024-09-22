@@ -68,6 +68,8 @@
   "config.ifscience.minecart.maxSpeed": "maxSpeed",
   "config.ifscience.minecart.slowRatio": "slowRatio",
   "config.ifscience.cutblock.cut_everything": "cutEverything",
+  "config.ifscience.cutblock.rebound1": "Rebound1",
+  "config.ifscience.cutblock.rebound2": "Rebound2",
   "config.ifscience.cutblock.level_cut_tick": "levelCutTick",
   "config.ifscience.cutblock.vertical_cut_tick": "verticalCutTick",
   "config.ifscience.cutblock.cut_block_tick": "cutBlockTick",
