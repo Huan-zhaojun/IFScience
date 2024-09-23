@@ -1,6 +1,15 @@
 package com.ddhuan.ifscience;
 
+import com.ddhuan.ifscience.Custom.ExplosionProofUtil;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class Config {
     public static ForgeConfigSpec COMMON_CONFIG;
@@ -24,9 +33,32 @@ public class Config {
         Minecart(COMMON_BUILDER);//矿车-寒冰铁轨玩法配置
         CutBlock(COMMON_BUILDER);//切割方块玩法配置
         Torch(COMMON_BUILDER);//火把玩法配置设置
-
+        ExplosionProof(COMMON_BUILDER);//防爆玩法配置
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
+
+    //防爆玩法配置
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> HEAT_SOURCE_BLOCKS, COOL_SOURCE__BLOCKS;
+    public static ForgeConfigSpec.IntValue GLASS_BURST_TIME;
+
+    public static void ExplosionProof(ForgeConfigSpec.Builder COMMON_BUILDER) {
+        COMMON_BUILDER.push("ExplosionProof-防爆玩法");
+        HEAT_SOURCE_BLOCKS = COMMON_BUILDER.comment("heat source blocks that causes glass to burst", "导致玻璃爆裂的热源方块")
+                .translation("config.ifscience.explosion_proof.heat_source_blocks")
+                .defineList("heatSourceBlocks",
+                        ExplosionProofUtil.heatSourceBlocksName,
+                        ListConfig.elementValidator);
+        COOL_SOURCE__BLOCKS = COMMON_BUILDER.comment("cool source blocks that causes glass to burst", "导致玻璃爆裂的冷源方块")
+                .translation("config.ifscience.explosion_proof.cool_source_blocks")
+                .defineList("coolSourceBlocks",
+                        ExplosionProofUtil.coolSourceBlocksName,
+                        ListConfig.elementValidator);
+        GLASS_BURST_TIME = COMMON_BUILDER.comment("The time interval between crack changes caused by alternating hot and cold glass", "玻璃冷热交替裂开变化更新的时间间隔")
+                .translation("config.ifscience.explosion_proof.glass_burst_time")
+                .defineInRange("glassBurstTime", 10, 1, Integer.MAX_VALUE);
+        COMMON_BUILDER.pop();
+    }
+
 
     //雨天玩法配置
     public static ForgeConfigSpec.BooleanValue RAIN, PUDDLE, SOLIDIFY_LAVA, FIRE_RAIN, THUNDER;
@@ -160,5 +192,21 @@ public class Config {
                 .translation("config.ifscience.magnet_attracted.radius")
                 .defineInRange("radius", 20, 1, Byte.MAX_VALUE);
         COMMON_BUILDER.pop();
+    }
+
+    public static class ListConfig {//负责处理List集合的配置设置
+        public static final Predicate<Object> elementValidator = o -> o instanceof String && ((String) o).matches("^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$");
+
+        public static HashSet<Block> getBlockSet(List<? extends String> blockNameList) {
+            HashSet<Block> blocks = new HashSet<>();
+            IForgeRegistry<Block> blocksRegistry = ForgeRegistries.BLOCKS;
+            for (String blockName : blockNameList) {
+                ResourceLocation resourceLocation = new ResourceLocation(blockName);
+                if (!blocksRegistry.containsKey(resourceLocation)) continue;
+                Block block = blocksRegistry.getValue(resourceLocation);
+                blocks.add(block);
+            }
+            return blocks;
+        }
     }
 }

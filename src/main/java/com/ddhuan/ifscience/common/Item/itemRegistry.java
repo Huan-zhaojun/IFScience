@@ -161,7 +161,14 @@ public class itemRegistry {
             () -> new WallOrFloorItem(blockRegistry.extinguishedTorch.get(), blockRegistry.wallExtinguishedTorch.get(), (new Item.Properties()).group(ifScience)));
 
     public static RegistryObject<WallOrFloorItem> safetyTorch = ITEMS.register("safety_torch",/*安全火把*/
-            () -> new WallOrFloorItem(blockRegistry.safetyTorch.get(), blockRegistry.wallSafetyTorch.get(), (new Item.Properties()).group(ifScience)));
+            () -> new WallOrFloorItem(blockRegistry.safetyTorch.get(), blockRegistry.wallSafetyTorch.get(), (new Item.Properties()).group(ifScience)){
+                @Override
+                public ActionResultType onItemUse(ItemUseContext context) {
+                    //System.out.println(ForgeRegistries.BLOCKS.getKey(Blocks.LAVA).toString());
+                    //System.out.println(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft:lava")) != null);
+                    return super.onItemUse(context);
+                }
+            });
 
     //自定义附魔书
     public static RegistryObject<ModEnchantedBookItem> modEnchantedBook = ITEMS.register("enchanted_book",

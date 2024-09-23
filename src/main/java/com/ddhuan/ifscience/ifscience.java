@@ -1,9 +1,6 @@
 package com.ddhuan.ifscience;
 
-import com.ddhuan.ifscience.Custom.CutBlockUtil;
-import com.ddhuan.ifscience.Custom.MinecartUtil;
-import com.ddhuan.ifscience.Custom.magnetUtil;
-import com.ddhuan.ifscience.Custom.rainingUtil;
+import com.ddhuan.ifscience.Custom.*;
 import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.DataSerializersRegistry;
 import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;
@@ -84,6 +81,7 @@ public class ifscience {
             magnetUtil.updateConfig_StaticValue();
             MinecartUtil.updateConfig_StaticValue();
             CutBlockUtil.updateConfig_StaticValue();
+            ExplosionProofUtil.updateConfig_StaticValue();
         }
     }
 }
