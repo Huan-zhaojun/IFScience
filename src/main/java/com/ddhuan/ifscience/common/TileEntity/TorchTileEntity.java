@@ -8,12 +8,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.List;
 
@@ -62,15 +66,41 @@ public class TorchTileEntity extends TileEntity implements ITickableTileEntity {
                     }
                 }
             }
-            if (world.isRainingAt(pos) && EXTINGUISH.get()) {//下雨火把会被熄灭
-                BlockState blockState = world.getBlockState(pos);
-                BlockState blockState1 = blockRegistry.extinguishedTorch.get().getDefaultState();
-                if (blockState.getBlock().equals(Blocks.WALL_TORCH))
-                    blockState1 = blockRegistry.wallExtinguishedTorch.get().getDefaultState().with(HORIZONTAL_FACING, blockState.get(WallTorchBlock.HORIZONTAL_FACING));
-                world.setBlockState(pos, blockState1, 11);
-            }
+            if (world.isRainingAt(pos) && EXTINGUISH.get()) extinguished(world, pos);//下雨火把会被熄灭
+            if (existProjectileEntity()) extinguished(world, pos);//被弹射物吹灭火把
         }
     }
+
+    public boolean existProjectileEntity() {//周围存在飞行的弹射物
+        if (world == null) return false;
+        double x = pos.getX() + 0.5, y = pos.getY() + 0.35, z = pos.getZ() + 0.5;
+        Vector3d torchVec = new Vector3d(x, y, z);
+        double range = 1, speed = 0.1;
+        return !world.getEntitiesWithinAABB(ProjectileEntity.class, new AxisAlignedBB(x, y, z, x, y, z).grow(range),
+                projectileEntity -> {
+                    boolean b = projectileEntity.getPositionVec().subtract(torchVec).length() < range && projectileEntity.getMotion().length() > speed;
+                    if (projectileEntity instanceof AbstractArrowEntity) {
+                        AbstractArrowEntity entity = (AbstractArrowEntity) projectileEntity;
+                        try {
+                            //是否插在方块上
+                            b = !(boolean) ObfuscationReflectionHelper.findField(AbstractArrowEntity.class, "field_70254_i").get(entity);
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    return b;
+                }
+        ).isEmpty();
+    }
+
+    public static void extinguished(World world, BlockPos pos) {//火把熄灭方法
+        BlockState blockState = world.getBlockState(pos);
+        BlockState blockState1 = blockRegistry.extinguishedTorch.get().getDefaultState();
+        if (blockState.getBlock().equals(Blocks.WALL_TORCH))
+            blockState1 = blockRegistry.wallExtinguishedTorch.get().getDefaultState().with(HORIZONTAL_FACING, blockState.get(WallTorchBlock.HORIZONTAL_FACING));
+        world.setBlockState(pos, blockState1, 11);
+    }
+
 
     public void fire() {
         for (Direction direction : Direction.values()) {

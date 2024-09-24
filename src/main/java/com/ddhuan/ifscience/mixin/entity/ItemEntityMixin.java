@@ -27,4 +27,11 @@ public abstract class ItemEntityMixin extends Entity {
         if (EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.FireProof.get(), getItem()) > 0)
             cir.setReturnValue(true);//当物品具有防火附魔时不会被烧掉
     }
+
+    @Override
+    public boolean isImmuneToExplosions() {
+        if (EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.ExplosionProof.get(), getItem()) > 0)
+            return true;//当物品具有防爆附魔不会被炸毁
+        return super.isImmuneToExplosions();
+    }
 }
