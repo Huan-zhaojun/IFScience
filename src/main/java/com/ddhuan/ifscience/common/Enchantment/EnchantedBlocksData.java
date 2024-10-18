@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.HashMap;
@@ -105,7 +107,24 @@ public class EnchantedBlocksData extends WorldSavedData {
         super(NAME);
     }
 
+    //客户端数据存储
+    @OnlyIn(Dist.CLIENT)
     public static class EnchantedBlocksClientData {
         public static HashMap<BlockPos, ListNBT> enchantedBlocks = new HashMap<>();
+
+        //获取某个方块的所有附魔数据，不存在就返回空Map
+        public static Map<Enchantment, Integer> getEnchantedBlock(BlockPos pos) {
+            ListNBT listNBT = enchantedBlocks.get(pos);
+            return listNBT != null ? EnchantmentHelper.deserializeEnchantments(listNBT) : new HashMap<>();
+        }
+
+        //获取某个方块的某个附魔数据的数据，不存在就返回-1
+        public static Integer getEnchantedBlock(BlockPos pos, Enchantment enchantment) {
+            ListNBT listNBT = enchantedBlocks.get(pos);
+            if (listNBT != null) {
+                Integer i = EnchantmentHelper.deserializeEnchantments(listNBT).get(enchantment);
+                return i != null ? i : -1;
+            } else return -1;
+        }
     }
 }

@@ -13,6 +13,7 @@
     "PlayerInteractionManagerMixin",
     "RepairContainerMixin",
     "WorldMixin",
+    "block.AbstractBlockStateMixin",
     "block.AbstractGlassBlockMixin",
     "block.BlockMixin",
     "block.FireBlockMixin",

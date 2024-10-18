@@ -63,6 +63,7 @@ public final class ExplosionProofUtil {
             }
             //不存在冰凉的东西
             renewState(block, state, worldIn, pos, --i);//逐渐恢复回去
+            SoundHandlerNetHelper.stop(SoundEventRegistry.glassBurst.get().getName(), null);//停止玻璃开裂声
         }
     }
 
