@@ -197,14 +197,13 @@ public class Config {
     public static class ListConfig {//负责处理List集合的配置设置
         public static final Predicate<Object> elementValidator = o -> o instanceof String && ((String) o).matches("^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$");
 
-        public static HashSet<Block> getBlockSet(List<? extends String> blockNameList) {
-            HashSet<Block> blocks = new HashSet<>();
+        public static HashSet<ResourceLocation> getBlockSet(List<? extends String> blockNameList) {
+            HashSet<ResourceLocation> blocks = new HashSet<>();
             IForgeRegistry<Block> blocksRegistry = ForgeRegistries.BLOCKS;
             for (String blockName : blockNameList) {
                 ResourceLocation resourceLocation = new ResourceLocation(blockName);
                 if (!blocksRegistry.containsKey(resourceLocation)) continue;
-                Block block = blocksRegistry.getValue(resourceLocation);
-                blocks.add(block);
+                blocks.add(resourceLocation);
             }
             return blocks;
         }

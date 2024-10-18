@@ -12,6 +12,7 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -43,6 +44,7 @@ public class TorchTileEntity extends TileEntity implements ITickableTileEntity {
                     List<LivingEntity> livingEntitys = world.getEntitiesWithinAABB(LivingEntity.class, axisAlignedBB);
                     if (!livingEntitys.isEmpty()) {
                         livingEntitys.forEach(livingEntity -> {
+                            livingEntity.attackEntityFrom(DamageSource.ON_FIRE,4);
                             livingEntity.setFire(1);//靠近火把会使生物着火
                         });
                     }
@@ -61,6 +63,7 @@ public class TorchTileEntity extends TileEntity implements ITickableTileEntity {
                     List<LivingEntity> livingEntitys2 = world.getEntitiesWithinAABB(LivingEntity.class, axisAlignedBB2);
                     if (!livingEntitys2.isEmpty()) {
                         livingEntitys2.forEach(livingEntity -> {
+                            livingEntity.attackEntityFrom(DamageSource.ON_FIRE,4);
                             livingEntity.setFire(1);//靠近火把会使生物着火
                         });
                     }

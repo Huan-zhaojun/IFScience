@@ -1,0 +1,12 @@
+{
+  "glass_burst": {
+    "subtitle": "text.sound.${mod_id}.glass_burst",
+    "replace": "false",
+    "sounds": [
+      {
+        "name": "${mod_id}:glass_burst",
+        "stream": true
+      }
+    ]
+  }
+}

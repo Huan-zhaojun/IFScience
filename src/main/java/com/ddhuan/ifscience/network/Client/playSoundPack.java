@@ -26,7 +26,7 @@ public class playSoundPack implements IModPack {
         this.y = y;
         this.z = z;
         this.soundEvents = soundEvents;
-        this.soundCategory = soundCategory;
+        this.soundCategory = soundCategory.toUpperCase();
         this.volume = volume;
         this.pitch = pitch;
         this.distanceDelay = distanceDelay;

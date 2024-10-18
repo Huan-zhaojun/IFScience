@@ -93,5 +93,7 @@
   "text.ifscience.iron_angle_grinder1": "Can be used to cut the block",
   "text.ifscience.iron_angle_grinder2": "Please use with care!",
   "text.ifscience.obsidian_netherite_angle_grinder1": "Replaced very hard cutting blades",
-  "text.ifscience.obsidian_netherite_angle_grinder2": "Almost all blocks can be cut"
+  "text.ifscience.obsidian_netherite_angle_grinder2": "Almost all blocks can be cut",
+
+  "text.sound.${mod_id}.glass_burst": "glass:burst"
 }

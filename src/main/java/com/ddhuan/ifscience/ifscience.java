@@ -8,6 +8,7 @@ import com.ddhuan.ifscience.common.Entity.entityTypeRegistry;
 import com.ddhuan.ifscience.common.Entity.render.EntityRenderRegistryManager;
 import com.ddhuan.ifscience.common.Fluid.FluidRegistry;
 import com.ddhuan.ifscience.common.Item.itemRegistry;
+import com.ddhuan.ifscience.common.SoundEventRegistry;
 import com.ddhuan.ifscience.common.TileEntity.TileEntityTypeRegistry;
 import com.ddhuan.ifscience.network.Network;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,6 +48,7 @@ public class ifscience {
         EnchantmentRegistry.ENCHANTMENTS.register(modEventBus);
         TileEntityTypeRegistry.TILE_ENTITIES.register(modEventBus);
         DataSerializersRegistry.DATA_SERIALIZERS.register(modEventBus);
+        SoundEventRegistry.SOUNDS.register(modEventBus);
     }
 
     private void setConfig(IEventBus modEventBus) {//配置文件设置

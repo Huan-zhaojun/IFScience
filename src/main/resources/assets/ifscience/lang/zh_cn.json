@@ -93,5 +93,7 @@
   "text.ifscience.iron_angle_grinder1": "可以用来切割方块",
   "text.ifscience.iron_angle_grinder2": "请小心使用！",
   "text.ifscience.obsidian_netherite_angle_grinder1": "更换了非常坚硬的切割片",
-  "text.ifscience.obsidian_netherite_angle_grinder2": "几乎可以切割所有方块"
+  "text.ifscience.obsidian_netherite_angle_grinder2": "几乎可以切割所有方块",
+
+  "text.sound.${mod_id}.glass_burst": "玻璃：开裂"
 }

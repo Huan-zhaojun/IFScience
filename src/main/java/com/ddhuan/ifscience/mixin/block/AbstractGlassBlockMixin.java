@@ -1,7 +1,9 @@
 package com.ddhuan.ifscience.mixin.block;
 
+import com.ddhuan.ifscience.common.SoundEventRegistry;
 import com.ddhuan.ifscience.network.Client.BlockBreakProgressPack;
 import com.ddhuan.ifscience.network.Network;
+import com.ddhuan.ifscience.network.SoundHandlerNetHelper;
 import net.minecraft.block.AbstractGlassBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -48,7 +50,10 @@ public abstract class AbstractGlassBlockMixin extends BreakableBlock {
 
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new BlockBreakProgressPack(pos, -1));
+        if (newState.getBlock() != state.getBlock()) {
+            Network.INSTANCE.send(PacketDistributor.ALL.noArg(), new BlockBreakProgressPack(pos, -1));
+            SoundHandlerNetHelper.stop(SoundEventRegistry.glassBurst.get().getName(), null);//停止玻璃开裂声
+        }
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 

@@ -29,5 +29,6 @@ public class Network {
         INSTANCE.registerMessage(nextID(), magnetAttractPack.class, magnetAttractPack::toBytes, magnetAttractPack::new, magnetAttractPack::handler);
         INSTANCE.registerMessage(nextID(), EnchantedBlocksDataPack.class, EnchantedBlocksDataPack::toBytes, EnchantedBlocksDataPack::new, EnchantedBlocksDataPack::handler);
         INSTANCE.registerMessage(nextID(), BlockBreakProgressPack.class, BlockBreakProgressPack::toBytes, BlockBreakProgressPack::new, BlockBreakProgressPack::handler);
+        SoundHandlerNetHelper.register(INSTANCE);
     }
 }
