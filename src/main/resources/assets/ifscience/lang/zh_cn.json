@@ -78,9 +78,11 @@
   "config.ifscience.torch.fire": "着火概率",
   "config.ifscience.torch.extinguish": "熄灭",
   "config.ifscience.torch.burn": "烫伤",
+  "config.ifscience.explosion_proof.glass_burst": "玻璃爆裂",
   "config.ifscience.explosion_proof.heat_source_blocks": "热源方块",
   "config.ifscience.explosion_proof.cool_source_blocks": "冷源方块",
   "config.ifscience.explosion_proof.glass_burst_time": "玻璃爆裂时隔",
+  "config.ifscience.explosion_proof.glass_crack_sound_volume": "玻璃开裂音量",
 
   "text.ifscience.furnace_tnt1": "非常危险！远离！",
   "text.ifscience.furnace_tnt2": "这个高温熔炉里塞了TNT",

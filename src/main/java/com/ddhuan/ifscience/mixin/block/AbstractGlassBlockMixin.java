@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.mixin.block;
 
+import com.ddhuan.ifscience.Config;
 import com.ddhuan.ifscience.common.SoundEventRegistry;
 import com.ddhuan.ifscience.network.Client.BlockBreakProgressPack;
 import com.ddhuan.ifscience.network.Network;
@@ -40,12 +41,12 @@ public abstract class AbstractGlassBlockMixin extends BreakableBlock {
 
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        tryScheduleBurstTick(this, state, worldIn, pos);
+        if (Config.GLASS_BURST.get()) tryScheduleBurstTick(this, state, worldIn, pos);
     }
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        tryScheduleBurstTick(this, state, worldIn, pos);
+        if (Config.GLASS_BURST.get()) tryScheduleBurstTick(this, state, worldIn, pos);
     }
 
     @Override

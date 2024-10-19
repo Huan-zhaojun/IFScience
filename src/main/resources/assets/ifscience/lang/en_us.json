@@ -78,9 +78,11 @@
   "config.ifscience.torch.fire": "Fire Probability",
   "config.ifscience.torch.extinguish": "Extinguish",
   "config.ifscience.torch.burn": "Burn",
+  "config.ifscience.explosion_proof.glass_burst": "glass Burst",
   "config.ifscience.explosion_proof.heat_source_blocks": "heat source blocks",
   "config.ifscience.explosion_proof.cool_source_blocks": "cool source blocks",
   "config.ifscience.explosion_proof.glass_burst_time": "glass burst time",
+  "config.ifscience.explosion_proof.glass_crack_sound_volume": "glass crack volume",
 
   "text.ifscience.furnace_tnt1": "VERY DANGEROUS!STAY AWAY!",
   "text.ifscience.furnace_tnt2": "This high temperature furnace is filled with TNT",

@@ -58,7 +58,7 @@ public final class ExplosionProofUtil {
                 //播放玻璃开裂声
                 SoundHandlerNetHelper.play(pos.getX(), pos.getY(), pos.getZ(),
                         SoundEventRegistry.glassBurst.get(), SoundCategory.VOICE,
-                        0.075F, 1F, true, 0);
+                        new Float(GLASS_BURST_SOUND_VOLUME.get()), 1F, true, 0);
                 return;
             }
             //不存在冰凉的东西

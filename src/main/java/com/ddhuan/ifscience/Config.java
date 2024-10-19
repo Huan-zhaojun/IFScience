@@ -38,11 +38,16 @@ public class Config {
     }
 
     //防爆玩法配置
+    public static ForgeConfigSpec.BooleanValue GLASS_BURST;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> HEAT_SOURCE_BLOCKS, COOL_SOURCE__BLOCKS;
     public static ForgeConfigSpec.IntValue GLASS_BURST_TIME;
+    public static ForgeConfigSpec.DoubleValue GLASS_BURST_SOUND_VOLUME;
 
     public static void ExplosionProof(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.push("ExplosionProof-防爆玩法");
+        GLASS_BURST = COMMON_BUILDER.comment("Will the glass burst due to alternating hot and cold", "玻璃是否会冷热交替导致爆裂")
+                .translation("config.ifscience.explosion_proof.glass_burst")
+                .define("glassBurst", true);
         HEAT_SOURCE_BLOCKS = COMMON_BUILDER.comment("heat source blocks that causes glass to burst", "导致玻璃爆裂的热源方块")
                 .translation("config.ifscience.explosion_proof.heat_source_blocks")
                 .defineList("heatSourceBlocks",
@@ -56,6 +61,9 @@ public class Config {
         GLASS_BURST_TIME = COMMON_BUILDER.comment("The time interval between crack changes caused by alternating hot and cold glass", "玻璃冷热交替裂开变化更新的时间间隔")
                 .translation("config.ifscience.explosion_proof.glass_burst_time")
                 .defineInRange("glassBurstTime", 10, 1, Integer.MAX_VALUE);
+        GLASS_BURST_SOUND_VOLUME = COMMON_BUILDER.comment("The volume of the sound of crack caused by alternating hot and cold glass", "玻璃冷热交替裂开声音的音量")
+                .translation("config.ifscience.explosion_proof.glass_crack_sound_volume")
+                .defineInRange("crackSoundVolume", 0.35, 0, Short.MAX_VALUE);
         COMMON_BUILDER.pop();
     }
 
