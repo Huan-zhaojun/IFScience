@@ -120,6 +120,9 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    /*maven { url "https://maven.shedaniel.me/" }*/
+    maven {url "https://cursemaven.com"} //添加curseForge模组依赖前Maven仓库
 }
 
 dependencies {
@@ -146,6 +149,8 @@ dependencies {
 
     // Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    /*api fg.deobf("me.shedaniel.cloth:cloth-config-forge:4.17.132")*/
+    runtimeOnly fg.deobf("curse.maven:configured-457570:4462830") //运行时添加configured配置界面模组
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
