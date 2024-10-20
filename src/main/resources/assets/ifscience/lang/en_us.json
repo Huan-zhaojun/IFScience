@@ -13,6 +13,7 @@
   "item.ifscience.obsidian_netherite_angle_grinder": "obsidian-netherite AngleGrinder",
   "item.ifscience.extinguished_torch": "extinguished torch",
   "item.ifscience.safety_torch": "safety torch",
+  "item.ifscience.reinforced_glass": "reinforced glass",
   "item.ifscience.enchanted_book": "senchanted book",
 
   "block.ifscience.puddle_fluid": "puddle block",
@@ -21,6 +22,7 @@
   "block.ifscience.wall_extinguished_torch": "wall extinguished torch",
   "block.ifscience.safety_torch": "safety torch",
   "block.ifscience.wall_safety_torch": "wall safety torch",
+  "block.ifscience.reinforced_glass": "reinforced glass",
 
   "fluid.ifscience.puddle_fluid": "puddle still fluid",
   "fluid.ifscience.puddle_fluid_flowing": "puddle flowing fluid",

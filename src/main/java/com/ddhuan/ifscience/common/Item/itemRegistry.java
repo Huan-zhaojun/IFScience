@@ -163,6 +163,9 @@ public class itemRegistry {
     public static RegistryObject<WallOrFloorItem> safetyTorch = ITEMS.register("safety_torch",/*安全火把*/
             () -> new WallOrFloorItem(blockRegistry.safetyTorch.get(), blockRegistry.wallSafetyTorch.get(), (new Item.Properties()).group(ifScience)));
 
+    public static RegistryObject<BlockItem> reinforcedGlass = ITEMS.register("reinforced_glass",
+            () -> new BlockItem(blockRegistry.reinforcedGlass.get(), new Item.Properties().group(itemRegistry.ifScience)));
+
     //自定义附魔书
     public static RegistryObject<ModEnchantedBookItem> modEnchantedBook = ITEMS.register("enchanted_book",
             () -> new ModEnchantedBookItem(new Item.Properties().group(itemRegistry.ifScience).maxStackSize(1).rarity(Rarity.UNCOMMON)));

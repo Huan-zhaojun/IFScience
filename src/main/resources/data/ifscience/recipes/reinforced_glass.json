@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XR ",
+    "R R",
+    " R#"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_block"
+    },
+    "#": {
+      "item": "minecraft:obsidian"
+    },
+    "R": [
+      {
+        "item": "minecraft:glass"
+      }
+    ]
+  },
+  "result": {
+    "item": "ifscience:reinforced_glass",
+    "count": 1
+  }
+}

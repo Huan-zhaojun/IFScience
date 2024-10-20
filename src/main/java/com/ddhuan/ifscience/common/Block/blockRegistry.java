@@ -82,11 +82,14 @@ public class blockRegistry {
     public static final RegistryObject<SafetyTorch> safetyTorch = BLOCKS.register("safety_torch", () -> new SafetyTorch(AbstractBlock.Properties.create(Material.ROCK).zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD)));
     public static final RegistryObject<WallSafetyTorch> wallSafetyTorch = BLOCKS.register("wall_safety_torch", () -> new WallSafetyTorch(AbstractBlock.Properties.create(Material.ROCK).zeroHardnessAndResistance().setLightLevel((state) -> 14).sound(SoundType.WOOD).lootFrom(safetyTorch)));
 
+    public static final RegistryObject<GlassBlock> reinforcedGlass = BLOCKS.register("reinforced_glass", () -> new GlassBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(10.0F).sound(SoundType.GLASS).notSolid().setAllowsSpawn((p1, p2, p3, p4) -> false).setOpaque((p1, p2, p3) -> false).setSuffocates((p1, p2, p3) -> false).setBlocksVision((p1, p2, p3) -> false)));
+
     public static void setBlockRenderType() {
         RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(extinguishedTorch.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(wallExtinguishedTorch.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(safetyTorch.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(wallSafetyTorch.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(reinforcedGlass.get(), RenderType.getCutout());
     }
 }

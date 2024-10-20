@@ -13,6 +13,7 @@
   "item.ifscience.obsidian_netherite_angle_grinder": "黑曜合金角磨机",
   "item.ifscience.extinguished_torch": "熄灭的火把",
   "item.ifscience.safety_torch": "安全火把",
+  "item.ifscience.reinforced_glass": "强化玻璃",
   "item.ifscience.enchanted_book": "附魔书",
 
   "block.ifscience.puddle_fluid": "积水方块",
@@ -21,6 +22,7 @@
   "block.ifscience.wall_extinguished_torch": "墙上熄灭的火把",
   "block.ifscience.safety_torch": "安全火把",
   "block.ifscience.wall_safety_torch": "墙上的安全火把",
+  "block.ifscience.reinforced_glass": "强化玻璃",
 
   "fluid.ifscience.puddle_fluid": "积水静态流体",
   "fluid.ifscience.puddle_fluid_flowing": "积水流动流体",

@@ -1,6 +1,7 @@
 package com.ddhuan.ifscience.Custom;
 
 import com.ddhuan.ifscience.Config;
+import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;
 import com.ddhuan.ifscience.common.SoundEventRegistry;
@@ -70,7 +71,9 @@ public final class ExplosionProofUtil {
     //尝试添加计划刻:玻璃冷热导致爆裂
     public static void tryScheduleBurstTick(Block block, BlockState state, World worldIn, BlockPos pos) {
         if (!worldIn.isRemote && state.get(BreakProgress) == 0) {
-            if (EnchantedBlocksData.get(worldIn).getEnchantedBlock(pos, EnchantmentRegistry.ExplosionProof.get()) > 0)
+            //防爆玻璃或者防爆附魔
+            if (EnchantedBlocksData.get(worldIn).getEnchantedBlock(pos, EnchantmentRegistry.ExplosionProof.get()) > 0 ||
+                    worldIn.getBlockState(pos).getBlock() == blockRegistry.reinforcedGlass.get())
                 return;
             if (!isburn(worldIn, pos)) return;
             if (isCool(worldIn, pos))

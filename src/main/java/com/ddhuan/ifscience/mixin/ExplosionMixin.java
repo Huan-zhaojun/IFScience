@@ -1,5 +1,6 @@
 package com.ddhuan.ifscience.mixin;
 
+import com.ddhuan.ifscience.common.Block.blockRegistry;
 import com.ddhuan.ifscience.common.Enchantment.EnchantedBlocksData;
 import com.ddhuan.ifscience.common.Enchantment.EnchantmentRegistry;
 import net.minecraft.block.BlockState;
@@ -29,8 +30,9 @@ public abstract class ExplosionMixin {
 
     @Redirect(method = "doExplosionA", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/ExplosionContext;getExplosionResistance(Lnet/minecraft/world/Explosion;Lnet/minecraft/world/IBlockReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/fluid/FluidState;)Ljava/util/Optional;"))
     public Optional<Float> doExplosionA(ExplosionContext instance, Explosion explosion, IBlockReader reader, BlockPos pos, BlockState state, FluidState fluid) {
-        if (EnchantedBlocksData.get(world).getEnchantedBlock(pos, EnchantmentRegistry.ExplosionProof.get()) > 0)
-            return Optional.of(10000F);//方块防爆附魔抵抗爆炸射线
+        if (EnchantedBlocksData.get(world).getEnchantedBlock(pos, EnchantmentRegistry.ExplosionProof.get()) > 0 ||
+                world.getBlockState(pos).getBlock() == blockRegistry.reinforcedGlass.get())
+            return Optional.of(10000F);//方块防爆附魔或防爆玻璃抵抗爆炸射线
         return instance.getExplosionResistance(explosion, this.world, pos, state, fluid);
     }
 }
