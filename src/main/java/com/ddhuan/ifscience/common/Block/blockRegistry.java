@@ -84,6 +84,9 @@ public class blockRegistry {
 
     public static final RegistryObject<GlassBlock> reinforcedGlass = BLOCKS.register("reinforced_glass", () -> new GlassBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(10.0F).sound(SoundType.GLASS).notSolid().setAllowsSpawn((p1, p2, p3, p4) -> false).setOpaque((p1, p2, p3) -> false).setSuffocates((p1, p2, p3) -> false).setBlocksVision((p1, p2, p3) -> false)));
 
+    //消防栓
+    public static final RegistryObject<HydrantBlock> hydrantBlock = BLOCKS.register("hydrant_block", HydrantBlock::new);
+
     public static void setBlockRenderType() {
         RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(extinguishedTorch.get(), RenderType.getCutout());

@@ -14,6 +14,7 @@
   "item.ifscience.extinguished_torch": "extinguished torch",
   "item.ifscience.safety_torch": "safety torch",
   "item.ifscience.reinforced_glass": "reinforced glass",
+  "item.ifscience.hydrant_hose": "hydrant hose",
   "item.ifscience.enchanted_book": "senchanted book",
 
   "block.ifscience.puddle_fluid": "puddle block",
@@ -23,6 +24,7 @@
   "block.ifscience.safety_torch": "safety torch",
   "block.ifscience.wall_safety_torch": "wall safety torch",
   "block.ifscience.reinforced_glass": "reinforced glass",
+  "block.ifscience.hydrant_block": "hydrant",
 
   "fluid.ifscience.puddle_fluid": "puddle still fluid",
   "fluid.ifscience.puddle_fluid_flowing": "puddle flowing fluid",

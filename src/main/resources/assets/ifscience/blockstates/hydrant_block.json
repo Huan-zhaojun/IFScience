@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ifscience:block/hydrant_block"
+    },
+    "facing=north": {
+      "model": "ifscience:block/hydrant_block",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ifscience:block/hydrant_block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ifscience:block/hydrant_block",
+      "y": 180
+    }
+  }
+}

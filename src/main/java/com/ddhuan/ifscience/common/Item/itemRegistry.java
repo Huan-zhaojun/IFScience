@@ -166,6 +166,12 @@ public class itemRegistry {
     public static RegistryObject<BlockItem> reinforcedGlass = ITEMS.register("reinforced_glass",
             () -> new BlockItem(blockRegistry.reinforcedGlass.get(), new Item.Properties().group(itemRegistry.ifScience)));
 
+    public static final RegistryObject<BlockItem> hydrantBlock = ITEMS.register("hydrant_block",
+            () -> new BlockItem(blockRegistry.hydrantBlock.get(), new Item.Properties().group(itemRegistry.ifScience)));
+
+    public static final RegistryObject<HydrantHose> hydrantHose = ITEMS.register("hydrant_hose",
+            () -> new HydrantHose(new Item.Properties().maxStackSize(1).isImmuneToFire().group(itemRegistry.ifScience)));
+
     //自定义附魔书
     public static RegistryObject<ModEnchantedBookItem> modEnchantedBook = ITEMS.register("enchanted_book",
             () -> new ModEnchantedBookItem(new Item.Properties().group(itemRegistry.ifScience).maxStackSize(1).rarity(Rarity.UNCOMMON)));
