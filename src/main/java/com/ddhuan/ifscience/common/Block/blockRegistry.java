@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -84,8 +85,9 @@ public class blockRegistry {
 
     public static final RegistryObject<GlassBlock> reinforcedGlass = BLOCKS.register("reinforced_glass", () -> new GlassBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(10.0F).sound(SoundType.GLASS).notSolid().setAllowsSpawn((p1, p2, p3, p4) -> false).setOpaque((p1, p2, p3) -> false).setSuffocates((p1, p2, p3) -> false).setBlocksVision((p1, p2, p3) -> false)));
 
-    //消防栓
-    public static final RegistryObject<HydrantBlock> hydrantBlock = BLOCKS.register("hydrant_block", HydrantBlock::new);
+    public static final RegistryObject<HydrantBlock> hydrantBlock = BLOCKS.register("hydrant_block", HydrantBlock::new);//消防栓
+
+    public static final RegistryObject<Block> iceChestBlock = BLOCKS.register("ice_chest", () -> new ChestBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(10F).sound(SoundType.STONE), () -> TileEntityType.CHEST));
 
     public static void setBlockRenderType() {
         RenderTypeLookup.setRenderLayer(iceRail.get(), RenderType.getCutout());
